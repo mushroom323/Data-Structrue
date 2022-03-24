@@ -12,19 +12,17 @@
 <body>
     <div class="container">
         <div class="form-box">
-            <!-- 注册 -->
+            <!-- 管理员登陆 -->
             <div class="register-box hidden">
-                <h1>register</h1>
-                <input type="text" placeholder="用户名">
-                <input type="email" placeholder="邮箱">
+                <h1>login</h1>
+                <input type="text" placeholder="用户名" value="admin" disabled>
                 <input type="password" placeholder="密码">
-                <input type="password" placeholder="确认密码">
-                <button>注册</button>
+                <button>登录</button>
             </div>
-            <!-- 登录 -->
+            <!-- 用户登录 -->
             <div class="login-box">
                 <h1>login</h1>
-                <input type="text" placeholder="用户名">
+                <input type="text" placeholder="用户名" value="student" disabled>
                 <input type="password" placeholder="密码">
                 <button>登录</button>
             </div>
@@ -34,18 +32,18 @@
             <br>
             <p>Welcome to BUPT!</p>
             <br>
-            <p>已有账号？</p>
+            <p>管理员模式</p>
             <br>
-            <button id="login">去登录</button>
+            <button id="login">切换为用户</button>
         </div>
         <div class="con-box right">
             <h2>欢迎来到<br><span>校园导览系统</span></br></h2>
             <br>
             <p>Welcome to BUPT!</p>
             <br>
-            <p>没有账号？</p>
+            <p>用户模式</p>
             <br>
-            <button id="register">去注册</button>
+            <button id="register">切换为管理员</button>
         </div>
     </div>
     <script src="./js/welcome.js"></script>
