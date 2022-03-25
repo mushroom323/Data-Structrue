@@ -1,0 +1,345 @@
+<!DOCTYPE html5>
+<html>
+<head>
+	<meta charset="utf-8"> 
+	<title>Bootstrap 实例 - 模态框（Modal）插件</title>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/mainPage.css">
+	<script src="jquery/jquery.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!--总的框架-->
+<div style="height: 100%;">
+	<div class="container-fluid">
+		<div class="row" style="background-color: blanchedalmond;">
+			<!--左边部分-->
+			<div class="col-md-8" id="left">
+				<!--导航部分-->
+				<div id="navPart">
+					<ul id="myTab" class="nav nav-tabs">
+						<li class="navbar-brand">
+							<strong>地图</strong>
+						</li>
+						<li class="navbar-right">
+							<a href="#home" data-toggle="tab">
+								西土城校区
+							</a>
+						</li>
+						<li class="active navbar-right">
+							<a href="#ios" data-toggle="tab">沙河校区</a>
+						</li>
+					</ul>
+					<div id="myTabContent" class="tab-content">
+						<div class="tab-pane fade" id="home">
+							<p>西土城校区地图</p>
+						</div>
+						<div class="tab-pane fade in active" id="ios">
+							<p>沙河校区地图</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--右边（选课和时间）部分-->
+			<div class="col-md-4" id="right">
+
+
+				<div id="classPart">
+					<h2>线下课程辅助系统</h2>
+					<!--一些信息-->
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-4 ">
+								<div class="btn-group">
+									<button type="button" class="btn btn-default badge badge-btn">version</button>
+									<button type="button" class="btn btn-default badge badge-btn" style="background-color: darkgoldenrod;">v1.0</button>
+								 </div>
+							</div>
+							<div class="col-md-8">
+								<div class="btn-group">
+									<button type="button" class="btn btn-default badge badge-btn">author</button>
+									<button type="button" class="btn btn-default badge badge-btn" style="background-color: darkslategray;">mushroom & forksama & bang</button>
+								 </div>
+							</div>
+						</div>
+					</div>
+					<hr>
+
+					
+					<div class="panel-group" id="accordion">
+						<div class="panel panel-default panel-customize" >
+							<div class="panel-heading panel-heading-customize">
+								<h4 class="panel-title glyphicon glyphicon-map-marker">
+									<a data-toggle="collapse" data-parent="#accordion" 
+									href="#collapseOne" class="folder-font">
+										课程导航
+									</a>
+								</h4>
+							</div>
+								<div id="collapseOne" class="panel-collapse collapse in">
+									<div class="panel-body">
+										<form class="form-horizontal" role="form">
+											<div class="form-group">
+												<label for="firstname" class="col-sm-3 control-label">当前位置</label>
+												<div class="col-sm-3 nav-select">
+													<select class="form-control nav-font" id="cur-position-1">
+														<option>沙河校区</option>
+														<option>西土城校区</option>
+													</select>
+												</div>
+												<div class="col-sm-3 nav-select" id="cur-position-2">
+													<select class="form-control nav-font">
+														<option>1</option>
+														<option>2</option>
+														<option>3</option>
+														<option>4</option>
+														<option>5</option>
+													</select>
+												</div>
+												<div class="col-sm-3 nav-select" id="cur-position-3">
+													<select class="form-control nav-font">
+														<option>1</option>
+														<option>2</option>
+														<option>3</option>
+														<option>4</option>
+														<option>5</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<hr>
+												<div class="radio" style="text-align: left; padding-left: 10px;">
+													<label style="width: 100%;">
+														<input type="radio" name="dest-method" id="dest-method-1" value="option1" checked>
+														<strong class="col-sm-3">目标课程</strong>
+														<div class="col-sm-9 nav-select" id="dest-class">
+															<select class="form-control nav-font">
+																<option>1</option>
+																<option>2</option>
+																<option>3</option>
+																<option>4</option>
+																<option>5</option>
+															</select>
+														</div>
+													</label>
+												</div>
+												<div class="radio" style="text-align: left; padding-left: 10px;">
+													<label style="width: 100%;">
+														<input type="radio" name="dest-method" id="dest-method-2" value="option2">
+														<strong class="col-sm-3">目标时间</strong>
+														<div class="col-sm-4 nav-select" id="dest-time-1">
+															<select class="form-control nav-font">
+																<option>1</option>
+																<option>2</option>
+																<option>3</option>
+																<option>4</option>
+																<option>5</option>
+															</select>
+														</div>
+														<div class="col-sm-5 nav-select" id="dest-time-2">
+															<select class="form-control nav-font">
+																<option>1</option>
+																<option>2</option>
+																<option>3</option>
+																<option>4</option>
+																<option>5</option>
+															</select>
+														</div>
+													</label>
+												</div>
+												<div class="radio" style="text-align: left; padding-left: 10px;">
+													<label style="width: 100%;">
+														<input type="radio" name="dest-method" id="dest-method-3" value="option3">
+														<strong class="col-sm-3">目标地点</strong>
+														<div class="col-sm-3 nav-select" id="dest-place-1">
+															<select class="form-control nav-font">
+																<option>1</option>
+																<option>2</option>
+																<option>3</option>
+																<option>4</option>
+																<option>5</option>
+															</select>
+														</div>
+														<div class="col-sm-3 nav-select" id="dest-place-2">
+															<select class="form-control nav-font">
+																<option>1</option>
+																<option>2</option>
+																<option>3</option>
+																<option>4</option>
+																<option>5</option>
+															</select>
+														</div>
+														<div class="col-sm-3 nav-select" id="dest-place-3">
+															<select class="form-control nav-font">
+																<option>1</option>
+																<option>2</option>
+																<option>3</option>
+																<option>4</option>
+																<option>5</option>
+															</select>
+														</div>
+													</label>
+												</div>
+											</div>
+											<hr>
+
+											
+											<div class="form-group">
+												<label class="radio-inline">
+													<input type="radio" name="vehicle" id="vehicle-1" value="option1" checked> 步行
+												</label>
+												<label class="radio-inline">
+													<input type="radio" name="vehicle" id="vehicle-2" value="option2"> 自行车
+												</label>
+												<hr>
+											</div>
+
+
+											<div class="form-group">
+												<button type="submit" class="btn btn-primary glyphicon glyphicon-send"> 开始导航</button>
+											</div>
+										</form>
+									</div>
+								</div>
+						</div>
+
+
+						<div class="panel panel-default panel-customize">
+							<div class="panel-heading panel-heading-customize">
+								<h4 class="panel-title glyphicon glyphicon-book">
+									<a data-toggle="collapse" data-parent="#accordion" 
+									href="#collapseTwo" class="folder-font">
+										课程信息
+									</a>
+								</h4>
+							</div>
+							<div id="collapseTwo" class="panel-collapse collapse">
+								<div class="panel-body">
+									<!--搜索栏-->
+									<div class="input-group" >
+										<input type="text" class="form-control">
+										<span class="input-group-btn">
+											<button class="btn btn-default glyphicon glyphicon-search" type="button"></button>
+										</span>
+									</div>
+
+									<!--选项卡-->
+									<div class="container-fluid">
+										<div class="row" style="padding: 20px;">
+											<div class="col-md-4">
+												<button class="btn btn-lg opt glyphicon glyphicon-calendar">
+													<br><strong class="opt-font"">课程表</strong>
+												</button>
+											</div>
+											<div class="col-md-4">
+												<button class="btn btn-lg opt glyphicon glyphicon-pencil">
+													<br><strong class="opt-font"">交作业</strong>
+												</button>
+											</div>
+											<div class="col-md-4">
+												<button class="btn btn-lg opt glyphicon glyphicon-file">
+													<br><strong class="opt-font"">传资料</strong>
+												</button>
+											</div>
+										</div>
+									</div>
+
+									<!--今日课程-->
+									<div class="panel" >
+										<div class="panel-heading">
+											<h3 class="panel-title">今日课程</h3>
+										</div>
+										<div class="panel-body class-holder">
+												<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
+												<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
+												<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
+												<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
+												<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="panel panel-default panel-customize">
+							<div class="panel-heading panel-heading-customize">
+								<h4 class="panel-title glyphicon glyphicon-headphones">
+									<a data-toggle="collapse" data-parent="#accordion" 
+									href="#collapseThree" class="folder-font">
+										课外信息
+									</a>
+								</h4>
+							</div>
+							<div id="collapseThree" class="panel-collapse collapse">
+							<div class="panel-body">
+								<!--搜索栏-->
+								<div class="input-group" >
+									<input type="text" class="form-control">
+									<span class="input-group-btn">
+										<button class="btn btn-default glyphicon glyphicon-search" type="button"></button>
+									</span>
+								</div>
+
+								<!--选项卡-->
+								<div class="container-fluid">
+									<div class="row" style="padding: 20px;">
+										<div class="col-md-4">
+											<button class="btn btn-lg opt glyphicon glyphicon-knight">
+												<br><strong class="opt-font"">我的活动</strong>
+											</button>
+										</div>
+										<div class="col-md-4">
+											<button class="btn btn-lg opt glyphicon glyphicon-list-alt">
+												<br><strong class="opt-font"">所有活动</strong>
+											</button>
+										</div>
+										<div class="col-md-4">
+											<button class="btn btn-lg opt glyphicon glyphicon-bell">
+												<br><strong class="opt-font"">设置闹钟</strong>
+											</button>
+										</div>
+									</div>
+								</div>
+
+								<!--今日课程-->
+								<div class="panel" >
+									<div class="panel-heading">
+										<h3 class="panel-title">今日活动</h3>
+									</div>
+									<div class="panel-body class-holder">
+											<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
+											<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
+											<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
+											<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
+											<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
+									</div>
+								</div>
+							</div>
+							</div>
+						</div>
+					</div>
+					<hr>
+					
+
+					<div style="width: 90%; position: absolute; bottom: 20px; background-color: lightgrey; line-height: 10px; border-radius: 10px;">
+						<div class="row" style="vertical-align: middle;">
+							<ul class="breadcrumb col-md-7 col-md-offset-1" style="margin-top: 18px;">
+								<li class="active">17:00</li>
+								<li class="active">星期五</li>
+							</ul>
+							<div class="col-md-4">
+								<button class="btn btn-success glyphicon glyphicon-play" style="margin-top:13px ;">开始计时</button>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+</body>
+</html>
