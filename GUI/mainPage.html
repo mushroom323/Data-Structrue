@@ -66,9 +66,11 @@
 					</div>
 					<hr>
 
-					
 					<div class="panel-group" id="accordion">
+
+						<!--课程导航栏-->
 						<div class="panel panel-default panel-customize" >
+							<!--课程导航栏标题-->
 							<div class="panel-heading panel-heading-customize">
 								<h4 class="panel-title glyphicon glyphicon-map-marker">
 									<a data-toggle="collapse" data-parent="#accordion" 
@@ -77,135 +79,139 @@
 									</a>
 								</h4>
 							</div>
-								<div id="collapseOne" class="panel-collapse collapse in">
-									<div class="panel-body">
-										<form class="form-horizontal" role="form">
-											<div class="form-group">
-												<label for="firstname" class="col-sm-3 control-label">当前位置</label>
-												<div class="col-sm-3 nav-select">
-													<select class="form-control nav-font" id="cur-position-1">
-														<option>沙河校区</option>
-														<option>西土城校区</option>
-													</select>
-												</div>
-												<div class="col-sm-3 nav-select" id="cur-position-2">
-													<select class="form-control nav-font">
-														<option>1</option>
-														<option>2</option>
-														<option>3</option>
-														<option>4</option>
-														<option>5</option>
-													</select>
-												</div>
-												<div class="col-sm-3 nav-select" id="cur-position-3">
-													<select class="form-control nav-font">
-														<option>1</option>
-														<option>2</option>
-														<option>3</option>
-														<option>4</option>
-														<option>5</option>
-													</select>
-												</div>
+							<!--课程导航栏下拉框-->
+							<div id="collapseOne" class="panel-collapse collapse in">
+								<div class="panel-body">
+									<form class="form-horizontal" role="form">
+										<!--当前位置-->
+										<div class="form-group">
+											<label for="firstname" class="col-sm-3 control-label">当前位置</label>
+											<div class="col-sm-3 nav-select">
+												<select class="form-control nav-font" id="cur-position-1">
+													<option>沙河校区</option>
+													<option>西土城校区</option>
+												</select>
 											</div>
-											<div class="form-group">
-												<hr>
-												<div class="radio" style="text-align: left; padding-left: 10px;">
-													<label style="width: 100%;">
-														<input type="radio" name="dest-method" id="dest-method-1" value="option1" checked>
-														<strong class="col-sm-3">目标课程</strong>
-														<div class="col-sm-9 nav-select" id="dest-class">
-															<select class="form-control nav-font">
-																<option>1</option>
-																<option>2</option>
-																<option>3</option>
-																<option>4</option>
-																<option>5</option>
-															</select>
-														</div>
-													</label>
-												</div>
-												<div class="radio" style="text-align: left; padding-left: 10px;">
-													<label style="width: 100%;">
-														<input type="radio" name="dest-method" id="dest-method-2" value="option2">
-														<strong class="col-sm-3">目标时间</strong>
-														<div class="col-sm-4 nav-select" id="dest-time-1">
-															<select class="form-control nav-font">
-																<option>1</option>
-																<option>2</option>
-																<option>3</option>
-																<option>4</option>
-																<option>5</option>
-															</select>
-														</div>
-														<div class="col-sm-5 nav-select" id="dest-time-2">
-															<select class="form-control nav-font">
-																<option>1</option>
-																<option>2</option>
-																<option>3</option>
-																<option>4</option>
-																<option>5</option>
-															</select>
-														</div>
-													</label>
-												</div>
-												<div class="radio" style="text-align: left; padding-left: 10px;">
-													<label style="width: 100%;">
-														<input type="radio" name="dest-method" id="dest-method-3" value="option3">
-														<strong class="col-sm-3">目标地点</strong>
-														<div class="col-sm-3 nav-select" id="dest-place-1">
-															<select class="form-control nav-font">
-																<option>1</option>
-																<option>2</option>
-																<option>3</option>
-																<option>4</option>
-																<option>5</option>
-															</select>
-														</div>
-														<div class="col-sm-3 nav-select" id="dest-place-2">
-															<select class="form-control nav-font">
-																<option>1</option>
-																<option>2</option>
-																<option>3</option>
-																<option>4</option>
-																<option>5</option>
-															</select>
-														</div>
-														<div class="col-sm-3 nav-select" id="dest-place-3">
-															<select class="form-control nav-font">
-																<option>1</option>
-																<option>2</option>
-																<option>3</option>
-																<option>4</option>
-																<option>5</option>
-															</select>
-														</div>
-													</label>
-												</div>
+											<div class="col-sm-3 nav-select" id="cur-position-2">
+												<select class="form-control nav-font">
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+													<option>5</option>
+												</select>
 											</div>
+											<div class="col-sm-3 nav-select" id="cur-position-3">
+												<select class="form-control nav-font">
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+													<option>5</option>
+												</select>
+											</div>
+										</div>
+										<!--目标位置确定方法三选一-->
+										<div class="form-group">
 											<hr>
-
-											
-											<div class="form-group">
-												<label class="radio-inline">
-													<input type="radio" name="vehicle" id="vehicle-1" value="option1" checked> 步行
+											<div class="radio" style="text-align: left; padding-left: 10px;">
+												<label style="width: 100%;">
+													<input type="radio" name="dest-method" id="dest-method-1" value="option1" checked>
+													<strong class="col-sm-3">目标课程</strong>
+													<div class="col-sm-9 nav-select" id="dest-class">
+														<select class="form-control nav-font">
+															<option>1</option>
+															<option>2</option>
+															<option>3</option>
+															<option>4</option>
+															<option>5</option>
+														</select>
+													</div>
 												</label>
-												<label class="radio-inline">
-													<input type="radio" name="vehicle" id="vehicle-2" value="option2"> 自行车
+											</div>
+											<div class="radio" style="text-align: left; padding-left: 10px;">
+												<label style="width: 100%;">
+													<input type="radio" name="dest-method" id="dest-method-2" value="option2">
+													<strong class="col-sm-3">目标时间</strong>
+													<div class="col-sm-4 nav-select" id="dest-time-1">
+														<select class="form-control nav-font">
+															<option>1</option>
+															<option>2</option>
+															<option>3</option>
+															<option>4</option>
+															<option>5</option>
+														</select>
+													</div>
+													<div class="col-sm-5 nav-select" id="dest-time-2">
+														<select class="form-control nav-font">
+															<option>1</option>
+															<option>2</option>
+															<option>3</option>
+															<option>4</option>
+															<option>5</option>
+														</select>
+													</div>
 												</label>
-												<hr>
 											</div>
-
-
-											<div class="form-group">
-												<button type="submit" class="btn btn-primary glyphicon glyphicon-send"> 开始导航</button>
+											<div class="radio" style="text-align: left; padding-left: 10px;">
+												<label style="width: 100%;">
+													<input type="radio" name="dest-method" id="dest-method-3" value="option3">
+													<strong class="col-sm-3">目标地点</strong>
+													<div class="col-sm-3 nav-select" id="dest-place-1">
+														<select class="form-control nav-font">
+															<option>1</option>
+															<option>2</option>
+															<option>3</option>
+															<option>4</option>
+															<option>5</option>
+														</select>
+													</div>
+													<div class="col-sm-3 nav-select" id="dest-place-2">
+														<select class="form-control nav-font">
+															<option>1</option>
+															<option>2</option>
+															<option>3</option>
+															<option>4</option>
+															<option>5</option>
+														</select>
+													</div>
+													<div class="col-sm-3 nav-select" id="dest-place-3">
+														<select class="form-control nav-font">
+															<option>1</option>
+															<option>2</option>
+															<option>3</option>
+															<option>4</option>
+															<option>5</option>
+														</select>
+													</div>
+												</label>
 											</div>
-										</form>
-									</div>
+										</div>
+										<hr>
+
+										<!--出行方法-->
+										<div class="form-group">
+											<label class="radio-inline">
+												<input type="radio" name="vehicle" id="vehicle-1" value="option1" checked> 步行
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="vehicle" id="vehicle-2" value="option2"> 自行车
+											</label>
+											<hr>
+										</div>
+
+										<!--开始导航按钮-->
+										<div class="form-group">
+											<button type="submit" class="btn btn-primary glyphicon glyphicon-send"> 开始导航</button>
+										</div>
+									</form>
 								</div>
+							</div>
 						</div>
 
-
+						<!--课程信息栏-->
 						<div class="panel panel-default panel-customize">
+							<!--课程信息栏标题-->
 							<div class="panel-heading panel-heading-customize">
 								<h4 class="panel-title glyphicon glyphicon-book">
 									<a data-toggle="collapse" data-parent="#accordion" 
@@ -214,6 +220,7 @@
 									</a>
 								</h4>
 							</div>
+							<!--课程信息栏下拉框-->
 							<div id="collapseTwo" class="panel-collapse collapse">
 								<div class="panel-body">
 									<!--搜索栏-->
@@ -247,23 +254,37 @@
 
 									<!--今日课程-->
 									<div class="panel" >
+
 										<div class="panel-heading">
 											<h3 class="panel-title">今日课程</h3>
 										</div>
-										<div class="panel-body class-holder">
-												<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
-												<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
-												<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
-												<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
-												<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
+										
+										<div class="panel-body card-holder">
+												<ul class="list-group class-card">
+													<li class="list-group-item active"> &nbsp;
+														<span class="pull-left">[ 08:00 - 08:45 ]</span>
+													</li>
+													<li class="list-group-item">计算机网络</li>
+													<li class="list-group-item">刘某（副教授）</strong></li>
+													<li class="list-group-item">办公楼</li>
+												</ul>
+												<ul class="list-group class-card">
+													<li class="list-group-item active"> &nbsp;
+														<span class="pull-left">[ 08:50 - 09:35 ]</span>
+													</li>
+													<li class="list-group-item">计算机组成原理</li>
+													<li class="list-group-item">王某（高级工程师）</li>
+													<li class="list-group-item">教学楼</li>
+												</ul>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 
-
+						<!--课外信息栏-->
 						<div class="panel panel-default panel-customize">
+							<!--课外信息栏标题-->
 							<div class="panel-heading panel-heading-customize">
 								<h4 class="panel-title glyphicon glyphicon-headphones">
 									<a data-toggle="collapse" data-parent="#accordion" 
@@ -272,6 +293,7 @@
 									</a>
 								</h4>
 							</div>
+							<!--课外信息栏下拉框-->
 							<div id="collapseThree" class="panel-collapse collapse">
 							<div class="panel-body">
 								<!--搜索栏-->
@@ -303,17 +325,28 @@
 									</div>
 								</div>
 
-								<!--今日课程-->
+								<!--今日活动-->
 								<div class="panel" >
+
 									<div class="panel-heading">
 										<h3 class="panel-title">今日活动</h3>
 									</div>
-									<div class="panel-body class-holder">
-											<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
-											<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
-											<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
-											<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
-											<img src="img/classImg.png" alt="课程图片" style="height: 150px;">
+
+									<div class="panel-body card-holder">
+										<ul class="list-group activity-card">
+											<li class="list-group-item active"> &nbsp;
+												<span class="pull-left">[ 13:00 - 15:00 ]</span>
+											</li>
+											<li class="list-group-item">打篮球</li>
+											<li class="list-group-item">操场</li>
+										</ul>
+										<ul class="list-group activity-card">
+											<li class="list-group-item active"> &nbsp;
+												<span class="pull-left">[ 20:00 - 21:30 ]</span>
+											</li>
+											<li class="list-group-item">夜跑</li>
+											<li class="list-group-item">操场</li>
+										</ul>
 									</div>
 								</div>
 							</div>
@@ -325,12 +358,15 @@
 
 					<div style="width: 90%; position: absolute; bottom: 20px; background-color: lightgrey; line-height: 10px; border-radius: 10px;">
 						<div class="row" style="vertical-align: middle;">
-							<ul class="breadcrumb col-md-7 col-md-offset-1" style="margin-top: 18px;">
-								<li class="active">17:00</li>
+							<ul class="breadcrumb col-sm-7 col-sm-offset-1" style="margin-top: 18px;" id="timestamp">
+								<li class="active">2021</li>
+								<li class="active">1</li>
+								<li class="active">1</li>
 								<li class="active">星期五</li>
+								<li class="active">17:00</li>
 							</ul>
 							<div class="col-md-4">
-								<button class="btn btn-success glyphicon glyphicon-play" style="margin-top:13px ;">开始计时</button>
+								<button class="btn btn-success glyphicon glyphicon-play" style="margin-top:13px ;" id="timer">开始计时</button>
 							</div>
 						</div>
 					</div>
@@ -340,6 +376,7 @@
 		</div>
 	</div>
 	
+	<script src="js/mainPage.js"></script>
 </div>
 </body>
 </html>
