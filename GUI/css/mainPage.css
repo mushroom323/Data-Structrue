@@ -48,11 +48,17 @@
     pointer-events: none;
 }
 
-.class-holder{
-    white-space: nowrap;
+.card-holder{
     height: 200px;
-    text-align: left;
-    overflow-x: auto;
+    overflow-x: hidden;
+}
+
+.class-card, .activity-card{
+    font-weight: bold;
+}
+
+.activity-card .active, .activity-card .active:hover{
+    background-color: orange;
 }
 
 .folder-font{
