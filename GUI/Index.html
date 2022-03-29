@@ -234,21 +234,18 @@
 									<!--选项卡-->
 									<div class="container-fluid">
 										<div class="row" style="padding: 20px;">
-											<div class="col-md-4">
+											<div class="col-md-6">
 												<button class="btn btn-lg opt glyphicon glyphicon-calendar">
 													<br><strong class="opt-font"">课程表</strong>
 												</button>
 											</div>
-											<div class="col-md-4">
-												<button class="btn btn-lg opt glyphicon glyphicon-pencil">
-													<br><strong class="opt-font"">交作业</strong>
+											<div class="col-md-6">
+												<button class="btn btn-lg opt glyphicon glyphicon-file"
+													data-toggle="modal" data-target="#curriculumModal">
+													<br><strong class="opt-font"">所有课程</strong>
 												</button>
 											</div>
-											<div class="col-md-4">
-												<button class="btn btn-lg opt glyphicon glyphicon-file">
-													<br><strong class="opt-font"">传资料</strong>
-												</button>
-											</div>
+
 										</div>
 									</div>
 
@@ -308,7 +305,8 @@
 								<div class="container-fluid">
 									<div class="row" style="padding: 20px;">
 										<div class="col-md-4">
-											<button class="btn btn-lg opt glyphicon glyphicon-knight">
+											<button class="btn btn-lg opt glyphicon glyphicon-knight"
+												data-toggle="modal" data-target="#activityModal">
 												<br><strong class="opt-font"">我的活动</strong>
 											</button>
 										</div>
@@ -318,7 +316,8 @@
 											</button>
 										</div>
 										<div class="col-md-4">
-											<button class="btn btn-lg opt glyphicon glyphicon-bell">
+											<button class="btn btn-lg opt glyphicon glyphicon-bell"
+												data-toggle="modal" data-target="#bellModal">
 												<br><strong class="opt-font"">设置闹钟</strong>
 											</button>
 										</div>
@@ -362,8 +361,8 @@
 								<li class="active">2021</li>
 								<li class="active">1</li>
 								<li class="active">1</li>
-								<li class="active">星期五</li>
-								<li class="active">17:00</li>
+								<li class="active">星期一</li>
+								<li class="active">00:00</li>
 							</ul>
 							<div class="col-md-4">
 								<button class="btn btn-success glyphicon glyphicon-play" style="margin-top:13px ;" id="timer">开始计时</button>
@@ -374,6 +373,159 @@
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<!--课程信息-交作业弹窗-->
+	<div class="modal fade" id="curriculumModal" tabindex="-1" role="dialog" aria-labelledby="curriculumModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="curriculumModalLabel">所有课程</h4>
+				</div>
+				<div class="modal-body">
+					<ul class="list-group" id="curriculumsHolder"></ul>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+	<!--课程信息-交作业弹窗-特定课程弹窗-->
+	<div class="modal fade" id="specificCurriculum" tabindex="-1" role="dialog" aria-labelledby="specificCurriculumModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="specificCurriculumModalLabel"></h4>
+				</div>
+				<div class="modal-body">
+					<p>hello</p>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!--课外信息-我的活动弹窗-->
+	<div class="modal fade" id="activityModal" tabindex="-1" role="dialog" aria-labelledby="activityModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="activityModalLabel">我的活动</h4>
+				</div>
+				<div class="modal-body">
+					<ul class="list-group" id="activitiesHolder"></ul>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!--课外信息-设置闹钟弹窗-->
+	<div class="modal fade" id="bellModal" tabindex="-1" role="dialog" aria-labelledby="bellModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="bellModalLabel">设置闹钟</h4>
+				</div>
+				<div class="modal-body">
+					<ul class="list-group" id="bellsHolder">
+						<strong style="margin: 10px;">当前没有闹钟哦！</strong>
+					</ul>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" 
+						data-toggle="modal" data-target="#addBellModal">
+						新增闹钟
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!--课外活动-设置闹钟弹窗-添加闹钟弹窗-->
+	<div class="modal fade" id="addBellModal" tabindex="-1" role="dialog" aria-labelledby="addBellModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="addBellModalLabel">新增闹钟</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+
+							<!--星期-->
+							<div class="col-sm-3 col-sm-offset-1">
+								<select class="form-control week" name="week" id="12345">
+									<option value = 0>星期一</option>
+									<option value = 1>星期二</option>
+									<option value = 2>星期三</option>
+									<option value = 3>星期四</option>
+									<option value = 4>星期五</option>
+									<option value = 5>星期六</option>
+									<option value = 6>星期日</option>
+								</select>
+							</div>
+							<!--时-->
+							<div class="col-sm-2">
+								<select class="form-control hour" name="hour" id="12345">
+									<option value = 0>00</option><option value = 1>01</option><option value = 2>02</option><option value = 3>03</option><option value = 4>04</option><option value = 5>05</option>
+									<option value = 6>06</option><option value = 7>07</option><option value = 8>08</option><option value = 9>09</option><option value = 10>10</option><option value = 11>11</option>
+									<option value = 12>12</option><option value = 13>13</option><option value = 14>14</option><option value = 15>15</option><option value = 16>16</option><option value = 17>17</option>
+									<option value = 18>18</option><option value = 19>19</option><option value = 20>20</option><option value = 21>21</option><option value = 22>22</option><option value = 23>23</option>
+								</select>
+							</div>
+							<label for="hour" class="col-sm-1 control-label">时</label>
+							<!--分-->
+							<div class="col-sm-2">
+								<select class="form-control minute" name="minute">
+									<option value = 0>00</option><option value = 1>01</option><option value = 2>02</option><option value = 3>03</option><option value = 4>04</option><option value = 5>05</option>
+									<option value = 6>06</option><option value = 7>07</option><option value = 8>08</option><option value = 9>09</option><option value = 10>10</option><option value = 11>11</option>
+									<option value = 12>12</option><option value = 13>13</option><option value = 14>14</option><option value = 15>15</option><option value = 16>16</option><option value = 17>17</option>
+									<option value = 18>18</option><option value = 19>19</option><option value = 20>20</option><option value = 21>21</option><option value = 22>22</option><option value = 23>23</option>
+									<option value = 24>24</option><option value = 25>25</option><option value = 26>26</option><option value = 27>27</option><option value = 28>28</option><option value = 29>29</option>
+									<option value = 30>30</option><option value = 31>31</option><option value = 32>32</option><option value = 33>33</option><option value = 34>34</option><option value = 35>35</option>
+									<option value = 36>36</option><option value = 37>37</option><option value = 38>38</option><option value = 39>39</option><option value = 40>40</option><option value = 41>41</option>
+									<option value = 42>42</option><option value = 43>43</option><option value = 44>44</option><option value = 45>45</option><option value = 46>46</option><option value = 47>47</option>
+									<option value = 48>48</option><option value = 49>49</option><option value = 50>50</option><option value = 51>51</option><option value = 52>52</option><option value = 53>53</option>
+									<option value = 54>54</option><option value = 55>55</option><option value = 56>56</option><option value = 57>57</option><option value = 58>58</option><option value = 59>59</option>
+								</select>
+							</div>
+							<label for="minute" class="col-sm-1 control-label">分</label>
+
+						</div>
+
+						<!--备注-->
+						<div class="form-group" style="margin-left: 20px; margin-right: 20px;">
+							<label for="name">备注</label>
+							<textarea class="form-control remark" rows="2" name="remark"></textarea>
+						  </div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addClock()">确认</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!--课外信息-闹钟响了以后的弹窗-->
+	<div class="modal fade" id="ringBellModal" tabindex="-1" role="dialog" aria-labelledby="ringBellModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="ringBellModalLabel">时间到了！</h4>
+				</div>
+				<div class="modal-body" style="padding-left: 40px; padding-right: 40px; text-align: center;"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" onclick="startTimer()">
+						我知道了
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
 	</div>
 	
 	<script src="js/mainPage.js"></script>
