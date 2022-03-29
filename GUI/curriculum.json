@@ -1,0 +1,57 @@
+{
+    "schedul":[
+        {"curriculum":"计算机网络", "time":["Monday_1","Monday_2"]},
+        {"curriculum":"计算机组成原理", "time":["Monday_3,Monday_4,Monday_5"]}
+    ],
+
+    "计算机网络":{
+        "Monday_1":{
+            "week": 0,
+            "instructor": "张某",
+            "group": 12121212,
+            "locate": "教学楼",
+            "endHour": 9,
+            "examTime": null,
+            "examPlace": null
+        },
+        "Monday_2":{
+            "week": 0,
+            "instructor": "张某",
+            "group": 12121212,
+            "locate": "教学楼",
+            "endHour": 10,
+            "examTime": null,
+            "examPlace": null
+        }
+    },
+
+    "计算机组成原理":{
+        "Monday_3":{
+            "week": 0,
+            "instructor": "王某",
+            "group": 13131313,
+            "locate": "教学楼",
+            "endHour": 11,
+            "examTime": null,
+            "examPlace": null
+        },
+        "Monday_4":{
+            "week": 0,
+            "instructor": "王某",
+            "group": 13131313,
+            "locate": "教学楼",
+            "endHour": 12,
+            "examTime": null,
+            "examPlace": null
+        },
+        "Monday_5":{
+            "week": 0,
+            "instructor": "王某",
+            "group": 13131313,
+            "locate": "教学楼",
+            "endHour": 13,
+            "examTime": null,
+            "examPlace": null
+        }
+    }
+}
