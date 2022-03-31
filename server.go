@@ -1,14 +1,15 @@
 package main
 
 import (
-    "net/http"
-    "strconv"
-    "io/ioutil"
-    "fmt"
-    "os"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"os"
+	"strconv"
+    "encoding/json"
 )
 
-func ServerTest(){
+func ServerTest() {
     for {
         res, err := http.Get("http://localhost:" + strconv.FormatInt(int64(port), 10) + "/api/isServing")
         if err == nil {
@@ -27,6 +28,17 @@ func APIHandler(w http.ResponseWriter, req *http.Request){
     w.Header().Set("content-type", "application/json")
 
     switch req.URL.Path {
+        case "/api/isServing":
+            w.Write([]byte("true"))
+        case "/api/getCurriculums":
+            data,_:= json.Marshal(curriList)
+            w.Write(data)
+        case "/api/getSchedule":
+            data,_:= json.Marshal(scheList)
+            w.Write(data)
+        case "/api/getScheduleTimeSlot":
+            data,_:= json.Marshal(scheSlotList)
+            w.Write(data)
         case "/api/upLoad":
             file,header,_ :=req.FormFile("upfile")
             b,_ := ioutil.ReadAll(file)
@@ -39,11 +51,12 @@ func APIHandler(w http.ResponseWriter, req *http.Request){
             b := download(fn)
             w.Write(b)
     }
+    
 }
 
 func StartServer(){
     http.HandleFunc("/api/", APIHandler)
-    http.Handle("/", http.FileServer(http.Dir("static")))//FileServer返回一个使用FileSystem接口root提供文件访问服务的HTTP处理器。
+    http.Handle("/", http.FileServer(http.Dir("GUI")))//FileServer返回一个使用FileSystem接口root提供文件访问服务的HTTP处理器。
     go ServerTest()
     err := http.ListenAndServe(":" + strconv.FormatInt(int64(port), 10), nil)
     if err != nil {

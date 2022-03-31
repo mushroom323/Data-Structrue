@@ -4,7 +4,11 @@ package main
 type Schedule_atom struct
 {
 	Name string
-	Time []int
+	Info []struct{
+		Week int
+		Order int
+		IsExam bool
+	}
 }
 
 //课程时间表
@@ -18,13 +22,9 @@ type ScheduleTimeSlot_atom struct{
 //课程信息
 type Curriculums_atom struct{
 	Name string
-	Time []struct{
-		Week int
-		Instructor string
-		Group string
-		Location string
-		Order int
-		ExamTime interface{}
-		ExamPlace interface{}
-	}
+	Instructor string
+	Group string
+	District string
+	Spot string
+	Classroom string
 }
