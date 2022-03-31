@@ -146,7 +146,7 @@ refreshTodayClass = function(){
         $.each(curriculumInSchedul.info, function(index_2, value){
             var classInSchedul = {};    //需要深复制
 
-            if(classInSchedul.week == dayOfWeek){  //如果是今天的课
+            if(value.week == dayOfWeek){  //如果是今天的课
                 classInSchedul.week = value.week;
                 classInSchedul.order = value.order;
                 classInSchedul.isExam = value.isExam;
@@ -171,7 +171,11 @@ refreshTodayClass = function(){
             str += '<li class="list-group-item active"> &nbsp;';
             str += '<span class="pull-left">[ ';
             str += toTimeString(thisSlot.startHour, thisSlot.startMinute) + ' - ';
-            str += toTimeString(thisSlot.endHour, thisSlot.endMinute) + ' ]</span></li>'
+            str += toTimeString(thisSlot.endHour, thisSlot.endMinute) + ' ]</span>'
+            if(value.isExam == true){
+                str += '<span class="pull-right">考试</span>';
+            }
+            str += '</li>';
             str += '<li class="list-group-item">' + value.name + '</li>';
             str += '<li class="list-group-item">' + value.instructor + '</li>';
             str += '<li class="list-group-item">' + value.district + '-' + value.spot + '-' + value.classroom + '</li></ul>';

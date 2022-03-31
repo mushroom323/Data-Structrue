@@ -96,7 +96,7 @@
         {
             "name": "计算机网络",
             "instructor": "高小明",
-            "group": 12121212,
+            "group": "12121212",
             "district": "沙河校区",
             "spot": "教学楼",
             "classroom": "N516"
@@ -105,7 +105,7 @@
         {
             "name": "计算机组成原理",
             "instructor": "易小芳",
-            "group": 13131313,
+            "group": "13131313",
             "district": "沙河校区",
             "spot": "教学楼",
             "classroom": "S208"
@@ -113,7 +113,7 @@
         {
             "name": "数字逻辑课程设计",
             "instructor": "杨小刚",
-            "group": 14141414,
+            "group": "14141414",
             "district": "沙河校区",
             "spot": "教学楼",
             "classroom": "N207"
@@ -121,7 +121,7 @@
         {
             "name": "毛概",
             "instructor": "宋小白",
-            "group": 15151515,
+            "group": "15151515",
             "district": "沙河校区",
             "spot": "教学楼",
             "classroom": "S308"
@@ -129,7 +129,7 @@
         {
             "name": "数据结构课程设计",
             "instructor": "杨小凡",
-            "group": 16161616,
+            "group": "16161616",
             "district": "沙河校区",
             "spot": "教学楼",
             "classroom": "N516"
@@ -137,7 +137,7 @@
         {
             "name": "体育基础",
             "instructor": "贾小美",
-            "group": 17171717,
+            "group": "17171717",
             "district": "沙河校区",
             "spot": "体育场",
             "classroom": "体育场"
@@ -145,7 +145,7 @@
         {
             "name": "形势与政策",
             "instructor": "马小丽",
-            "group": 18181818,
+            "group": "18181818",
             "district": "沙河校区",
             "spot": "马克思主义学院",
             "classroom": "S301"
@@ -153,7 +153,7 @@
         {
             "name": "形式语言与自动机",
             "instructor": "杨小婉",
-            "group": 19191919,
+            "group": "19191919",
             "district": "沙河校区",
             "spot": "教学楼",
             "classroom": "S510"
@@ -161,7 +161,7 @@
         {
             "name": "Java程序设计",
             "instructor": "吴小高",
-            "group": 10101010,
+            "group": "10101010",
             "district": "沙河校区",
             "spot": "教学楼",
             "classroom": "N201"
