@@ -6,26 +6,31 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+
     "encoding/json"
 )
 
+
+
 func ServerTest() {
-    for {
-        res, err := http.Get("http://localhost:" + strconv.FormatInt(int64(port), 10) + "/api/isServing")
-        if err == nil {
-            defer res.Body.Close()
-            body, _ := ioutil.ReadAll(res.Body)
-            if string(body) == "true" {
-                Log(fmt.Sprintf("Web 服务启动成功，请访问 http://localhost:%d 进入系统", port))
-                break
-            }
-        }
-    }
+	for {
+		res, err := http.Get("http://localhost:" + strconv.FormatInt(int64(port), 10) + "/api/isServing")
+		if err == nil {
+			defer res.Body.Close()
+			body, _ := ioutil.ReadAll(res.Body)
+			if string(body) == "true" {
+				Log(fmt.Sprintf("Web 服务启动成功，请访问 http://localhost:%d 进入系统", port))
+				break
+			}
+		}
+	}
+
 }
 
-func APIHandler(w http.ResponseWriter, req *http.Request){
-    w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("content-type", "application/json")
+func APIHandler(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("content-type", "application/json")
+
 
     switch req.URL.Path {
         case "/api/isServing":
@@ -50,6 +55,28 @@ func APIHandler(w http.ResponseWriter, req *http.Request){
             header.Add("Content-Disposition","attachment;filename="+fn)
             b := download(fn)
             w.Write(b)
+		case "/api/getTransInfo":
+			//TODO 获取路径信息
+			// data, _ := json.Marshal(transportList)
+			// w.Write(data)
+		case "/api/getStatus":
+			//TODO 获取当前状态
+			// data, _ := json.Marshal(status)
+			// w.Write(data)
+		case "/api/startTimer":
+			//TODO 开始计时
+			// if !status.IsRunning {
+			// 	wg.Add(1)
+			// 	go StartTimer()
+			// }
+		case "/api/pauseTimer":
+			//TODO 暂停计时
+			// if status.IsRunning {
+			// 	PauseTimer()
+			// }
+		case "/api/exit":
+			Log("系统已退出，您可以到log目录中查看日志")
+			os.Exit(1)
     }
     
 }
@@ -65,3 +92,7 @@ func StartServer(){
     }
     wg.Done()
 }
+
+
+
+
