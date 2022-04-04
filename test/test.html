@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX GET 请求</title>
+    <style>
+        #result{
+            width:200px;
+            height:100px;
+            border:solid 1px #90b;
+        }
+    </style>
+</head>
+<body>
+    <button>点击发送请求</button>
+    <div id="result"></div>
+
+    <script>
+       /* 
+       //鼠标点击事件实现请求和响应
+        const btn = document.getElementsByTagName('button')[0];
+        btn.onclic = function(){
+            //1.创建对象
+            const xhr = new XMLHttpRequest();
+            //2.初始化 设置请求方法和url
+            xhr.open('GET','http://127.0.0.1:8000/server?a=100&b=200&c=300');//GET是在open传参，而POST是在send传参
+            //3.发送
+            xhr.send();
+            //4.事件绑定 处理服务端返回的结果
+            xhr.onreadystatechange = function(){
+                //判断服务端是否返回了所有结果
+                if(xhr.readyState === 4){
+                    //判断响应状态码
+                    if(xhr.status >= 200 && xhr.status < 300){
+                        //设置result文本
+                        result.innerHTML = xhr.response;
+                    }
+                }
+            //取消请求
+            //btn[1].onclick = function(){
+           //     xhr.abort();
+           / }
+            }
+
+        }
+        */
+        let xhr = new XMLHttpRequest();
+        //重复请求处理的标识变量
+        let isSending = false;
+        //键盘敲击事件实现请求响应和对json格式数据的处理
+        window.onkeydown = function(){
+
+            //判断是否是重复请求,如果已经请求，则放弃该请求，创建一个新的请求
+            if(isSending){
+                xhr.abort();
+                xhr = new XMLHttpRequest();
+            }
+
+           
+
+            
+
+            //自动转换的前提，设置响应体数据的类型
+            xhr.responseType = 'json';
+
+
+            //超时设置 2s 设置
+            xhr.timeout = 2000;
+            //超时回调
+            xhr.ontimeout = function(){
+                alter("网络异常，请稍后重试");
+            }
+            //网络异常回调
+            xhr.onerror = function(){
+                alter("你的网络似乎异常");
+            }
+
+            //修改标识变量的值
+            isSending = true;
+            xhr.open('GET','http://127.0.0.1:8000/json-server');
+            xhr.send();
+            
+            xhr.onreadystatechange = function()
+            {
+                if(xhr.readyState === 4)
+                {
+                    if(xhr.status >= 200 && xhr < 300){
+                        //result.innerHTML = xhr.response;
+
+                        //手动对数据进行转化
+                        //let data = JSON.parse(xhr.response);
+                        //result.innerHTML = data.name;
+
+                        //自动转换
+                    }
+                    //请求完成后更改标识变量
+                    isSending = false;
+                }
+            }
+
+            
+        }
+    </script>
+</body>
+</html>

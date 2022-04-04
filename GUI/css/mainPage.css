@@ -64,12 +64,16 @@
     overflow-x: hidden;
 }
 
-.class-card, .activity-card{
+.class-card, .exam-card, .activity-card{
     font-weight: bold;
 }
 
 .activity-card .active, .activity-card .active:hover{
     background-color: orange;
+}
+
+.exam-card .active, .exam-card .active:hover{
+    background-color: red;
 }
 
 .folder-font{

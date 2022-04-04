@@ -1,0 +1,895 @@
+<!DOCTYPE html5>
+<html>
+<head>
+	<meta charset="utf-8"> 
+	<title>Bootstrap 实例 - 模态框（Modal）插件</title>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/mainPage.css">
+	<script src="jquery/jquery.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!--总的框架-->
+<div style="height: 100%;">
+	<div class="container-fluid">
+		<div class="row" style="background-color: blanchedalmond;">
+			<!--左边部分-->
+			<div class="col-md-8" id="left">
+				<!--导航部分-->
+				<div id="navPart">
+					<ul id="myTab" class="nav nav-tabs">
+						<li class="navbar-brand">
+							<strong>地图</strong>
+						</li>
+						<li class="navbar-right">
+							<a href="#xitucheng" data-toggle="tab">
+								西土城校区
+							</a>
+						</li>
+						<li class="active navbar-right">
+							<a href="#shahe" data-toggle="tab">沙河校区</a>
+						</li>
+					</ul>
+					<div id="myTabContent" class="tab-content">
+						<div class="tab-pane fade" id="xitucheng">
+							<p>西土城校区地图</p>
+						</div>
+						<div class="tab-pane fade in active" id="shahe">
+							<p>沙河校区地图</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--右边（选课和时间）部分-->
+			<div class="col-md-4" id="right">
+
+
+				<div id="classPart">
+					<h2>线下课程辅助系统</h2>
+					<!--版本-作者信息-->
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-4 ">
+								<div class="btn-group">
+									<button type="button" class="btn btn-default badge badge-btn">version</button>
+									<button type="button" class="btn btn-default badge badge-btn" style="background-color: darkgoldenrod;">v1.0</button>
+								 </div>
+							</div>
+							<div class="col-md-8">
+								<div class="btn-group">
+									<button type="button" class="btn btn-default badge badge-btn">author</button>
+									<button type="button" class="btn btn-default badge badge-btn" style="background-color: darkslategray;">forksama & mushroom & bang</button>
+								 </div>
+							</div>
+						</div>
+					</div>
+					<hr>
+
+					<div class="panel-group" id="accordion">
+
+						<!--课程导航栏-->
+						<div class="panel panel-default panel-customize" >
+							<!--课程导航栏标题-->
+							<div class="panel-heading panel-heading-customize">
+								<h4 class="panel-title glyphicon glyphicon-map-marker">
+									<a data-toggle="collapse" data-parent="#accordion" 
+									href="#collapseOne" class="folder-font">
+										课程导航
+									</a>
+								</h4>
+							</div>
+							<!--课程导航栏下拉框-->
+							<div id="collapseOne" class="panel-collapse collapse in">
+								<div class="panel-body">
+									<form class="form-horizontal" role="form">
+										<!--当前位置-->
+										<div class="form-group">
+											<label for="firstname" class="col-sm-3 control-label">当前位置</label>
+											<div class="col-sm-3 nav-select">
+												<select class="form-control nav-font" id="cur-position-1">
+													<option>沙河校区</option>
+													<option>西土城校区</option>
+												</select>
+											</div>
+											<div class="col-sm-3 nav-select" id="cur-position-2">
+												<select class="form-control nav-font">
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+													<option>5</option>
+												</select>
+											</div>
+											<div class="col-sm-3 nav-select" id="cur-position-3">
+												<select class="form-control nav-font">
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+													<option>5</option>
+												</select>
+											</div>
+										</div>
+										<!--目标位置确定方法三选一-->
+										<div class="form-group">
+											<hr>
+											<div class="radio" style="text-align: left; padding-left: 10px;">
+												<label style="width: 100%;">
+													<input type="radio" name="dest-method" id="dest-method-1" value="option1" checked>
+													<strong class="col-sm-3">目标课程</strong>
+													<div class="col-sm-9 nav-select" id="dest-class">
+														<select class="form-control nav-font">
+															<option>1</option>
+															<option>2</option>
+															<option>3</option>
+															<option>4</option>
+															<option>5</option>
+														</select>
+													</div>
+												</label>
+											</div>
+											<div class="radio" style="text-align: left; padding-left: 10px;">
+												<label style="width: 100%;">
+													<input type="radio" name="dest-method" id="dest-method-2" value="option2">
+													<strong class="col-sm-3">目标时间</strong>
+													<div class="col-sm-4 nav-select" id="dest-time-1">
+														<select class="form-control nav-font">
+															<option>1</option>
+															<option>2</option>
+															<option>3</option>
+															<option>4</option>
+															<option>5</option>
+														</select>
+													</div>
+													<div class="col-sm-5 nav-select" id="dest-time-2">
+														<select class="form-control nav-font">
+															<option>1</option>
+															<option>2</option>
+															<option>3</option>
+															<option>4</option>
+															<option>5</option>
+														</select>
+													</div>
+												</label>
+											</div>
+											<div class="radio" style="text-align: left; padding-left: 10px;">
+												<label style="width: 100%;">
+													<input type="radio" name="dest-method" id="dest-method-3" value="option3">
+													<strong class="col-sm-3">目标地点</strong>
+													<div class="col-sm-3 nav-select" id="dest-place-1">
+														<select class="form-control nav-font">
+															<option>1</option>
+															<option>2</option>
+															<option>3</option>
+															<option>4</option>
+															<option>5</option>
+														</select>
+													</div>
+													<div class="col-sm-3 nav-select" id="dest-place-2">
+														<select class="form-control nav-font">
+															<option>1</option>
+															<option>2</option>
+															<option>3</option>
+															<option>4</option>
+															<option>5</option>
+														</select>
+													</div>
+													<div class="col-sm-3 nav-select" id="dest-place-3">
+														<select class="form-control nav-font">
+															<option>1</option>
+															<option>2</option>
+															<option>3</option>
+															<option>4</option>
+															<option>5</option>
+														</select>
+													</div>
+												</label>
+											</div>
+										</div>
+										<hr>
+
+										<!--出行方法-->
+										<div class="form-group">
+											<label class="radio-inline">
+												<input type="radio" name="vehicle" id="vehicle-1" value="option1" checked> 步行
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="vehicle" id="vehicle-2" value="option2"> 自行车
+											</label>
+											<hr>
+										</div>
+
+										<!--开始导航按钮-->
+										<div class="form-group">
+											<button type="submit" class="btn btn-primary glyphicon glyphicon-send"> 开始导航</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<!--课程信息栏-->
+						<div class="panel panel-default panel-customize">
+							<!--课程信息栏标题-->
+							<div class="panel-heading panel-heading-customize">
+								<h4 class="panel-title glyphicon glyphicon-book">
+									<a data-toggle="collapse" data-parent="#accordion" 
+									href="#collapseTwo" class="folder-font">
+										课程信息
+									</a>
+								</h4>
+							</div>
+							<!--课程信息栏下拉框-->
+							<div id="collapseTwo" class="panel-collapse collapse">
+								<div class="panel-body">
+									<!--搜索栏-->
+									<div class="input-group" >
+										<input type="text" class="form-control">
+										<span class="input-group-btn">
+											<button class="btn btn-default glyphicon glyphicon-search" type="button"></button>
+										</span>
+									</div>
+
+									<!--选项卡-->
+									<div class="container-fluid">
+										<div class="row" style="padding: 20px;">
+											<div class="col-md-6">
+												<button class="btn btn-lg opt glyphicon glyphicon-calendar" 
+													data-toggle="modal" data-target="#schedulModal">
+													<br><strong class="opt-font">课程表</strong>
+												</button>
+											</div>
+											<div class="col-md-6">
+												<button class="btn btn-lg opt glyphicon glyphicon-file"
+													data-toggle="modal" data-target="#curriculumModal">
+													<br><strong class="opt-font"">所有课程</strong>
+												</button>
+											</div>
+
+										</div>
+									</div>
+
+									<!--今日课程-->
+									<div class="panel" >
+
+										<div class="panel-heading">
+											<h3 class="panel-title">今日课程</h3>
+										</div>
+										
+										<div class="panel-body class-card-holder">
+												<!-- <ul class="list-group class-card">
+													<li class="list-group-item active"> &nbsp;
+														<span class="pull-left">[ 08:00 - 08:45 ]</span>
+													</li>
+													<li class="list-group-item">计算机网络</li>
+													<li class="list-group-item">刘某（副教授）</strong></li>
+													<li class="list-group-item">办公楼</li>
+												</ul>
+												<ul class="list-group class-card">
+													<li class="list-group-item active"> &nbsp;
+														<span class="pull-left">[ 08:50 - 09:35 ]</span>
+													</li>
+													<li class="list-group-item">计算机组成原理</li>
+													<li class="list-group-item">王某（高级工程师）</li>
+													<li class="list-group-item">教学楼</li>
+												</ul> -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!--课外信息栏-->
+						<div class="panel panel-default panel-customize">
+							<!--课外信息栏标题-->
+							<div class="panel-heading panel-heading-customize">
+								<h4 class="panel-title glyphicon glyphicon-headphones">
+									<a data-toggle="collapse" data-parent="#accordion" 
+									href="#collapseThree" class="folder-font">
+										课外信息
+									</a>
+								</h4>
+							</div>
+							<!--课外信息栏下拉框-->
+							<div id="collapseThree" class="panel-collapse collapse">
+							<div class="panel-body">
+								<!--搜索栏-->
+								<div class="input-group" >
+									<input type="text" class="form-control">
+									<span class="input-group-btn">
+										<button class="btn btn-default glyphicon glyphicon-search" type="button"></button>
+									</span>
+								</div>
+
+								<!--选项卡-->
+								<div class="container-fluid">
+									<div class="row" style="padding: 20px;">
+										<div class="col-md-6">
+											<button class="btn btn-lg opt glyphicon glyphicon-knight"
+												data-toggle="modal" data-target="#activityModal">
+												<br><strong class="opt-font"">我的活动</strong>
+											</button>
+										</div>
+										<div class="col-md-6">
+											<button class="btn btn-lg opt glyphicon glyphicon-bell"
+												data-toggle="modal" data-target="#bellModal">
+												<br><strong class="opt-font"">设置闹钟</strong>
+											</button>
+										</div>
+									</div>
+								</div>
+
+								<!--今日活动-->
+								<div class="panel" >
+
+									<div class="panel-heading">
+										<h3 class="panel-title">今日活动</h3>
+									</div>
+
+									<div class="panel-body activity-card-holder">
+										<strong>今天没有其他活动了哦！</strong>
+										<!-- <ul class="list-group activity-card">
+											<li class="list-group-item active"> &nbsp;
+												<span class="pull-left">[ 13:00 - 15:00 ]</span>
+											</li>
+											<li class="list-group-item">打篮球</li>
+											<li class="list-group-item">操场</li>
+										</ul>
+										<ul class="list-group activity-card">
+											<li class="list-group-item active"> &nbsp;
+												<span class="pull-left">[ 20:00 - 21:30 ]</span>
+											</li>
+											<li class="list-group-item">夜跑</li>
+											<li class="list-group-item">操场</li>
+										</ul> -->
+									</div>
+								</div>
+							</div>
+							</div>
+						</div>
+					</div>
+					
+					<!--右下角的时间-->
+					<div style="width: 90%; position: absolute; bottom: 20px; background-color: lightgrey; line-height: 10px; border-radius: 10px;">
+						<div class="row" style="vertical-align: middle;">
+							<ul class="breadcrumb col-sm-7 col-sm-offset-1" style="margin-top: 18px;" id="timestamp">
+								<li class="active">2021</li>
+								<li class="active">1</li>
+								<li class="active">4</li>
+								<li class="active">星期一</li>
+								<li class="active">00:00</li>
+							</ul>
+							<div class="col-md-4">
+								<button class="btn btn-success glyphicon glyphicon-play" style="margin-top:13px ;" id="timer">开始计时</button>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--课程信息-课程表弹窗-->
+	<div class="modal fade" id="schedulModal" tabindex="-1" role="dialog" aria-labelledby="schedulModalLabel" aria-hidden="true" style="overflow-y: scroll;" >
+		<div class="modal-dialog" style="width: 80%">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="schedulModalLabel">课程表</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table table-bordered" id="schedulTable" style="text-align: center; font-size: smaller;">
+						<thead>
+						  <tr>
+							<th>&nbsp;</th>
+							<th style="text-align: center;">星期一</th>
+							<th style="text-align: center;">星期二</th>
+							<th style="text-align: center;">星期三</th>
+							<th style="text-align: center;">星期四</th>
+							<th style="text-align: center;">星期五</th>
+							<th style="text-align: center;">星期六</th>
+							<th style="text-align: center;">星期日</th>
+						  </tr>
+						</thead>
+						<tbody>
+						  <tr id="class_1">
+							<td>08:00 - 08:45</td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+						  </tr>
+						  <tr id="class_2">
+							<td>08:50 - 09:35</td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+						  </tr>
+						  <tr id="class_3">
+							<td>09:50 - 10:35</td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+						  </tr>
+						  <tr id="class_4">
+							<td>10:40 - 11:25</td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+						  </tr>
+						  <tr id="class_5">
+							<td>11:30 - 12:15</td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+						  </tr>
+						  <tr id="class_6">
+							<td>13:00 - 13:45</td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+						  </tr>
+						  <tr id="class_7">
+							<td>13:50 - 14:35</td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+						  </tr>
+						  <tr id="class_8">
+							<td>14:45 - 15:30</td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+						  </tr>
+						  <tr id="class_9">
+							<td>15:40 - 16:25</td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+						  </tr>
+						  <tr id="class_10">
+							<td>16:35 - 17:20</td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+						  </tr>
+						  <tr id="class_11">
+							<td>17:25 - 18:10</td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+						  </tr>
+						  <tr id="class_12">
+							<td>18:30 - 19:15</td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+						  </tr>
+						  <tr id="class_13">
+							<td>19:20 - 20:05</td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+						  </tr>
+						  <tr id="class_14">
+							<td>20:10 - 20:55</td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+							<td class="schedulButton"></td>
+						  </tr>
+						</tbody>
+					  </table>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!--课程信息-所有课程弹窗-->
+	<div class="modal fade" id="curriculumModal" tabindex="-1" role="dialog" aria-labelledby="curriculumModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="curriculumModalLabel">所有课程</h4>
+				</div>
+				<div class="modal-body">
+					<ul class="list-group" id="curriculumsHolder"></ul>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!--课程信息-所有课程弹窗-特定课程弹窗-->
+	<div class="modal fade" id="specificCurriculum" tabindex="-1" role="dialog" aria-labelledby="specificCurriculumModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 70%;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="specificCurriculumModalLabel"></h4>
+				</div>
+				<div class="modal-body">
+					<ul id="myTab" class="nav nav-tabs">
+						<li class="active">
+							<a href="#curriculumInfo" data-toggle="tab">
+								 课程信息
+							</a>
+						</li>
+						<li>
+							<a href="#examInfo" data-toggle="tab">
+								 考试信息
+							</a>
+						</li>
+						<li>
+							<a href="#homeworkInfo" data-toggle="tab">
+								 作业记录
+							</a>
+						</li>
+						<li class="dropdown">
+							<a href="#" id="uploadFileTag" class="dropdown-toggle" 
+							   data-toggle="dropdown">上传文件
+								<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="uploadFileTag">
+								<li><a href="#uploadHomework" tabindex="-1" data-toggle="tab">作业</a></li>
+								<li><a href="#uploadResource" tabindex="-1" data-toggle="tab">资料</a></li>
+							</ul>
+						</li>
+					</ul>
+					<div id="myTabContent" class="tab-content" style="padding: 20px; line-height: 30px;">
+						<div class="tab-pane fade in active" id="curriculumInfo">
+							<table class="table table-striped">
+								<thead>
+								  <tr>
+									<th>时间</th>
+									<th>地点</th>
+									<th>教师</th>
+									<th>课程群</th>
+								  </tr>
+								</thead>
+								<tbody>
+								  <!-- <tr>
+									<td>08:00 - 08:45</td>
+									<td>沙河校区-教学楼</td>
+									<td>张某</td>
+									<td>12121212</td>
+								  </tr>
+								  <tr>
+									<td>08:50 - 09:35</td>
+									<td>沙河校区-教学楼</td>
+									<td>张某</td>
+									<td>12121212</td>
+								  </tr> -->
+								</tbody>
+							</table>
+						</div>
+						<div class="tab-pane fade in" id="examInfo">
+							<table class="table table-striped">
+								<thead>
+								  <tr>
+									<th>时间</th>
+									<th>地点</th>
+									<th>教师</th>
+								  </tr>
+								</thead>
+								<tbody>
+								  <!-- <tr>
+									<td>08:00 - 08:45</td>
+									<td>沙河校区-教学楼</td>
+									<td>张某</td>
+								  </tr>
+								  <tr>
+									<td>08:50 - 09:35</td>
+									<td>沙河校区-教学楼</td>
+									<td>张某</td>
+								  </tr> -->
+								</tbody>
+							</table>
+						</div>
+						<div class="tab-pane fade" id="homeworkInfo">
+							<div id="homeworkContainer">
+								这里的内容是作业记录
+							</div>
+							<hr>
+							<p>
+								<button type="button" class="btn btn-info pull-right">布置作业</button> &nbsp;
+							</p>
+						</div>
+						<div class="tab-pane fade" id="uploadHomework">
+							<div id="uploadHomeworkContainer">
+								这里的内容是上传的作业
+							</div>
+							<hr>
+							<p>
+								<button type="button" class="btn btn-info pull-right">上传作业</button> &nbsp;
+							</p>
+						</div>
+						<div class="tab-pane fade" id="uploadResource">
+							<div id="uploadResourceContainer">
+								这里的内容是上传的资料
+							</div>
+							<hr>
+							<p>
+								<button type="button" class="btn btn-info pull-right">上传资料</button> &nbsp;
+							</p>
+						</div>
+					</div>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!--课外信息-我的活动弹窗-->
+	<div class="modal fade" id="activityModal" tabindex="-1" role="dialog" aria-labelledby="activityModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="activityModalLabel">我的活动</h4>
+				</div>
+				<div class="modal-body">
+					<ul class="list-group" id="activitiesHolder">
+						<strong style="margin: 10px;">当前没有活动哦！</strong>
+					</ul>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" 
+						data-toggle="modal" data-target="#addActivityModal">
+						新增活动
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!--课外信息-设置活动弹窗-添加活动弹窗-->
+	<div class="modal fade" id="addActivityModal" tabindex="-1" role="dialog" aria-labelledby="addActivityModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="addActivityModalLabel">新增活动</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+
+							<!--星期-->
+							<div class="col-sm-3 col-sm-offset-1">
+								<select class="form-control week" name="week" id="12345">
+									<option value = 0>星期一</option>
+									<option value = 1>星期二</option>
+									<option value = 2>星期三</option>
+									<option value = 3>星期四</option>
+									<option value = 4>星期五</option>
+									<option value = 5>星期六</option>
+									<option value = 6>星期日</option>
+								</select>
+							</div>
+							<!--时-->
+							<div class="col-sm-2">
+								<select class="form-control hour" name="hour" id="12345">
+									<option value = 0>00</option><option value = 1>01</option><option value = 2>02</option><option value = 3>03</option><option value = 4>04</option><option value = 5>05</option>
+									<option value = 6>06</option><option value = 7>07</option><option value = 8>08</option><option value = 9>09</option><option value = 10>10</option><option value = 11>11</option>
+									<option value = 12>12</option><option value = 13>13</option><option value = 14>14</option><option value = 15>15</option><option value = 16>16</option><option value = 17>17</option>
+									<option value = 18>18</option><option value = 19>19</option><option value = 20>20</option><option value = 21>21</option><option value = 22>22</option><option value = 23>23</option>
+								</select>
+							</div>
+							<label for="hour" class="col-sm-1 control-label">时</label>
+							<!--分-->
+							<div class="col-sm-2">
+								<select class="form-control minute" name="minute">
+									<option value = 0>00</option><option value = 1>01</option><option value = 2>02</option><option value = 3>03</option><option value = 4>04</option><option value = 5>05</option>
+									<option value = 6>06</option><option value = 7>07</option><option value = 8>08</option><option value = 9>09</option><option value = 10>10</option><option value = 11>11</option>
+									<option value = 12>12</option><option value = 13>13</option><option value = 14>14</option><option value = 15>15</option><option value = 16>16</option><option value = 17>17</option>
+									<option value = 18>18</option><option value = 19>19</option><option value = 20>20</option><option value = 21>21</option><option value = 22>22</option><option value = 23>23</option>
+									<option value = 24>24</option><option value = 25>25</option><option value = 26>26</option><option value = 27>27</option><option value = 28>28</option><option value = 29>29</option>
+									<option value = 30>30</option><option value = 31>31</option><option value = 32>32</option><option value = 33>33</option><option value = 34>34</option><option value = 35>35</option>
+									<option value = 36>36</option><option value = 37>37</option><option value = 38>38</option><option value = 39>39</option><option value = 40>40</option><option value = 41>41</option>
+									<option value = 42>42</option><option value = 43>43</option><option value = 44>44</option><option value = 45>45</option><option value = 46>46</option><option value = 47>47</option>
+									<option value = 48>48</option><option value = 49>49</option><option value = 50>50</option><option value = 51>51</option><option value = 52>52</option><option value = 53>53</option>
+									<option value = 54>54</option><option value = 55>55</option><option value = 56>56</option><option value = 57>57</option><option value = 58>58</option><option value = 59>59</option>
+								</select>
+							</div>
+							<label for="minute" class="col-sm-1 control-label">分</label>
+
+						</div>
+
+						<!--活动内容-->
+						<div class="form-group" style="margin-left: 20px; margin-right: 20px;">
+							<label for="name" style="width: 100%;">
+								<span style="color: red;">*</span>&nbsp;
+								<span>活动内容</span>
+								<span class="pull-right" id="activityWarning" 
+									style="color: red; font-size: smaller; visibility: hidden;">还没有填写活动内容！</span>
+							</label>
+							<textarea class="form-control activity" rows="1" name="activity"></textarea>
+						</div>
+						<div class="form-group" style="margin-left: 20px; margin-right: 20px;">
+							<label for="name" style="width: 100%;">
+								<span style="color: red;">*</span>&nbsp;
+								<span>活动地点</span>
+								<span class="pull-right" id="locationWarning" 
+									style="color: red; font-size: smaller; visibility: hidden;">还没有填写活动地点！</span>
+							</label>
+							<textarea class="form-control location" rows="1" name="location"></textarea>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="addActivity()">确认</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!--课外信息-设置闹钟弹窗-->
+	<div class="modal fade" id="bellModal" tabindex="-1" role="dialog" aria-labelledby="bellModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="bellModalLabel">设置闹钟</h4>
+				</div>
+				<div class="modal-body">
+					<ul class="list-group" id="bellsHolder">
+						<strong style="margin: 10px;">当前没有闹钟哦！</strong>
+					</ul>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" 
+						data-toggle="modal" data-target="#addBellModal">
+						新增闹钟
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!--课外信息-设置闹钟弹窗-添加闹钟弹窗-->
+	<div class="modal fade" id="addBellModal" tabindex="-1" role="dialog" aria-labelledby="addBellModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="addBellModalLabel">新增闹钟</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+
+							<!--星期-->
+							<div class="col-sm-3 col-sm-offset-1">
+								<select class="form-control week" name="week" id="12345">
+									<option value = 0>星期一</option>
+									<option value = 1>星期二</option>
+									<option value = 2>星期三</option>
+									<option value = 3>星期四</option>
+									<option value = 4>星期五</option>
+									<option value = 5>星期六</option>
+									<option value = 6>星期日</option>
+								</select>
+							</div>
+							<!--时-->
+							<div class="col-sm-2">
+								<select class="form-control hour" name="hour" id="12345">
+									<option value = 0>00</option><option value = 1>01</option><option value = 2>02</option><option value = 3>03</option><option value = 4>04</option><option value = 5>05</option>
+									<option value = 6>06</option><option value = 7>07</option><option value = 8>08</option><option value = 9>09</option><option value = 10>10</option><option value = 11>11</option>
+									<option value = 12>12</option><option value = 13>13</option><option value = 14>14</option><option value = 15>15</option><option value = 16>16</option><option value = 17>17</option>
+									<option value = 18>18</option><option value = 19>19</option><option value = 20>20</option><option value = 21>21</option><option value = 22>22</option><option value = 23>23</option>
+								</select>
+							</div>
+							<label for="hour" class="col-sm-1 control-label">时</label>
+							<!--分-->
+							<div class="col-sm-2">
+								<select class="form-control minute" name="minute">
+									<option value = 0>00</option><option value = 1>01</option><option value = 2>02</option><option value = 3>03</option><option value = 4>04</option><option value = 5>05</option>
+									<option value = 6>06</option><option value = 7>07</option><option value = 8>08</option><option value = 9>09</option><option value = 10>10</option><option value = 11>11</option>
+									<option value = 12>12</option><option value = 13>13</option><option value = 14>14</option><option value = 15>15</option><option value = 16>16</option><option value = 17>17</option>
+									<option value = 18>18</option><option value = 19>19</option><option value = 20>20</option><option value = 21>21</option><option value = 22>22</option><option value = 23>23</option>
+									<option value = 24>24</option><option value = 25>25</option><option value = 26>26</option><option value = 27>27</option><option value = 28>28</option><option value = 29>29</option>
+									<option value = 30>30</option><option value = 31>31</option><option value = 32>32</option><option value = 33>33</option><option value = 34>34</option><option value = 35>35</option>
+									<option value = 36>36</option><option value = 37>37</option><option value = 38>38</option><option value = 39>39</option><option value = 40>40</option><option value = 41>41</option>
+									<option value = 42>42</option><option value = 43>43</option><option value = 44>44</option><option value = 45>45</option><option value = 46>46</option><option value = 47>47</option>
+									<option value = 48>48</option><option value = 49>49</option><option value = 50>50</option><option value = 51>51</option><option value = 52>52</option><option value = 53>53</option>
+									<option value = 54>54</option><option value = 55>55</option><option value = 56>56</option><option value = 57>57</option><option value = 58>58</option><option value = 59>59</option>
+								</select>
+							</div>
+							<label for="minute" class="col-sm-1 control-label">分</label>
+
+						</div>
+
+						<!--备注-->
+						<div class="form-group" style="margin-left: 20px; margin-right: 20px;">
+							<label for="name">备注</label>
+							<textarea class="form-control remark" rows="2" name="remark"></textarea>
+						  </div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addClock()">确认</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!--课外信息-闹钟响了以后的弹窗-->
+	<div class="modal fade" id="ringBellModal" tabindex="-1" role="dialog" aria-labelledby="ringBellModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="ringBellModalLabel">时间到了！</h4>
+				</div>
+				<div class="modal-body" style="padding-left: 40px; padding-right: 40px; text-align: center;"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" onclick="startTimer()">
+						我知道了
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+	
+	<script src="js/mainPage.js"></script>
+</div>
+</body>
+</html>

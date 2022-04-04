@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8"> 
-	<title>Bootstrap 实例 - 模态框（Modal）插件</title>
+	<title>校园导航系统</title>
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/mainPage.css">
 	<script src="jquery/jquery.min.js"></script>
@@ -535,7 +535,7 @@
 							<td class="schedulButton"></td>
 						  </tr>
 						</tbody>
-					  </table>
+					</table>
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal -->
@@ -641,35 +641,410 @@
 								  </tr> -->
 								</tbody>
 							</table>
+							<!-- <div id="assignExamBtn">
+								<hr>
+								<button type="button" class="btn btn-info pull-right" 
+									data-toggle="modal" data-target="#assignExamModal">
+									发布考试
+								</button> &nbsp;
+							</div> -->
 						</div>
 						<div class="tab-pane fade" id="homeworkInfo">
-							<div id="homeworkContainer">
-								这里的内容是作业记录
+								<!-- 这里的内容是作业记录 -->
+							<div class="panel-group" id="homeworkContainer">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#homeworks" 
+											href="#homework_3">&nbsp;
+											<span class="pull-left title">第三次作业</span>
+											<span class="pull-right date">2022 / 3 / 20</span>
+											</a>
+										</h4>
+									</div>
+									<div id="homework_3" class="panel-collapse collapse in">
+										<div class="panel-body Description">
+											Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
+											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
+											vice lomo.
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#homeworks" 
+											href="#homework_2">&nbsp;
+											<span class="pull-left">第二次作业</span>
+											<span class="pull-right">2022 / 3 / 19</span>
+										</a>
+										</h4>
+									</div>
+									<div id="homework_2" class="panel-collapse collapse">
+									<div class="panel-body">
+										Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
+										cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
+										vice lomo.
+									</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#homeworks" 
+											href="#homework_1">&nbsp;
+											<span class="pull-left">第一次作业</span>
+											<span class="pull-right">2022 / 3 / 18</span>
+											</a>
+										</h4>
+									</div>
+									<div id="homework_1" class="panel-collapse collapse">
+										<div class="panel-body">
+											Nihil anim keffiyeh helvetica, craft beer labore wes anderson 
+											cred nesciunt sapiente ea proident. Ad vegan excepteur butcher 
+											vice lomo.
+										</div>
+									</div>
+								</div>
 							</div>
-							<hr>
-							<p>
-								<button type="button" class="btn btn-info pull-right">布置作业</button> &nbsp;
-							</p>
+							<!-- <div id="assignHomeworkBtn">
+								<hr>
+								<button type="button" class="btn btn-info pull-right"
+									data-toggle="modal" data-target="#assignHomeworkModal">
+									布置作业
+								</button> &nbsp;
+							</div> -->
 						</div>
 						<div class="tab-pane fade" id="uploadHomework">
 							<div id="uploadHomeworkContainer">
 								这里的内容是上传的作业
 							</div>
-							<hr>
-							<p>
+							<div>
+								<hr>
 								<button type="button" class="btn btn-info pull-right">上传作业</button> &nbsp;
-							</p>
+							</div>
 						</div>
 						<div class="tab-pane fade" id="uploadResource">
 							<div id="uploadResourceContainer">
 								这里的内容是上传的资料
 							</div>
 							<hr>
-							<p>
+							<div>
 								<button type="button" class="btn btn-info pull-right">上传资料</button> &nbsp;
-							</p>
+							</div>
 						</div>
 					</div>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!--发布考试弹窗-->
+	<div class="modal fade" id="assignExamModal" tabindex="-1" role="dialog" aria-labelledby="assignExamModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="assignExamModalLabel">发布考试</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">课程</label>
+						  	<div class="col-sm-5">
+							  	<select class="form-control curriculumSelect">
+									在document加载完成时全部导进去，别急
+							  	</select>
+						  	</div>
+						</div>
+						<div class="form-group">
+						  	<label class="col-sm-2 control-label">时间</label>
+							<div class="col-sm-3">
+								<select class="form-control week">
+									<option value="0">星期一</option>
+									<option value="1">星期二</option>
+									<option value="2">星期三</option>
+									<option value="3">星期四</option>
+									<option value="4">星期五</option>
+									<option value="5">星期六</option>
+									<option value="6">星期日</option>
+								</select>
+							</div>
+							<div class="col-sm-3">
+								<select class="form-control startTime">
+									<option value="0">08:00</option>
+									<option value="1">08:50</option>
+									<option value="2">09:50</option>
+									<option value="3">10:40</option>
+									<option value="4">11:30</option>
+									<option value="5">13:00</option>
+									<option value="6">13:50</option>
+									<option value="7">14:45</option>
+									<option value="8">15:40</option>
+									<option value="9">16:35</option>
+									<option value="10">17:25</option>
+									<option value="11">18:30</option>
+									<option value="12">19:20</option>
+									<option value="13">20:10</option>
+								</select>
+							</div>
+							<label class="col-sm-1 control-label">到</label>
+							<div class="col-sm-3">
+								<select class="form-control endTime">
+									<option value="0">08:45</option>
+									<option value="1">09:35</option>
+									<option value="2">10:35</option>
+									<option value="3">11:25</option>
+									<option value="4">12:15</option>
+									<option value="5">13:45</option>
+									<option value="6">14:35</option>
+									<option value="7">15:30</option>
+									<option value="8">16:25</option>
+									<option value="9">17:20</option>
+									<option value="10">18:10</option>
+									<option value="11">19:15</option>
+									<option value="12">20:05</option>
+									<option value="13">20:55</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">地点</label>
+						  <div class="col-sm-3">
+							  <select class="form-control district" onchange="fillSpotSelect($(this), $('#assignExamModal .spot'), $('#assignExamModal .classroom'))">
+								  <option value="沙河校区">沙河校区</option>
+								  <option value="西土城校区">西土城校区</option>
+							  </select>
+						  </div>
+						  <div class="col-sm-3">
+							  <select class="form-control spot" onchange="fillClassroomSelect($('#assignExamModal .district'), $(this), $('#assignExamModal .classroom'))">
+							  </select>
+						  </div>
+						  <div class="col-sm-3">
+							  <select class="form-control classroom">
+							  </select>
+						  </div>
+					  </div>
+					</form>
+						<!-- <div class="form-group">
+						  	<label class="col-sm-2 control-label">地点</label>
+						  	<div class="col-sm-3">
+								<select class="form-control selectDistrict">
+									<option value="沙河校区">沙河校区</option>
+									<option value="西土城校区">西土城校区</option>
+								</select>
+						  	</div>
+							<div class="col-sm-4">
+								<select class="form-control selectSpot">
+									<option value="教学楼">1</option>
+									<option value="操场">1</option>
+									<option value="实验楼">1</option>
+									<option value="办公楼">1</option>
+								</select>
+						  	</div>
+							<div class="col-sm-3">
+								<select class="form-control selectClassroom">
+									<option value="N301">1</option>
+									<option value="S211">1</option>
+									<option value="S213">1</option>
+									<option value="N105">1</option>
+								</select>
+						  	</div>
+						</div>
+					  </form> -->
+				</div>
+				<div class="modal-footer">
+					<span class="pull-left" style="color: red;"><strong></strong></span>
+					<button type="button" class="btn btn-primary" onclick="assignExam()">确认发布</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!--改变课程时间弹窗-->
+	<div class="modal fade" id="changeClassInfoModal" tabindex="-1" role="dialog" aria-labelledby="changeClassInfoModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="changeClassInfoModalLabel">修改课程时间地点</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">课程</label>
+							  <div class="col-sm-5">
+								  <select class="form-control curriculumSelect">
+									在document加载完成时全部导进去，别急
+								  </select>
+							  </div>
+						</div>
+						<div class="form-group">
+						  	<label class="col-sm-3 control-label">原始时间</label>
+							<div class="col-sm-4">
+								<select class="form-control originWeek">
+									<option value="0">星期一</option>
+									<option value="1">星期二</option>
+									<option value="2">星期三</option>
+									<option value="3">星期四</option>
+									<option value="4">星期五</option>
+									<option value="5">星期六</option>
+									<option value="6">星期日</option>
+								</select>
+							</div>
+							<div class="col-sm-4">
+								<select class="form-control originTime">
+									<option value="0">08:00 - 08:45</option>
+									<option value="1">08:50 - 09:35</option>
+									<option value="2">09:50 - 10:35</option>
+									<option value="3">10:40 - 11:25</option>
+									<option value="4">11:30 - 12:15</option>
+									<option value="5">13:00 - 13:45</option>
+									<option value="6">13:50 - 14:35</option>
+									<option value="7">14:45 - 15:30</option>
+									<option value="8">15:40 - 16:25</option>
+									<option value="9">16:35 - 17:20</option>
+									<option value="10">17:25 - 18:10</option>
+									<option value="11">18:30 - 19:15</option>
+									<option value="12">19:20 - 20:05</option>
+									<option value="13">20:10 - 20:55</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+						  	<label class="col-sm-3 control-label">目的时间</label>
+							<div class="col-sm-4">
+								<select class="form-control destWeek">
+									<option value="0">星期一</option>
+									<option value="1">星期二</option>
+									<option value="2">星期三</option>
+									<option value="3">星期四</option>
+									<option value="4">星期五</option>
+									<option value="5">星期六</option>
+									<option value="6">星期日</option>
+								</select>
+							</div>
+							<div class="col-sm-4">
+								<select class="form-control destTime">
+									<option value="0">08:00 - 08:45</option>
+									<option value="1">08:50 - 09:35</option>
+									<option value="2">09:50 - 10:35</option>
+									<option value="3">10:40 - 11:25</option>
+									<option value="4">11:30 - 12:15</option>
+									<option value="5">13:00 - 13:45</option>
+									<option value="6">13:50 - 14:35</option>
+									<option value="7">14:45 - 15:30</option>
+									<option value="8">15:40 - 16:25</option>
+									<option value="9">16:35 - 17:20</option>
+									<option value="10">17:25 - 18:10</option>
+									<option value="11">18:30 - 19:15</option>
+									<option value="12">19:20 - 20:05</option>
+									<option value="13">20:10 - 20:55</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">目的地点</label>
+						  <div class="col-sm-3">
+							  <select class="form-control district" onchange="fillSpotSelect($(this), $('#changeClassInfoModal .spot'), $('#changeClassInfoModal .classroom'))">
+								  <option value="沙河校区">沙河校区</option>
+								  <option value="西土城校区">西土城校区</option>
+							  </select>
+						  </div>
+						  <div class="col-sm-3">
+							  <select class="form-control spot" onchange="fillClassroomSelect($('#changeClassInfoModal .district'), $(this), $('#changeClassInfoModal .classroom'))">
+							  </select>
+						  </div>
+						  <div class="col-sm-3">
+							  <select class="form-control classroom">
+							  </select>
+						  </div>
+					  </div>
+					</form><!---->
+				</div>
+				<div class="modal-footer">
+					<span class="pull-left" style="color: red;"><strong></strong></span>
+					<button type="button" class="btn btn-primary" onclick="changeClassInfo()">确认修改</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+	
+	<!--布置作业弹窗-->
+	<div class="modal fade" id="assignHomeworkModal" tabindex="-1" role="dialog" aria-labelledby="assignHomeworkModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="assignHomeworkModalLabel">布置作业</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label class="col-sm-4 control-label">课程</label>
+							  <div class="col-sm-5">
+								  <select class="form-control curriculumSelect">
+									在document加载完成时全部导进去，别急
+								  </select>
+							  </div>
+						</div>
+						<div class="form-group">
+							<div class="form-group" style="margin-left: 20px; margin-right: 20px;">
+								<label for="homeworkTitle" style="width: 100%;">
+									<span style="color: red;">*</span>&nbsp;
+									<span>作业标题</span>
+								</label>
+								<input type="text" class="form-control homeworkTitle" name="homeworkTitle"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-group" style="margin-left: 20px; margin-right: 20px;">
+								<label for="homeworkDescription" style="width: 100%;">
+									<span style="color: red;">*</span>&nbsp;
+									<span>作业描述</span>
+								</label>
+								<textarea class="form-control homeworkDescription" rows="1" name="homeworkDescription"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<span class="pull-left" style="color: red;"><strong></strong></span>
+					<button type="button" class="btn btn-primary" onclick="assignHomework()">确定布置</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!--课程信息-所有课程弹窗-特定课程弹窗-上传作业弹窗-->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+				</div>
+				<div class="modal-body">在这里添加一些文本</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary"">提交更改</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!--课程信息-所有课程弹窗-特定课程弹窗-上传资料弹窗-->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+				</div>
+				<div class="modal-body">在这里添加一些文本</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary">提交更改</button>
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal -->
@@ -709,10 +1084,10 @@
 				<div class="modal-body">
 					<form class="form-horizontal" role="form">
 						<div class="form-group">
-
+							<label class="col-sm-2 control-label">活动时间</label>
 							<!--星期-->
-							<div class="col-sm-3 col-sm-offset-1">
-								<select class="form-control week" name="week" id="12345">
+							<div class="col-sm-3">
+								<select class="form-control week" name="week" onchange="activityClassConflict()">
 									<option value = 0>星期一</option>
 									<option value = 1>星期二</option>
 									<option value = 2>星期三</option>
@@ -724,7 +1099,7 @@
 							</div>
 							<!--时-->
 							<div class="col-sm-2">
-								<select class="form-control hour" name="hour" id="12345">
+								<select class="form-control hour" name="hour" onchange="activityClassConflict()">
 									<option value = 0>00</option><option value = 1>01</option><option value = 2>02</option><option value = 3>03</option><option value = 4>04</option><option value = 5>05</option>
 									<option value = 6>06</option><option value = 7>07</option><option value = 8>08</option><option value = 9>09</option><option value = 10>10</option><option value = 11>11</option>
 									<option value = 12>12</option><option value = 13>13</option><option value = 14>14</option><option value = 15>15</option><option value = 16>16</option><option value = 17>17</option>
@@ -734,7 +1109,7 @@
 							<label for="hour" class="col-sm-1 control-label">时</label>
 							<!--分-->
 							<div class="col-sm-2">
-								<select class="form-control minute" name="minute">
+								<select class="form-control minute" name="minute" onchange="activityClassConflict()">
 									<option value = 0>00</option><option value = 1>01</option><option value = 2>02</option><option value = 3>03</option><option value = 4>04</option><option value = 5>05</option>
 									<option value = 6>06</option><option value = 7>07</option><option value = 8>08</option><option value = 9>09</option><option value = 10>10</option><option value = 11>11</option>
 									<option value = 12>12</option><option value = 13>13</option><option value = 14>14</option><option value = 15>15</option><option value = 16>16</option><option value = 17>17</option>
@@ -751,29 +1126,48 @@
 
 						</div>
 
+						<div class="form-group">
+							<label class="col-sm-2 control-label">活动地点</label>
+							<div class="col-sm-3">
+								<select class="form-control district" onchange="fillSpotSelect($(this), $('#addActivityModal .spot'), $('#addActivityModal .classroom'))">
+									<option value="沙河校区">沙河校区</option>
+									<option value="西土城校区">西土城校区</option>
+								</select>
+							</div>
+							<div class="col-sm-3">
+								<select class="form-control spot" onchange="fillClassroomSelect($('#addActivityModal .district'), $(this), $('#addActivityModal .classroom'))">
+								</select>
+							</div>
+							<div class="col-sm-3">
+								<select class="form-control classroom">
+								</select>
+							</div>
+						</div>
+
 						<!--活动内容-->
 						<div class="form-group" style="margin-left: 20px; margin-right: 20px;">
 							<label for="name" style="width: 100%;">
 								<span style="color: red;">*</span>&nbsp;
 								<span>活动内容</span>
-								<span class="pull-right" id="activityWarning" 
-									style="color: red; font-size: smaller; visibility: hidden;">还没有填写活动内容！</span>
 							</label>
 							<textarea class="form-control activity" rows="1" name="activity"></textarea>
 						</div>
-						<div class="form-group" style="margin-left: 20px; margin-right: 20px;">
-							<label for="name" style="width: 100%;">
-								<span style="color: red;">*</span>&nbsp;
-								<span>活动地点</span>
-								<span class="pull-right" id="locationWarning" 
-									style="color: red; font-size: smaller; visibility: hidden;">还没有填写活动地点！</span>
-							</label>
-							<textarea class="form-control location" rows="1" name="location"></textarea>
+						
+						<div class="form-group text-center">
+							<div class="col-sm-12 activityType">
+								<label class="radio-inline">
+									<input type="radio" name="activityType" value="个人活动" checked> 个人活动
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="activityType" value="集体活动"> 集体活动
+								</label>
+							</div>
 						</div>
 					</form>
 				</div>
 
 				<div class="modal-footer">
+					<span class="pull-left" style="color: red;"><strong></strong></span>
 					<button type="button" class="btn btn-primary" onclick="addActivity()">确认</button>
 				</div>
 			</div><!-- /.modal-content -->
@@ -889,6 +1283,10 @@
 		</div><!-- /.modal -->
 	</div>
 	
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#assignExamModal">测试窗口-发布考试</button>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeClassInfoModal">测试窗口-修改课程时间</button>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#assignHomeworkModal">测试窗口-布置作业</button>
+	<button type="button" class="btn btn-primary" id="switchTimeRatioBtn" onclick="switchTimeRatio()">一倍速</button>
 	<script src="js/mainPage.js"></script>
 </div>
 </body>

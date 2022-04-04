@@ -1,0 +1,153 @@
+{
+    "Port":9090,
+    "schedule":[
+        {
+            "name":"计算机网络", 
+            "info":[
+                {"week":0, "order":0, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"},
+                {"week":0, "order":1, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"},
+                {"week":2, "order":0, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"},
+                {"week":2, "order":1, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"},
+                {"week":0, "order":11, "isExam":true, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"},
+                {"week":0, "order":12, "isExam":true, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"},
+                {"week":0, "order":13, "isExam":true, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"}
+            ]    
+        },
+        {
+            "name":"计算机组成原理",
+            "info":[
+                {"week":0, "order":2, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S208"},
+                {"week":0, "order":3, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S208"},
+                {"week":0, "order":4, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S208"}
+            ]
+        },
+        {
+            "name":"数字逻辑课程设计",
+            "info":[
+                {"week":0, "order":5, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N207"},
+                {"week":0, "order":6, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N207"},
+                {"week":0, "order":7, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N207"}
+            ]
+        },
+        {
+            "name":"毛概",
+            "info":[
+                {"week":1, "order":0, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S308"},
+                {"week":1, "order":1, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S308"},
+                {"week":3, "order":0, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S308"},
+                {"week":3, "order":1, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S308"}
+            ]
+        },
+        {
+            "name":"数据结构课程设计",
+            "info":[
+                {"week":2, "order":2, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"},
+                {"week":2, "order":3, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"}
+            ]
+        },
+        {
+            "name":"体育基础",
+            "info":[
+                {"week":3, "order":5, "isExam":false, "district": "沙河校区", "spot": "体育场", "classroom": "体育场"},
+                {"week":3, "order":6, "isExam":false, "district": "沙河校区", "spot": "体育场", "classroom": "体育场"}
+            ]
+        },
+        {
+            "name":"形势与政策",
+            "info":[
+                {"week":4, "order":0, "isExam":false, "district": "沙河校区", "spot": "马克思主义学院", "classroom": "S301"},
+                {"week":4, "order":1, "isExam":false, "district": "沙河校区", "spot": "马克思主义学院", "classroom": "S301"}
+            ]
+        },
+        {
+            "name":"形式语言与自动机",
+            "info":[
+                {"week":3, "order":7, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S510"},
+                {"week":3, "order":8, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S510"}
+            ]
+        },
+        {
+            "name":"Java程序设计",
+            "info":[
+                {"week":4, "order":5, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N201"},
+                {"week":4, "order":6, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N201"},
+                {"week":4, "order":6, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N201"}
+            ]
+        }
+    ],
+
+    "scheduleTimeSlot":[
+        {"startHour":8, "startMinute":0, "endHour":8, "endMinute":45},
+        {"startHour":8, "startMinute":50, "endHour":9, "endMinute":35},
+        {"startHour":9, "startMinute":50, "endHour":10, "endMinute":35},
+        {"startHour":10, "startMinute":40, "endHour":11, "endMinute":25},
+        {"startHour":11, "startMinute":30, "endHour":12, "endMinute":15},
+        {"startHour":13, "startMinute":0, "endHour":13, "endMinute":45},
+        {"startHour":13, "startMinute":50, "endHour":14, "endMinute":35},
+        {"startHour":14, "startMinute":45, "endHour":15, "endMinute":30},
+        {"startHour":15, "startMinute":40, "endHour":16, "endMinute":25},
+        {"startHour":16, "startMinute":35, "endHour":17, "endMinute":20},
+        {"startHour":17, "startMinute":25, "endHour":18, "endMinute":10},
+        {"startHour":18, "startMinute":30, "endHour":19, "endMinute":15},
+        {"startHour":19, "startMinute":20, "endHour":20, "endMinute":5},
+        {"startHour":20, "startMinute":10, "endHour":20, "endMinute":55}
+    ],
+
+    "curriculums":[
+        {
+            "name": "计算机网络",
+            "instructor": "高小明",
+            "group": "12121212",
+            "homework": []
+        },
+    
+        {
+            "name": "计算机组成原理",
+            "instructor": "易小芳",
+            "group": "13131313",
+            "homework": []
+        },
+        {
+            "name": "数字逻辑课程设计",
+            "instructor": "杨小刚",
+            "group": "14141414",
+            "homework": []
+        },
+        {
+            "name": "毛概",
+            "instructor": "宋小白",
+            "group": "15151515",
+            "homework": []
+        },
+        {
+            "name": "数据结构课程设计",
+            "instructor": "杨小凡",
+            "group": "16161616",
+            "homework": []
+        },
+        {
+            "name": "体育基础",
+            "instructor": "贾小美",
+            "group": "17171717",
+            "homework": []
+        },
+        {
+            "name": "形势与政策",
+            "instructor": "马小丽",
+            "group": "18181818",
+            "homework": []
+        },
+        {
+            "name": "形式语言与自动机",
+            "instructor": "杨小婉",
+            "group": "19191919",
+            "homework": []
+        },
+        {
+            "name": "Java程序设计",
+            "instructor": "吴小高",
+            "group": "10101010",
+            "homework": []
+        }
+    ]
+}
