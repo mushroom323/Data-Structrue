@@ -1,12 +1,19 @@
 package main
+
 import (
-    "sync"
+	"sync"
 )
-var port         int
-var scheList     []Schedule_atom
+
+var port int
+var scheList []Schedule_atom
 var scheSlotList []ScheduleTimeSlot_atom
-var curriList    []Curriculums_atom
-var wg           sync.WaitGroup
+var curriList []Curriculums_atom
+var wg sync.WaitGroup
+var nowTime Time
+var clockList ClockList
+var coordiList [2]Coordinate
+var activityList ActivityList
+var controller Controller
 
 func main() {
 	InitLog()
