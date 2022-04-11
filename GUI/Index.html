@@ -716,21 +716,35 @@
 							</div> -->
 						</div>
 						<div class="tab-pane fade" id="uploadHomework">
+							<div>
+								<!--搜索栏-->
+								<div class="input-group pull-left col-md-8" >
+									<input type="text" class="form-control">
+									<span class="input-group-btn">
+										<button class="btn btn-default glyphicon glyphicon-search" type="button"></button>
+									</span>
+								</div>
+								<button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#uploadHomeworkModal" onclick="fillHomeworkSelect()">上传作业</button> &nbsp;
+								<hr>
+							</div>
 							<div id="uploadHomeworkContainer">
 								这里的内容是上传的作业
 							</div>
-							<div>
-								<hr>
-								<button type="button" class="btn btn-info pull-right">上传作业</button> &nbsp;
-							</div>
 						</div>
 						<div class="tab-pane fade" id="uploadResource">
+							<div>
+								<!--搜索栏-->
+								<div class="input-group pull-left col-md-8" >
+									<input type="text" class="form-control">
+									<span class="input-group-btn">
+										<button class="btn btn-default glyphicon glyphicon-search" type="button"></button>
+									</span>
+								</div>
+								<button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#uploadResourceModal">上传资料</button> &nbsp;
+								<hr>
+							</div>
 							<div id="uploadResourceContainer">
 								这里的内容是上传的资料
-							</div>
-							<hr>
-							<div>
-								<button type="button" class="btn btn-info pull-right">上传资料</button> &nbsp;
 							</div>
 						</div>
 					</div>
@@ -1017,38 +1031,78 @@
 	</div>
 
 	<!--课程信息-所有课程弹窗-特定课程弹窗-上传作业弹窗-->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade" id="uploadHomeworkModal" tabindex="-1" role="dialog" aria-labelledby="uploadHomeworkModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+					<h4 class="modal-title" id="uploadHomeworkModalLabel">提交作业</h4>
 				</div>
-				<div class="modal-body">在这里添加一些文本</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form" id="uploadHomeworkForm">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">作业</label>
+							  <div class="col-sm-5">
+								  <select class="form-control homeworkSelect" name="curr">
+									在document加载完成时全部导进去，别急
+								  </select>
+							  </div>
+						</div>
+						<div class="form-group" style="margin: 40px;">
+							<label class="sr-only" for="file">文件输入</label>
+							<input type="file" id="uploadHomeworkFile" name="uploadHomeworkFile">
+						</div>
+						<div class="form-group">
+							<div class="form-group" style="margin-left: 20px; margin-right: 20px;">
+								<label for="uploadHomeworkRemark" style="width: 100%;">
+									<span>备注</span>
+								</label>
+								<textarea class="form-control uploadHomeworkRemark" rows="1" name="remark"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary"">提交更改</button>
+					<span class="pull-left" style="color: red;"><strong></strong></span>
+					<button type="button" class="btn btn-primary" onclick="uploadHomework()">确定提交</button>
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal -->
 	</div>
 
+
 	<!--课程信息-所有课程弹窗-特定课程弹窗-上传资料弹窗-->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade" id="uploadResourceModal" tabindex="-1" role="dialog" aria-labelledby="uploadResourceModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+					<h4 class="modal-title" id="uploadResourceModalLabel">上传资料</h4>
 				</div>
-				<div class="modal-body">在这里添加一些文本</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form" id="uploadResourceForm">
+						<div class="form-group" style="margin: 40px;">
+							<label class="sr-only" for="file">文件输入</label>
+							<input type="file" id="uploadResourceFile" name="uploadResourceFile">
+						</div>
+						<div class="form-group">
+							<div class="form-group" style="margin-left: 20px; margin-right: 20px;">
+								<label for="uploadResourceRemark" style="width: 100%;">
+									<span>备注</span>
+								</label>
+								<textarea class="form-control uploadResourceRemark" rows="1" name="remark"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary">提交更改</button>
+					<span class="pull-left" style="color: red;"><strong></strong></span>
+					<button type="button" class="btn btn-primary" onclick="uploadResource()">确定上传</button>
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal -->
 	</div>
+
 
 	<!--课外信息-我的活动弹窗-->
 	<div class="modal fade" id="activityModal" tabindex="-1" role="dialog" aria-labelledby="activityModalLabel" aria-hidden="true">
@@ -1254,7 +1308,20 @@
 						<div class="form-group" style="margin-left: 20px; margin-right: 20px;">
 							<label for="name">备注</label>
 							<textarea class="form-control remark" rows="2" name="remark"></textarea>
-						  </div>
+						</div>
+
+						<!--仅一次/每天/每周-->
+						<div class="form-group" style="text-align: center;">
+							<label class="radio-inline">
+								<input type="radio" name="clockCycle" id="clockOnlyOne" value="仅响一次" checked>仅响一次
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="clockCycle" id="clockEveryDay"  value="每天一次">每天一次
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="clockCycle" id="clockEveryWeek"  value="每周一次">每周一次
+							</label>
+						</div>
 					</form>
 				</div>
 
@@ -1275,7 +1342,7 @@
 				</div>
 				<div class="modal-body" style="padding-left: 40px; padding-right: 40px; text-align: center;"></div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" onclick="startTimer()">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
 						我知道了
 					</button>
 				</div>

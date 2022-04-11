@@ -1,12 +1,17 @@
 var time = null;
 var timer = null;
-var minute = 0;
-var hour = 0;
-var day = 3;
-var month = 0;
-var year = 2021;
-var dayOfWeek = 0;
-var millisecondsPerMinute;
+
+var minute;
+var hour;
+var day;
+var month;
+var year;
+var dayOfWeek;
+
+var multi_speed;
+var isPausing;
+var isAdmin;    //当前账户是否是管理员
+
 var week = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
 const MinutesPerHour = 60
 const HoursPerDay = 24;
@@ -16,6 +21,7 @@ const DaysPerYear = 365;
 const MonthsPerYear = 12;
 const originMillisecondsPerHour = 10000;
 
+
 var currentPageCurriculumName = '计算机网络';
 var clock = [];     //按照时间顺序保存当前所有闹钟的数据
 var activity = [];  //按照时间顺序保存当前所有待完成活动的数据
@@ -23,7 +29,6 @@ var curriculumInfo = null;   //保存所有课程的信息
 var curriculumSchedul = null;//保存课程表信息
 var schedulTimeSlot = null;  //保存课程表中每节课的时间段
 
-var isAdmin = true;    //当前账户是否是管理员
 
 var district = [
     {
@@ -64,79 +69,150 @@ var district = [
 ]
 
 
-//及其重要的取消异步
-$.ajaxSettings.async = false;
-//课程信息相关
-$.getJSON('/api/getCurriculums', function(data){curriculumInfo = data;})
-$.getJSON('/api/getSchedule', function(data){curriculumSchedul = data;})
-$.getJSON('/api/getScheduleTimeSlot', function(data){schedulTimeSlot = data;})
-
-
-// $.getJSON('config.json', function(data){curriculumInfo = data;})
-// curriculumSchedul = curriculumInfo.schedul;
-// schedulTimeSlot = curriculumInfo.schedulTimeSlot;
-// curriculumInfo = curriculumInfo.curriculums;
-
-$.ajaxSettings.async = true;
 
 
 
 
 
 $(document).ready(function(){
-    millisecondsPerMinute = originMillisecondsPerHour / MinutesPerHour;
+    //-----------读取后端保存的信息--------------
+    //及其重要的取消异步
+    $.ajaxSettings.async = false;
+    //课程信息相关
+    $.getJSON('/api/getCurriculums', function(data){curriculumInfo = data;})
+    $.getJSON('/api/getSchedule', function(data){curriculumSchedul = data;})
+    $.getJSON('/api/getScheduleTimeSlot', function(data){schedulTimeSlot = data;})
+    
+    $.getJSON('/api/getClocks', function(data){
+        if(data){
+            clock = data;
+        }
+    })
+    $.getJSON('/api/getTime', function(data){
+        // if(data.Year != 0){
+            year = data.Year;
+            month = data.Month;
+            day = data.Day;
+            dayOfWeek = data.Week; 
+            hour = data.Hour;
+            minute = data.Minute;
+        // }
+    })
+    $.getJSON('/api/getActivity', function(data){
+        if(data){
+            activity = data;
+        }
+    })
+    $.getJSON('/api/getController', function(data){
+        if(data.Multi_speed != 0){
+            isAdmin = data.IsAdmin,
+            isPausing = data.IsPausing,
+            multi_speed = data.Multi_speed
+        }
+    })
+
+    
+    $(window).bind('beforeunload',function(){
+        // $.ajaxSettings.async = false;
+        $.get("/api/setTime", {TimeStr:JSON.stringify({
+            Year: year,
+            Month: month,
+            Day: day,
+            Week: dayOfWeek,
+            Hour: hour,
+            Minute: minute
+        })})////
+        // $.ajaxSettings.async = true;
+        // $.get("/api/setController", {controllerStr: JSON.stringify({IsAdmin:isAdmin, IsPausing:isPausing, Multi_speed:multi_speed})})
+    })
+    
+    $.ajaxSettings.async = true;
+    //-----------读取后端保存的信息--------------
 
     //计时器，实现时间暂停与继续的功能
     timer = $('#timer').on('click', function(){
 
         //当时间停止时按下按钮
-        if(timer.hasClass('btn-success')){
+        if(isPausing == true){
+            isPausing = false;
             startTimer();
         }
         //当时间流动时按下按钮
-        else if(timer.hasClass('btn-danger')){
+        else if(isPausing == false){
+            isPausing = true;
             pauseTimer();   //暂停计时器
         }
     })
 
-    refreshSubjects();
-    refreshTodayClass();
-    refreshTodayActivities();
-    refreshSchedul();
-    fillCurriculumSelect();
+    initPage();
 
     //触发所有选择地点下拉框的onchange事件，该事件将三个地点全部加载好
     $('.district').trigger('onchange');
 })
 
-//切换计时器速度
+initPage = function(){
+
+    if(isPausing == false){
+        startTimer();
+    }
+    setSwitcherHTML();
+    setTimeHTML();
+    refreshSubjects();
+    refreshTodayClass();
+    refreshTodayActivities();
+    refreshSchedul();
+    refreshClocks()
+    refreshActivities()
+    fillCurriculumSelect();
+}
+
+setSwitcherHTML = function(){
+    var switcher = $('#switchTimeRatioBtn');
+
+    if(multi_speed == 1){
+        switcher.html('一倍速');
+    }
+    else if(multi_speed == 2){
+        switcher.html('二倍速');
+    }
+    else if(multi_speed == 5){
+        switcher.html('五倍速');
+    }
+    else if(multi_speed == 10){
+        switcher.html('十倍速');
+    }
+}
+
+setTimeHTML = function(){
+    $('#timestamp li:eq(4)').html(toTimeString(hour, minute));
+    $('#timestamp li:eq(3)').html(week[(dayOfWeek)]);
+    $('#timestamp li:eq(2)').html(day+1);
+    $('#timestamp li:eq(1)').html(month+1);
+    $('#timestamp li:eq(0)').html(year);
+}
+
+//切换计时器倍速
 switchTimeRatio = function(){
     var switcher = $('#switchTimeRatioBtn');
-    var ratio;
-    var isPausing = false;
-    if(timer.hasClass('btn-success')){
-        isPausing = true;
-    }
 
-    if(switcher.html() == '一倍速'){
+    if(multi_speed == 1){
         switcher.html('二倍速');
-        ratio = 2;
+        multi_speed = 2;
     }
-    else if(switcher.html() == '二倍速'){
+    else if(multi_speed == 2){
         switcher.html('五倍速');
-        ratio = 5;
+        multi_speed = 5;
     }
-    else if(switcher.html() == '五倍速'){
+    else if(multi_speed == 5){
         switcher.html('十倍速');
-        ratio = 10;
+        multi_speed = 10;
     }
-    else if(switcher.html() == '十倍速'){
+    else if(multi_speed == 10){
         switcher.html('一倍速');
-        ratio = 1;
+        multi_speed = 1;
     }
 
     pauseTimer();
-    millisecondsPerMinute = originMillisecondsPerHour / MinutesPerHour / ratio;
     //若按下切换倍速按钮时，时间处于流动状态，则打开计时器
     if(isPausing == false){
         startTimer();
@@ -145,6 +221,8 @@ switchTimeRatio = function(){
 
 //开始计时器
 startTimer = function(){
+    var millisecondsPerMinute = originMillisecondsPerHour / MinutesPerHour / multi_speed;
+    
     //切换按钮样式
     timer.removeClass('btn-success');
     timer.addClass('btn-danger');
@@ -164,6 +242,8 @@ startTimer = function(){
         deleteExam();
         
     }, millisecondsPerMinute);
+
+    $.get("/api/setController", {controllerStr: JSON.stringify({IsAdmin:isAdmin, IsPausing:isPausing, Multi_speed:multi_speed})})
 }
 //暂停计时器
 pauseTimer = function(){
@@ -173,6 +253,7 @@ pauseTimer = function(){
     timer.html('开始计时');
 
     clearInterval(time);
+    $.get("/api/setController", {controllerStr: JSON.stringify({IsAdmin:isAdmin, IsPausing:isPausing, Multi_speed:multi_speed})})
 }
 
 //设置右下角的时间
@@ -213,15 +294,20 @@ setTime = function(){
 //设置闹钟信息
 setClock = function(){
     //当新的一周开始时，将当前所有闹钟的overTime设置为false
-    if(dayOfWeek == 0 && hour == 0){
-        $.each(clock, function(index, value){
-            value.OverTime = false;
-        });
-    }
+    // if(dayOfWeek == 0 && hour == 0){
+    //     $.each(clock, function(index, value){
+    //         value.OverTime = false;
+    //     });
+    // }
 
-    //当闹钟响了以后弹窗并删除闹钟
+    //当闹钟响了以后弹窗，可能删除闹钟
     $.each(clock, function(index, value){
-        if(value && (value.OverTime == false) && (value.Week <= dayOfWeek) && (value.Hour <= hour)){
+        //若是每天一次的闹钟到时间
+        if(value && (value.ClockCycle == '每天一次') && (value.Hour == hour) && (value.Minute == minute)){
+            clockTimeUp(value);
+        }
+        //若每仅响一次或每周一次的闹钟到时间
+        if(value && (value.ClockCycle == '仅响一次' || value.ClockCycle == '每周一次') && (value.Week == dayOfWeek) && (value.Hour == hour) && (value.Minute == minute)){
             clockTimeUp(value);
         }
     });
@@ -298,7 +384,7 @@ refreshTodayActivities = function(){
 
     $.each(activity, function(index, value){
         if(value.Week == dayOfWeek
-            && 60*value.Hour + value.Minute >= 60*hour + minute){
+            && (60*value.Hour + value.Minute >= 60*hour + minute)){
                 str += '<ul class="list-group activity-card">';
                 str += '<li class="list-group-item active"> &nbsp;';
                 str += '<span class="pull-left">[ ';
@@ -392,6 +478,8 @@ showSpecificCurriculum = function(name){
     //将弹窗标题设置为该科目名称
     $('#specificCurriculum .modal-title').html(name);
 
+    currentPageCurriculumName = name;
+
     refreshSpecClassAndExam(name);
     refreshSpecHomework(name);
     refreshSpecUploadHomework(name);
@@ -401,7 +489,7 @@ showSpecificCurriculum = function(name){
 }
 
 //刷新该科目的课程和考试信息
-refreshSpecClassAndExam = function(name){
+refreshSpecClassAndExam = function(){
     var classStr = '';
     var examStr = '';
     
@@ -414,7 +502,7 @@ refreshSpecClassAndExam = function(name){
 
     //提取该特定科目的共有信息
     var specificCurriculum = curriculumInfo.find(function(value){
-        return value.Name == name;
+        return value.Name == currentPageCurriculumName;
     })
 
     //提取该科目每节课的信息
@@ -451,7 +539,7 @@ refreshSpecClassAndExam = function(name){
 }
 
 //刷新该科目的已布置作业
-refreshSpecHomework = function(name){
+refreshSpecHomework = function(){
     var homeworkStr = '';
 
     // if(isAdmin == true){
@@ -463,7 +551,7 @@ refreshSpecHomework = function(name){
     
     //提取该特定科目的共有信息
     var specificCurriculum = curriculumInfo.find(function(value){
-        return value.Name == name;
+        return value.Name == currentPageCurriculumName;
     });
 
     $.each(specificCurriculum.Homework, function(index, thisHomework){
@@ -480,7 +568,7 @@ refreshSpecHomework = function(name){
         }
 
             temp += '<span class="pull-left title">' + thisHomework.Title + '</span>'
-                  + '<span class="pull-right date">' + thisHomework.Year + ' / ' + (thisHomework.Month+1) + ' / ' + (thisHomework.Day+1) + '</span>'
+                  + '<span class="pull-right date">' + thisHomework.Year + ' / ' + (thisHomework.Month+1) + ' / ' + (thisHomework.Day+1) + ' ' + toTimeString(thisHomework.Hour, thisHomework.Minute) + '</span>'
                   + '</a></h4></div>'
                   + '<div id="homework_' + index + '" class="panel-collapse collapse">'
                   + '<div class="panel-body Description">'
@@ -498,27 +586,89 @@ refreshSpecHomework = function(name){
 }
 
 //刷新该科目的已上传作业
-refreshSpecUploadHomework = function(name){
+refreshSpecUploadHomework = function(){
     var uploadHomeworkStr = '';
 
     //提取该特定科目的共有信息
     var specificCurriculum = curriculumInfo.find(function(value){
-        return value.Name == name;
+        return value.Name == currentPageCurriculumName;
     })
 
-    if(uploadHomeworkStr == ''){
+    $.each(specificCurriculum.Homework, function(index_1, thisHomework){
+        
+        if(thisHomework.HasFinished == false){
+            return;
+        }
+
+        var temp = '<div class="panel panel-default">'
+                 + '<div class="panel-heading">'
+                 + '<h4 class="panel-title">'
+                 + '<a data-toggle="collapse" data-parent="#homeworks" href="#uploadedHomework_' + index_1 + '">&nbsp;'
+                 + '<span class="pull-left title">' + thisHomework.Title + '</span>'
+                 + '</a></h4></div>'
+                 + '<div id="uploadedHomework_' + index_1 + '" class="panel-collapse collapse">'
+                 + '<div class="panel-body">';
+
+        var foo = '';
+
+        $.each(thisHomework.Uploaded, function(index_2, thisUploaded){
+            foo = '<div class="media">'
+                + '<div class="media-left media-top">'
+                + '<span class="glyphicon glyphicon-bookmark" style="color: red;"></span></div>'
+                + '<div class="media-body">'
+                + '<h4 class="pull-right" style="color: grey; font-size: small;">version_' + (thisUploaded.Version) + '<br>'
+                + thisUploaded.Year + ' / ' + (thisUploaded.Month+1) + ' / ' + (thisUploaded.Day+1) + ' ' + toTimeString(thisUploaded.Hour, thisUploaded.Minute) + '</h4>'
+                + '<h4 class="media-heading">' + thisUploaded.Name + '</h4>'
+                + '<p>' + thisUploaded.Remark + '</p></div></div>'
+                + foo;
+        })
+
+        temp = temp + foo;
+
+        temp += '</div></div></div>';
+        
+        uploadHomeworkStr = temp + uploadHomeworkStr;
+    })
+    
+    uploadHomeworkStr = '<div class="panel-group" id="homeworks">' + uploadHomeworkStr + '</div>';
+
+    if(uploadHomeworkStr == '<div class="panel-group" id="homeworks"></div>'){
         uploadHomeworkStr = '<p>没有已上传的作业哦！</p>';
     }
     $('#uploadHomeworkContainer').html(uploadHomeworkStr);
 }
 
 //刷新该科目的已上传资料
-refreshSpecUploadResource = function(name){
-    var uploadResourceStr = '';
+refreshSpecUploadResource = function(){
+    // var uploadResourceStr = '';
     
+    // //提取该特定科目的共有信息
+    // var specificCurriculum = curriculumInfo.find(function(value){
+    //     return value.Name == currentPageCurriculumName;
+    // })
+
+    // if(uploadResourceStr == ''){
+    //     uploadResourceStr = '<p>没有已上传的资料哦！</p>';
+    // }
+    // $('#uploadResourceContainer').html(uploadResourceStr);
+    var uploadResourceStr = '';
+
     //提取该特定科目的共有信息
     var specificCurriculum = curriculumInfo.find(function(value){
-        return value.Name == name;
+        return value.Name == currentPageCurriculumName;
+    })
+
+    $.each(specificCurriculum.Resource, function(index_1, thisResource){
+
+        uploadResourceStr = '<div class="media">'
+                        + '<div class="media-left media-top">'
+                        + '<span class="glyphicon glyphicon-bookmark" style="color: red;"></span></div>'
+                        + '<div class="media-body">'
+                        + '<h4 class="pull-right" style="color: grey; font-size: small;">'
+                        + thisResource.Year + ' / ' + (thisResource.Month+1) + ' / ' + (thisResource.Day+1) + ' ' + toTimeString(thisResource.Hour, thisResource.Minute) + '</h4>'
+                        + '<h4 class="media-heading">' + thisResource.Name + '</h4>'
+                        + '<p>' + thisResource.Remark + '</p></div></div>'
+                        + uploadResourceStr;
     })
 
     if(uploadResourceStr == ''){
@@ -530,15 +680,16 @@ refreshSpecUploadResource = function(name){
 //按下确认添加闹钟按钮，向clock数组中存入新建闹钟数据
 addClock = function(){
     var newClock = {
-        Week: $('#addBellModal .week').val(),
-        Hour: $('#addBellModal .hour').val(),
-        Minute: $('#addBellModal .minute').val(),
+        Week: parseInt($('#addBellModal .week').val()),
+        Hour: parseInt($('#addBellModal .hour').val()),
+        Minute: parseInt($('#addBellModal .minute').val()),
         Remark: $('#addBellModal .remark').val(),   //备注
-        OverTime: false //若该时间小于当前时间则为true，反之为false
+        ClockCycle: $('#addBellModal input:radio:checked').val(),
+        // OverTime: false //若该时间小于当前时间则为true，反之为false
     };
 
-    newClock.OverTime = 1440*newClock.Week + 60*newClock.Hour + newClock.Minute
-                      < 1440*dayOfWeek + 60*hour + minute;
+    // newClock.OverTime = 1440*newClock.Week + 60*newClock.Hour + newClock.Minute
+    //                   < 1440*dayOfWeek + 60*hour + minute;
 
     clock.push(newClock);
     //对闹钟按时间顺序进行排序
@@ -547,6 +698,18 @@ addClock = function(){
     })
 
     refreshClocks();
+
+    $.ajaxSettings.async = false;
+    $.get("/api/setTime", {TimeStr:JSON.stringify({
+        Year: year,
+        Month: month,
+        Day: day,
+        Week: dayOfWeek,
+        Hour: hour,
+        Minute: minute
+    })})////
+    $.ajaxSettings.async = true;
+    $.get("/api/addClock", {ClockStr:JSON.stringify(newClock)});////
 }
 
 //按下确认添加活动按钮，像activity数组中存入新建活动数据
@@ -555,9 +718,9 @@ addActivity = function(){
     //当活动内容填写了的情况下
     if($('#addActivityModal .activity').val()){
         var newActivity = {
-            Week: $('#addActivityModal .week').val(),
-            Hour: $('#addActivityModal .hour').val(),
-            Minute: $('#addActivityModal .minute').val(),
+            Week: parseInt($('#addActivityModal .week').val()),
+            Hour: parseInt($('#addActivityModal .hour').val()),
+            Minute: parseInt($('#addActivityModal .minute').val()),
             District: $('#addActivityModal .district').val(),
             Spot: $('#addActivityModal .spot').val(),
             Classroom: $('#addActivityModal .classroom').val(),
@@ -574,6 +737,18 @@ addActivity = function(){
         $('#addActivityModal .modal-footer span strong').html('');
         
         $('#addActivityModal').modal('hide');
+
+        $.ajaxSettings.async = false;
+        $.get("/api/setTime", {TimeStr:JSON.stringify({
+            Year: year,
+            Month: month,
+            Day: day,
+            Week: dayOfWeek,
+            Hour: hour,
+            Minute: minute
+        })})////
+        $.ajaxSettings.async = true;
+        $.get("/api/addActivity", {ActivityStr:JSON.stringify(newActivity)});////
     }
     else{
         $('#addActivityModal .modal-footer span strong').html('还没有填写活动内容！');
@@ -588,9 +763,12 @@ refreshClocks = function(){
         str += '<div class="alert alert-info">';
         str += '<a href="#" class="close" data-dismiss="alert" onclick="deleteClock(clock[$(this).parent().index()])">&times;</a>';
         str += '<strong>';
-        str += week[value.Week] + '&nbsp;&nbsp;';
+        if(value.ClockCycle != '每天一次'){
+            str += week[value.Week] + '&nbsp;&nbsp;';
+        }
         str += toTimeString(value.Hour, value.Minute); 
-        str += '</strong>&nbsp;&nbsp;丨&nbsp;&nbsp;';
+        str += '&nbsp;&nbsp;丨&nbsp;&nbsp;';
+        str += '<span class="pull-right" style="margin-right: 20px">' + value.ClockCycle + '</span></strong>'
         str += value.Remark;
         str += '</div>';
     })
@@ -630,12 +808,37 @@ refreshActivities = function(){
 
 //删除该闹钟
 deleteClock = function(obj){
+    $.ajaxSettings.async = false;
+    $.get("/api/setTime", {Time:JSON.stringify({
+        Year: year,
+        Month: month,
+        Day: day,
+        Week: dayOfWeek,
+        Hour: hour,
+        Minute: minute
+    })})////
+    $.ajaxSettings.async = true;
+    $.get("/api/deleteClock", {ClockStr:JSON.stringify(obj)});
+    console.log(obj)
+
     clock.splice($.inArray(obj, clock), 1);
     refreshClocks();
 }
 
 //删除该活动
 deleteActivity = function(obj){
+    $.ajaxSettings.async = false;
+    $.get("/api/setTime", {Time:JSON.stringify({
+        Year: year,
+        Month: month,
+        Day: day,
+        Week: dayOfWeek,
+        Hour: hour,
+        Minute: minute
+    })})////
+    $.ajaxSettings.async = true;
+    $.get("/api/deleteActivity", {ActivityStr:JSON.stringify(obj)});
+
     activity.splice($.inArray(obj, activity), 1);
     refreshActivities();
 }
@@ -654,7 +857,9 @@ clockTimeUp = function(obj){
     $('#ringBellModal .modal-body').html(str);
     $('#ringBellModal').modal('show');
 
-    deleteClock(obj);
+    if(obj.ClockCycle == '仅响一次'){
+        deleteClock(obj);
+    }
 }
 
 //输入时与分，返回时刻字符串（例如输入17、35，返回"17:35"）
@@ -713,6 +918,17 @@ assignExam = function(){
     else{
         errorWarning.html('');
 
+        $.ajaxSettings.async = false;
+        $.get("/api/setTime", {TimeStr:JSON.stringify({
+            Year: year,
+            Month: month,
+            Day: day,
+            Week: dayOfWeek,
+            Hour: hour,
+            Minute: minute
+        })})////
+        $.ajaxSettings.async = true;
+        
         for(var i = examStartOrder; i <= examEndOrder; i++){
             var newExam = {};
             newExam.Week = parseInt(examWeek);
@@ -722,6 +938,8 @@ assignExam = function(){
             newExam.Spot = examSpot;
             newExam.Classroom = examClassroom;
             newExamGroup.push(newExam);
+
+            $.get("/api/assignExam", {NameStr:curriculumName, ExamStr:JSON.stringify(newExam)});////
         }
     
         $.each(newExamGroup, function(index, newExam){
@@ -733,6 +951,7 @@ assignExam = function(){
         refreshSchedul();
     
         $('#assignExamModal').modal('hide');
+
     }
 }
 
@@ -742,10 +961,22 @@ deleteExam = function(){
         for(var i = curriculumInSchedul.Info.length-1; i >= 0; --i){
             var obj = curriculumInSchedul.Info[i];
             if(obj.Week == dayOfWeek && obj.IsExam == true 
-                && 60*schedulTimeSlot[obj.Order].EndHour + schedulTimeSlot[obj.Order].EndMinute <= 60*hour + minute){
+                && 60*schedulTimeSlot[obj.Order].EndHour + schedulTimeSlot[obj.Order].EndMinute == 60*hour + minute){
 
                 curriculumInSchedul.Info.splice(i, 1);
                 refreshSchedul();
+
+                $.ajaxSettings.async = false;
+                $.get("/api/setTime", {TimeStr:JSON.stringify({
+                    Year: year,
+                    Month: month,
+                    Day: day,
+                    Week: dayOfWeek,
+                    Hour: hour,
+                    Minute: minute
+                })})////
+                $.ajaxSettings.async = true;
+                $.get("/api/deleteExam", {NameStr: curriculumInSchedul.Name, ExamStr: JSON.stringify(obj)});////
             }
         }
     })
@@ -804,11 +1035,25 @@ changeClassInfo = function(){
         errorWarning.html('目的时间段已有课程！');
     }
     else{
+        var oldClass = deleteCurriculumInSchedul.Info[deleteIndex];
         deleteCurriculumInSchedul.Info.splice(deleteIndex, 1);
         deleteCurriculumInSchedul.Info.push(newClass)
         errorWarning.html('');
         refreshSchedul();
         $('#changeClassInfoModal').modal('hide');
+
+        $.ajaxSettings.async = false;
+        $.get("/api/setTime", {TimeStr:JSON.stringify({
+            Year: year,
+            Month: month,
+            Day: day,
+            Week: dayOfWeek,
+            Hour: hour,
+            Minute: minute
+        })})////
+        $.ajaxSettings.async = true;
+        $.get("/api/changeClassInfo", {NameStr: curriculumName, 
+                                        NewClassStr: JSON.stringify(newClass), OldClassStr: JSON.stringify(oldClass)});
     }
 }
 
@@ -909,17 +1154,233 @@ assignHomework = function(){
             Year: year,
             Month: month,
             Day: day,
-            HasFinished: false
+            Hour: hour,
+            Minute: minute,
+            HasFinished: false,
+            Uploaded: []
         };
 
         specCurriculumHomework.push(newHomework);
+
+        fillHomeworkSelect(curriculumName);
         
         $('#assignHomeworkModal').modal('hide');
+
+        $.ajaxSettings.async = false;
+        $.get("/api/setTime", {TimeStr:JSON.stringify({
+            Year: year,
+            Month: month,
+            Day: day,
+            Week: dayOfWeek,
+            Hour: hour,
+            Minute: minute
+        })})////
+        $.ajaxSettings.async = true;
+
+        $.get("/api/assignHomework", {NameStr: curriculumName, HomeworkStr: JSON.stringify(newHomework)});
     }
     else{
         errorWarning.html('作业标题或作业描述未填写！');
     }
 }
+
+//填满选择作业的选择栏
+fillHomeworkSelect = function(){
+    var str = '';
+    var thisHomework = curriculumInfo.find(function(value){
+        return value.Name == currentPageCurriculumName;
+    }).Homework;
+    
+    $.each(thisHomework, function(index, value){
+        str += '<option value="' + value.Title + '">' + value.Title + '</option>';
+    })
+
+    $('.homeworkSelect').html(str);
+}
+
+uploadHomework = function(){ //在这里进行ajax 文件上传 作业的信息
+
+    var homeworkSelected = $('#uploadHomeworkModal .homeworkSelect').val()
+    var uploadHomeworkRemark = $('#uploadHomeworkModal .uploadHomeworkRemark').val();
+    var errorWarning = $('#uploadHomeworkModal .modal-footer span strong');
+
+    var $file1 = $("input[name='uploadHomeworkFile']").val();//用户文件内容(文件)
+    var fileName1 = $file1.substring($file1.lastIndexOf(".") + 1).toLowerCase();
+
+    var homework = curriculumInfo.find(function(value){
+        return value.Name == currentPageCurriculumName;
+    }).Homework;
+
+    var specHomework = homework.find(function(value){
+        return value.Title == homeworkSelected;
+    });
+    specHomework.HasFinished = true;
+
+    if(!homeworkSelected){
+        errorWarning.html('请选择要提交哪一次作业！');
+        return false;
+    }
+    // 判断文件是否为空 
+    else if ($file1 == "") {
+        errorWarning.html('请选择文件！');
+        return false;
+    }
+    //判断文件类型,我这里根据业务需求判断的是word/bmp文件
+    else if(fileName1 != "doc" && fileName1 !="docx" && fileName1 != "bmp"){
+        errorWarning.html('请选择word或bmp文件!');			
+        return false;
+    }
+    else{
+        errorWarning.html('');
+    }
+    
+
+    var formData = new FormData();//这里需要实例化一个FormData来进行文件上传
+    formData.append('CurriculumName',currentPageCurriculumName);
+    formData.append('Title',homeworkSelected);
+    formData.append('File',$("#uploadHomeworkFile")[0].files[0]);
+    formData.append('HomeworkName',$file1.substring($file1.lastIndexOf("\\") + 1).toLowerCase());
+    formData.append('Remark',uploadHomeworkRemark);
+    formData.append('Year',year);
+    formData.append('Month',month);
+    formData.append('Day',day);
+    formData.append('Hour',hour);
+    formData.append('Minute',minute);
+    formData.append('Version',specHomework.Uploaded.length + 1);
+    
+    $.ajaxSettings.async = false;
+    $.get("/api/setTime", {TimeStr:JSON.stringify({
+        Year: year,
+        Month: month,
+        Day: day,
+        Week: dayOfWeek,
+        Hour: hour,
+        Minute: minute
+    })})////
+    $.ajaxSettings.async = true;
+
+    $.ajax({
+        type : "post",
+        url : "/api/uploadHomeworkFile",
+        data : formData,
+        processData : false,
+        contentType : false,
+        success : function(data){
+            if (data=="error") {
+                alert("文件提交失败!");
+            }else{
+            $("input[name='userUrl']").val(data);
+            alert("文件上传成功!");
+        }}
+    });
+
+    var newUpload = {
+        Name: $file1.substring($file1.lastIndexOf("\\") + 1).toLowerCase(),
+        Remark: uploadHomeworkRemark,
+        Year: year,
+        Month: month,
+        Day: day,
+        Hour: hour,
+        Minute: minute,
+        Version: specHomework.Uploaded.length + 1
+    }
+
+    specHomework.Uploaded.push(newUpload);
+
+    specHomework.Uploaded.sort(function(a,b){
+        return a.Version - b.Version;
+    })
+    
+    refreshSpecHomework();
+    refreshSpecUploadHomework();
+
+    $('#uploadHomeworkModal').modal('hide');
+}
+
+uploadResource = function(){ //在这里进行ajax 文件上传 作业的信息
+
+    // var homeworkSelected = $('#uploadHomeworkModal .homeworkSelect').val()
+    var uploadResourceRemark = $('#uploadResourceModal .uploadResourceRemark').val();
+    var errorWarning = $('#uploadResourceModal .modal-footer span strong');
+
+    var $file1 = $("input[name='uploadResourceFile']").val();//用户文件内容(文件)
+    var fileName1 = $file1.substring($file1.lastIndexOf(".") + 1).toLowerCase();
+
+    // 判断文件是否为空 
+    if ($file1 == "") {
+        errorWarning.html('请选择文件！');
+        return false;
+    }
+    //判断文件类型,我这里根据业务需求判断的是word/bmp文件
+    else if(fileName1 != "doc" && fileName1 !="docx" && fileName1 != "bmp"){
+        errorWarning.html('请选择word或bmp文件!');			
+        return false;
+    }
+    else{
+        errorWarning.html('');
+    }
+
+    var formData = new FormData();//这里需要实例化一个FormData来进行文件上传
+    formData.append('CurriculumName',currentPageCurriculumName);
+    formData.append('File',$("#uploadResourceFile")[0].files[0]);
+    formData.append('ResourceName',$file1.substring($file1.lastIndexOf("\\") + 1).toLowerCase());
+    formData.append('Remark',uploadResourceRemark);
+    formData.append('Year',year);
+    formData.append('Month',month);
+    formData.append('Day',day);
+    formData.append('Hour',hour);
+    formData.append('Minute',minute);
+    
+    $.ajaxSettings.async = false;
+    $.get("/api/setTime", {TimeStr:JSON.stringify({
+        Year: year,
+        Month: month,
+        Day: day,
+        Week: dayOfWeek,
+        Hour: hour,
+        Minute: minute
+    })})////
+    $.ajaxSettings.async = true;
+
+    $.ajax({
+        type : "post",
+        url : "/api/uploadResourceFile",
+        data : formData,
+        processData : false,
+        contentType : false,
+        success : function(data){
+            if (data=="error") {
+                alert("文件提交失败!");
+            }else{
+            $("input[name='userUrl']").val(data);
+            alert("文件上传成功!");
+        }}
+    });
+
+    var resource = curriculumInfo.find(function(value){
+        return value.Name == currentPageCurriculumName;
+    }).Resource;
+
+    var newUpload = {
+        Name: $file1.substring($file1.lastIndexOf("\\") + 1).toLowerCase(),
+        Remark: uploadResourceRemark,
+        Year: year,
+        Month: month,
+        Day: day,
+        Hour: hour,
+        Minute: minute
+    }
+
+    resource.push(newUpload);
+    
+    refreshSpecUploadResource();
+
+    $('#uploadResourceModal').modal('hide');
+}
+
+
+
+//
 
 // clock[
 //     {
