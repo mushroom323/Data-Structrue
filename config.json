@@ -98,56 +98,65 @@
             "name": "计算机网络",
             "instructor": "高小明",
             "group": "12121212",
-            "homework": []
+            "homework": [],
+            "resource": []
         },
     
         {
             "name": "计算机组成原理",
             "instructor": "易小芳",
             "group": "13131313",
-            "homework": []
+            "homework": [],
+            "resource": []
         },
         {
             "name": "数字逻辑课程设计",
             "instructor": "杨小刚",
             "group": "14141414",
-            "homework": []
+            "homework": [],
+            "resource": []
         },
         {
             "name": "毛概",
             "instructor": "宋小白",
             "group": "15151515",
-            "homework": []
+            "homework": [],
+            "resource": []
         },
         {
             "name": "数据结构课程设计",
             "instructor": "杨小凡",
             "group": "16161616",
-            "homework": []
+            "homework": [],
+            "resource": []
         },
         {
             "name": "体育基础",
             "instructor": "贾小美",
             "group": "17171717",
-            "homework": []
+            "homework": [],
+            "resource": []
         },
         {
             "name": "形势与政策",
             "instructor": "马小丽",
             "group": "18181818",
-            "homework": []
+            "homework": [],
+            "resource": []
         },
         {
             "name": "形式语言与自动机",
             "instructor": "杨小婉",
             "group": "19191919",
-            "homework": []
+            "homework": [],
+            "resource": []
         },
         {
             "name": "Java程序设计",
             "instructor": "吴小高",
             "group": "10101010",
-            "homework": []
+            "homework": [],
+            "resource": []
         }
     ]
 }

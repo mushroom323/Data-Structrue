@@ -1,12 +1,30 @@
 package main
+
 import (
-    "sync"
+	"sync"
 )
-var port         int
-var scheList     []Schedule_atom
+
+var port int
+var scheList []Schedule_atom
 var scheSlotList []ScheduleTimeSlot_atom
-var curriList    []Curriculums_atom
-var wg           sync.WaitGroup
+var curriList []Curriculums_atom
+var wg sync.WaitGroup
+var nowTime = Time{
+	Year:   2021,
+	Month:  0,
+	Day:    3,
+	Week:   0,
+	Hour:   0,
+	Minute: 0,
+}
+var clockList ClockList
+var coordiList [2]Coordinate
+var activityList ActivityList
+var controller = Controller{
+	IsAdmin:     false,
+	IsPausing:   true,
+	Multi_speed: 1,
+}
 
 func main() {
 	InitLog()
