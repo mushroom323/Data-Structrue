@@ -1,12 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"strconv"
-	"encoding/json"
 )
 
 func ServerTest() {
@@ -41,10 +41,17 @@ func APIHandler(w http.ResponseWriter, req *http.Request) {
 	case "/api/getScheduleTimeSlot": //获取课程时间表信息
 		data, _ := json.Marshal(scheSlotList)
 		w.Write(data)
-	case "/api/upLoad": //上传文件api
+	case "/api/getActivityType": //获取活动种类
+		data, _ := json.Marshal(activityType)
+		w.Write(data)
+	case "/api/upLoadHomework": //上传作业文件
 		file, header, _ := req.FormFile("upfile")
 		b, _ := ioutil.ReadAll(file)
-		upload(b, header.Filename)
+		uploadHomework(b, header.Filename)
+	case "/api/upLoadResource": //上传资料文件
+		file, header, _ := req.FormFile("upfile")
+		b, _ := ioutil.ReadAll(file)
+		uploadResource(b, header.Filename)
 	case "/api/downLoad": //下载文件api
 		fn := req.FormValue("filename")
 		header := w.Header()
@@ -69,73 +76,96 @@ func APIHandler(w http.ResponseWriter, req *http.Request) {
 		w.Write(data)
 	case "/api/setController": //设置校区信息
 		controllerStr := query.Get("controllerStr")
-		err = json.Unmarshal([]byte(controllerStr),&controller)
-		Log(fmt.Sprintln("接收控制信息：是否为管理员：",controller.IsAdmin,"，是否暂停时间：",controller.IsPausing,",时间倍速：",controller.Multi_speed))
+		err = json.Unmarshal([]byte(controllerStr), &controller)
+		Log(fmt.Sprintln("接收控制信息：是否为管理员：", controller.IsAdmin, "，是否暂停时间：", controller.IsPausing, ",时间倍速：", controller.Multi_speed))
 	case "/api/setTime": //设置系统时间信息
 		TimeStr := query.Get("TimeStr")
-		err = json.Unmarshal([]byte(TimeStr),&nowTime)
+		err = json.Unmarshal([]byte(TimeStr), &nowTime)
 	case "/api/addClock": //添加闹钟
 		ClockStr := query.Get("ClockStr")
 		var newClock Clock
-		err = json.Unmarshal([]byte(ClockStr),&newClock)
-		clockList = append(clockList, newClock)
-		Log(fmt.Sprintln("新增闹钟，时间:",newClock.Week,"-",newClock.Hour,"-",newClock.Minute,",备注：",newClock.Remark,",重复次数:",newClock.ClockCycle))
+		err = json.Unmarshal([]byte(ClockStr), &newClock)
+		addClock(newClock)
 	case "/api/addActivity": //添加活动
 		ActivityStr := query.Get("ActivityStr")
 		var newActivity Activity
-		err = json.Unmarshal([]byte(ActivityStr),&newActivity)
-		activityList = append(activityList, newActivity)
-		Log(fmt.Sprintln("新增活动，时间:",newActivity.Week,"-",newActivity.Hour,"-",newActivity.Minute,"，校区：",newActivity.District,"，地点：",newActivity.Spot,",教室号:",newActivity.Classroom,",备注:",newActivity.Activity,",活动类型:",newActivity.ActivityType))
+		err = json.Unmarshal([]byte(ActivityStr), &newActivity)
+		activityList = addActivity(newActivity, activityList)
+		Log(fmt.Sprintln("新增活动，时间: 星期", (newActivity.Week + 1), "-", newActivity.Hour, "时 -", newActivity.Minute, "分，校区：", newActivity.District, "，地点：", newActivity.Spot, ",教室号:", newActivity.Classroom, ",备注:", newActivity.Activity, ",活动类型:", newActivity.ActivityType, ",活动内容:", newActivity.ActivityContent))
 	case "/api/deleteClock": //删除闹钟
 		ClockStr := query.Get("ClockStr")
 		var deClock Clock
-		err = json.Unmarshal([]byte(ClockStr),&deClock)
+		err = json.Unmarshal([]byte(ClockStr), &deClock)
 		deleteClock(deClock)
 	case "/api/deleteActivity": //删除活动
 		ActivityStr := query.Get("ActivityStr")
 		var deActivity Activity
-		err = json.Unmarshal([]byte(ActivityStr),&deActivity)
+		err = json.Unmarshal([]byte(ActivityStr), &deActivity)
 		deleteActivity(deActivity)
 	case "/api/assignExam": //新增考试
 		ExamStr := query.Get("ExamStr")
 		curriName := query.Get("NameStr")
 		var newExam Schedule_Info
-		err = json.Unmarshal([]byte(ExamStr),&newExam)
-		assignExam(newExam,curriName)
+		err = json.Unmarshal([]byte(ExamStr), &newExam)
+		assignExam(newExam, curriName)
 	case "/api/deleteExam": //删除考试
 		ExamStr := query.Get("ExamStr")
 		curriName := query.Get("NameStr")
 		var deExam Schedule_Info
-		err = json.Unmarshal([]byte(ExamStr),&deExam)
-		deleteExam(deExam,curriName)
+		err = json.Unmarshal([]byte(ExamStr), &deExam)
+		deleteExam(deExam, curriName)
 	case "/api/changeClassInfo": //变更课程信息
 		NameStr := query.Get("NameStr")
 		NewClassStr := query.Get("NewClassStr")
 		OldClassStr := query.Get("OldClassStr")
 		var NewClass Schedule_Info
 		var OldClass Schedule_Info
-		err = json.Unmarshal([]byte(NewClassStr),&NewClass)
-		err = json.Unmarshal([]byte(OldClassStr),&OldClass)
-		changeClassInfo(NameStr,NewClass,OldClass)
+		err = json.Unmarshal([]byte(NewClassStr), &NewClass)
+		err = json.Unmarshal([]byte(OldClassStr), &OldClass)
+		changeClassInfo(NameStr, NewClass, OldClass)
 	case "/api/assignHomework": //删除考试
 		HomeworkStr := query.Get("HomeworkStr")
 		NameStr := query.Get("NameStr")
 		var NewHomework Homework
-		err = json.Unmarshal([]byte(HomeworkStr),&NewHomework)
-		assignHomework(NameStr,NewHomework)
+		err = json.Unmarshal([]byte(HomeworkStr), &NewHomework)
+		assignHomework(NameStr, NewHomework)
 	case "/api/uploadHomeworkFile": //删除考试
 		TitleStr := query.Get("TitleStr")
 		curriName := query.Get("CurriculumNameStr")
 		upFileStr := query.Get("UpFileStr")
 		var upFile Uploaded
-		err = json.Unmarshal([]byte(upFileStr),&upFile)
-		uploadHomeworkFile(upFile,curriName,TitleStr)
+		err = json.Unmarshal([]byte(upFileStr), &upFile)
+		uploadHomeworkFile(upFile, curriName, TitleStr)
 	case "/api/uploadResourceFile": //删除考试
 		curriName := query.Get("CurriculumNameStr")
 		newResourceStr := query.Get("ResourceStr")
 		var newResource Resource
-		err = json.Unmarshal([]byte(newResourceStr),&newResource)
-		uploadResourceFile(newResource,curriName)
+		err = json.Unmarshal([]byte(newResourceStr), &newResource)
+		uploadResourceFile(newResource, curriName)
+	case "/api/searchCurriculum": //搜索课程
+		Text := query.Get("Text")
+		result := searchCurriculum(Text)
+		data, _ := json.Marshal(result)
+		w.Write(data)
+	case "/api/searchHomework": //搜索作业
+		Text := query.Get("Text")
+		CurriName := query.Get("CurriculumName")
+		result := searchHomework(Text, CurriName)
+		data, _ := json.Marshal(result)
+		w.Write(data)
+	case "/api/searchResource": //搜索资料
+		Text := query.Get("Text")
+		CurriName := query.Get("CurriculumName")
+		result := searchResource(Text, CurriName)
+		data, _ := json.Marshal(result)
+		w.Write(data)
+	case "/api/searchActivity": //搜索活动
+		Text := query.Get("Text")
+		typeName := query.Get("Type")
+		Content := query.Get("Content")
+		result := searchActivity(Text, typeName, Content)
+		data, _ := json.Marshal(result)
+		w.Write(data)
 	case "/api/getTransInfo":
 		//TODO 获取路径信息
 		// data, _ := json.Marshal(transportList)

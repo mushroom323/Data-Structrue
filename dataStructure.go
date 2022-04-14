@@ -45,7 +45,7 @@ type Uploaded struct {
 	Day          int
 	Hour         int
 	Minute       int
-	version      int
+	Version      int
 }
 
 /*上传资料文件信息*/
@@ -81,14 +81,15 @@ type Clock struct {
 type ActivityList []Activity
 
 type Activity struct {
-	Week         int
-	Hour         int
-	Minute       int
-	District     string
-	Spot         string
-	Classroom    string
-	Activity     string
-	ActivityType string
+	Week            int
+	Hour            int
+	Minute          int
+	District        string
+	Spot            string
+	Classroom       string
+	Activity        string
+	ActivityType    string
+	ActivityContent string
 }
 
 type Time struct {
@@ -115,4 +116,43 @@ type Coordinate struct {
 		x         float64
 		y         float64
 	}
+}
+
+type ActivityType []ActivityType_atom
+
+type ActivityType_atom struct {
+	Type    string
+	Content []string
+}
+
+/*路径阶段信息*/
+type Section struct {
+	FromID          int
+	ToID            int
+	IsBycle         bool
+	SectionDuration float32 //用时
+	SectionLength   int     //总长度
+}
+
+/* 旅程信息 */
+type Travel struct {
+	ID            string    //旅程编号
+	TotalLength   int       // 总长度
+	TotalDuration float32   // 总时间
+	Path          []Section // 旅行路径
+}
+
+type Location struct {
+	LName string
+	LID   int
+	x     float64
+	y     float64
+}
+
+type Road struct {
+	FromL   int
+	ToL     int
+	IsBycle bool
+	Crowd   float32
+	Length  int
 }

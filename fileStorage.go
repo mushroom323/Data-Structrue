@@ -6,12 +6,19 @@ import (
 	"os"
  )
 
- func upload(file []byte,filename string){
-	 adress := "E:/Data Structrue/file/"+filename
+ func uploadHomework(file []byte,filename string){
+	 adress := "E:/Data Structrue/file/Homework"+filename
 	 ioutil.WriteFile(adress,file,0777)
 	 
 	 Log(fmt.Sprintf("存入文件，文件名为： %s",filename))
  }
+
+ func uploadResource(file []byte,filename string){
+	adress := "E:/Data Structrue/file/Resource"+filename
+	ioutil.WriteFile(adress,file,0777)
+	
+	Log(fmt.Sprintf("存入文件，文件名为： %s",filename))
+}
 
  func download(filename string) []byte{
 	 b,err := ioutil.ReadFile("E:/Data Structrue/file/"+filename)

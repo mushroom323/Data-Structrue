@@ -12,6 +12,8 @@ type ConfigFile struct {
 	Schedule []Schedule_atom
 	ScheduleTimeSlot []ScheduleTimeSlot_atom
 	Curriculums []Curriculums_atom
+	Location []Location
+	Road     []Road
 }
 
 
