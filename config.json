@@ -1,99 +1,363 @@
 {
-    "Port":9090,
-    "schedule":[
+    "Port": 9090,
+    "schedule": [
         {
-            "name":"计算机网络", 
-            "info":[
-                {"week":0, "order":0, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"},
-                {"week":0, "order":1, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"},
-                {"week":2, "order":0, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"},
-                {"week":2, "order":1, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"},
-                {"week":0, "order":11, "isExam":true, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"},
-                {"week":0, "order":12, "isExam":true, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"},
-                {"week":0, "order":13, "isExam":true, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"}
-            ]    
-        },
-        {
-            "name":"计算机组成原理",
-            "info":[
-                {"week":0, "order":2, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S208"},
-                {"week":0, "order":3, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S208"},
-                {"week":0, "order":4, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S208"}
+            "name": "计算机网络",
+            "info": [
+                {
+                    "week": 0,
+                    "order": 0,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河综合教学楼",
+                    "classroom": "N216"
+                },
+                {
+                    "week": 0,
+                    "order": 1,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河综合教学楼",
+                    "classroom": "N216"
+                },
+                {
+                    "week": 2,
+                    "order": 0,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河综合教学楼",
+                    "classroom": "N108"
+                },
+                {
+                    "week": 2,
+                    "order": 1,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河综合教学楼",
+                    "classroom": "N108"
+                },
+                {
+                    "week": 0,
+                    "order": 11,
+                    "isExam": true,
+                    "district": "沙河校区",
+                    "spot": "沙河教学楼S2",
+                    "classroom": "N202"
+                },
+                {
+                    "week": 0,
+                    "order": 12,
+                    "isExam": true,
+                    "district": "沙河校区",
+                    "spot": "沙河教学楼S2",
+                    "classroom": "N202"
+                },
+                {
+                    "week": 0,
+                    "order": 13,
+                    "isExam": true,
+                    "district": "沙河校区",
+                    "spot": "沙河教学楼S2",
+                    "classroom": "N202"
+                }
             ]
         },
         {
-            "name":"数字逻辑课程设计",
-            "info":[
-                {"week":0, "order":5, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N207"},
-                {"week":0, "order":6, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N207"},
-                {"week":0, "order":7, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N207"}
+            "name": "计算机组成原理",
+            "info": [
+                {
+                    "week": 0,
+                    "order": 2,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河教学楼S1",
+                    "classroom": "S208"
+                },
+                {
+                    "week": 0,
+                    "order": 3,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河教学楼S1",
+                    "classroom": "S208"
+                },
+                {
+                    "week": 0,
+                    "order": 4,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河教学楼S1",
+                    "classroom": "S208"
+                }
             ]
         },
         {
-            "name":"毛概",
-            "info":[
-                {"week":1, "order":0, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S308"},
-                {"week":1, "order":1, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S308"},
-                {"week":3, "order":0, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S308"},
-                {"week":3, "order":1, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S308"}
+            "name": "数字逻辑课程设计",
+            "info": [
+                {
+                    "week": 0,
+                    "order": 5,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河综合教学楼",
+                    "classroom": "N216"
+                },
+                {
+                    "week": 0,
+                    "order": 6,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河综合教学楼",
+                    "classroom": "N216"
+                },
+                {
+                    "week": 0,
+                    "order": 7,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河综合教学楼",
+                    "classroom": "N216"
+                }
             ]
         },
         {
-            "name":"数据结构课程设计",
-            "info":[
-                {"week":2, "order":2, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"},
-                {"week":2, "order":3, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N516"}
+            "name": "毛概",
+            "info": [
+                {
+                    "week": 1,
+                    "order": 0,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河教学楼S1",
+                    "classroom": "S308"
+                },
+                {
+                    "week": 1,
+                    "order": 1,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河教学楼S1",
+                    "classroom": "S308"
+                },
+                {
+                    "week": 3,
+                    "order": 0,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河教学楼S1",
+                    "classroom": "S114"
+                },
+                {
+                    "week": 3,
+                    "order": 1,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河教学楼S1",
+                    "classroom": "S114"
+                }
             ]
         },
         {
-            "name":"体育基础",
-            "info":[
-                {"week":3, "order":5, "isExam":false, "district": "沙河校区", "spot": "体育场", "classroom": "体育场"},
-                {"week":3, "order":6, "isExam":false, "district": "沙河校区", "spot": "体育场", "classroom": "体育场"}
+            "name": "数据结构课程设计",
+            "info": [
+                {
+                    "week": 2,
+                    "order": 2,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河教学楼S2",
+                    "classroom": "N416"
+                },
+                {
+                    "week": 2,
+                    "order": 3,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河教学楼S2",
+                    "classroom": "N416"
+                }
             ]
         },
         {
-            "name":"形势与政策",
-            "info":[
-                {"week":4, "order":0, "isExam":false, "district": "沙河校区", "spot": "马克思主义学院", "classroom": "S301"},
-                {"week":4, "order":1, "isExam":false, "district": "沙河校区", "spot": "马克思主义学院", "classroom": "S301"}
+            "name": "体育基础",
+            "info": [
+                {
+                    "week": 3,
+                    "order": 5,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河操场",
+                    "classroom": "操场"
+                },
+                {
+                    "week": 3,
+                    "order": 6,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河操场",
+                    "classroom": "操场"
+                }
             ]
         },
         {
-            "name":"形式语言与自动机",
-            "info":[
-                {"week":3, "order":7, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S510"},
-                {"week":3, "order":8, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "S510"}
+            "name": "形势与政策",
+            "info": [
+                {
+                    "week": 4,
+                    "order": 0,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河综合教学楼",
+                    "classroom": "S310"
+                },
+                {
+                    "week": 4,
+                    "order": 1,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河综合教学楼",
+                    "classroom": "S310"
+                }
             ]
         },
         {
-            "name":"Java程序设计",
-            "info":[
-                {"week":4, "order":5, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N201"},
-                {"week":4, "order":6, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N201"},
-                {"week":4, "order":6, "isExam":false, "district": "沙河校区", "spot": "教学楼", "classroom": "N201"}
+            "name": "形式语言与自动机",
+            "info": [
+                {
+                    "week": 3,
+                    "order": 7,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河综合教学楼",
+                    "classroom": "S510"
+                },
+                {
+                    "week": 3,
+                    "order": 8,
+                    "isExam": false,
+                    "district": "沙河校区",
+                    "spot": "沙河综合教学楼",
+                    "classroom": "S510"
+                }
+            ]
+        },
+        {
+            "name": "Java程序设计",
+            "info": [
+                {
+                    "week": 4,
+                    "order": 5,
+                    "isExam": false,
+                    "district": "西土城校区",
+                    "spot": "西土城教2楼",
+                    "classroom": "N201"
+                },
+                {
+                    "week": 4,
+                    "order": 6,
+                    "isExam": false,
+                    "district": "西土城校区",
+                    "spot": "西土城教2楼",
+                    "classroom": "N201"
+                },
+                {
+                    "week": 4,
+                    "order": 6,
+                    "isExam": false,
+                    "district": "西土城校区",
+                    "spot": "西土城教2楼",
+                    "classroom": "N201"
+                }
             ]
         }
     ],
-
-    "scheduleTimeSlot":[
-        {"startHour":8, "startMinute":0, "endHour":8, "endMinute":45},
-        {"startHour":8, "startMinute":50, "endHour":9, "endMinute":35},
-        {"startHour":9, "startMinute":50, "endHour":10, "endMinute":35},
-        {"startHour":10, "startMinute":40, "endHour":11, "endMinute":25},
-        {"startHour":11, "startMinute":30, "endHour":12, "endMinute":15},
-        {"startHour":13, "startMinute":0, "endHour":13, "endMinute":45},
-        {"startHour":13, "startMinute":50, "endHour":14, "endMinute":35},
-        {"startHour":14, "startMinute":45, "endHour":15, "endMinute":30},
-        {"startHour":15, "startMinute":40, "endHour":16, "endMinute":25},
-        {"startHour":16, "startMinute":35, "endHour":17, "endMinute":20},
-        {"startHour":17, "startMinute":25, "endHour":18, "endMinute":10},
-        {"startHour":18, "startMinute":30, "endHour":19, "endMinute":15},
-        {"startHour":19, "startMinute":20, "endHour":20, "endMinute":5},
-        {"startHour":20, "startMinute":10, "endHour":20, "endMinute":55}
+    "scheduleTimeSlot": [
+        {
+            "startHour": 8,
+            "startMinute": 0,
+            "endHour": 8,
+            "endMinute": 45
+        },
+        {
+            "startHour": 8,
+            "startMinute": 50,
+            "endHour": 9,
+            "endMinute": 35
+        },
+        {
+            "startHour": 9,
+            "startMinute": 50,
+            "endHour": 10,
+            "endMinute": 35
+        },
+        {
+            "startHour": 10,
+            "startMinute": 40,
+            "endHour": 11,
+            "endMinute": 25
+        },
+        {
+            "startHour": 11,
+            "startMinute": 30,
+            "endHour": 12,
+            "endMinute": 15
+        },
+        {
+            "startHour": 13,
+            "startMinute": 0,
+            "endHour": 13,
+            "endMinute": 45
+        },
+        {
+            "startHour": 13,
+            "startMinute": 50,
+            "endHour": 14,
+            "endMinute": 35
+        },
+        {
+            "startHour": 14,
+            "startMinute": 45,
+            "endHour": 15,
+            "endMinute": 30
+        },
+        {
+            "startHour": 15,
+            "startMinute": 40,
+            "endHour": 16,
+            "endMinute": 25
+        },
+        {
+            "startHour": 16,
+            "startMinute": 35,
+            "endHour": 17,
+            "endMinute": 20
+        },
+        {
+            "startHour": 17,
+            "startMinute": 25,
+            "endHour": 18,
+            "endMinute": 10
+        },
+        {
+            "startHour": 18,
+            "startMinute": 30,
+            "endHour": 19,
+            "endMinute": 15
+        },
+        {
+            "startHour": 19,
+            "startMinute": 20,
+            "endHour": 20,
+            "endMinute": 5
+        },
+        {
+            "startHour": 20,
+            "startMinute": 10,
+            "endHour": 20,
+            "endMinute": 55
+        }
     ],
-
-    "curriculums":[
+    "curriculums": [
         {
             "name": "计算机网络",
             "instructor": "高小明",
@@ -101,7 +365,6 @@
             "homework": [],
             "resource": []
         },
-    
         {
             "name": "计算机组成原理",
             "instructor": "易小芳",
@@ -159,7 +422,6 @@
             "resource": []
         }
     ],
-
     "Location": [
         {
             "Lname": "沙河大门",
@@ -366,88 +628,10 @@
             "y": 40.165747
         },
         {
-            "Lname": "西土城快递站",
-            "LID": 45,
-            "x": 116.3637777,
-            "y": 39.97068755
-        },
-        {
             "Lname": "北邮科技大厦",
             "LID": 35,
             "x": 116.3617969,
             "y": 39.97045255
-        },
-        {
-            "Lname": "西土城家属区",
-            "LID": 63,
-            "x": 116.3674652,
-            "y": 39.97029357
-        },
-        {
-            "Lname": "公寓10号楼",
-            "LID": 41,
-            "x": 116.3632342,
-            "y": 39.97011386
-        },
-        {
-            "Lname": "经管楼",
-            "LID": 46,
-            "x": 116.3640247,
-            "y": 39.97031431
-        },
-        {
-            "Lname": "科研大楼",
-            "LID": 57,
-            "x": 116.3657495,
-            "y": 39.97011041
-        },
-        {
-            "Lname": "留学生公寓",
-            "LID": 38,
-            "x": 116.3624257,
-            "y": 39.9696473
-        },
-        {
-            "Lname": "食尚餐厅",
-            "LID": 42,
-            "x": 116.3631938,
-            "y": 39.96967149
-        },
-        {
-            "Lname": "学生活动中心",
-            "LID": 47,
-            "x": 116.3639394,
-            "y": 39.96975098
-        },
-        {
-            "Lname": "电信测试实验室",
-            "LID": 53,
-            "x": 116.3655024,
-            "y": 39.96974061
-        },
-        {
-            "Lname": "漫咖啡",
-            "LID": 48,
-            "x": 116.3641415,
-            "y": 39.96946413
-        },
-        {
-            "Lname": "星光老年之家",
-            "LID": 68,
-            "x": 116.3664861,
-            "y": 39.96936045
-        },
-        {
-            "Lname": "公寓5号楼",
-            "LID": 39,
-            "x": 116.3624347,
-            "y": 39.96913581
-        },
-        {
-            "Lname": "公寓8号楼",
-            "LID": 43,
-            "x": 116.3632522,
-            "y": 39.96928096
         },
         {
             "Lname": "公寓13号楼",
@@ -456,10 +640,76 @@
             "y": 39.96886624
         },
         {
-            "Lname": "学生餐厅",
-            "LID": 54,
-            "x": 116.3657001,
-            "y": 39.9691289
+            "Lname": "学生公寓13号楼",
+            "LID": 37,
+            "x": 116.3618598,
+            "y": 39.96833746
+        },
+        {
+            "Lname": "留学生公寓",
+            "LID": 38,
+            "x": 116.3624257,
+            "y": 39.9696473
+        },
+        {
+            "Lname": "公寓5号楼",
+            "LID": 39,
+            "x": 116.3624347,
+            "y": 39.96913581
+        },
+        {
+            "Lname": "公寓2号楼",
+            "LID": 40,
+            "x": 116.3624437,
+            "y": 39.96818193
+        },
+        {
+            "Lname": "公寓10号楼",
+            "LID": 41,
+            "x": 116.3632342,
+            "y": 39.97011386
+        },
+        {
+            "Lname": "食尚餐厅",
+            "LID": 42,
+            "x": 116.3631938,
+            "y": 39.96967149
+        },
+        {
+            "Lname": "公寓8号楼",
+            "LID": 43,
+            "x": 116.3632522,
+            "y": 39.96928096
+        },
+        {
+            "Lname": "学苑餐厅",
+            "LID": 44,
+            "x": 116.3633151,
+            "y": 39.96817848
+        },
+        {
+            "Lname": "西土城快递站",
+            "LID": 45,
+            "x": 116.3637777,
+            "y": 39.97068755
+        },
+        {
+            "Lname": "经管楼",
+            "LID": 46,
+            "x": 116.3640247,
+            "y": 39.97031431
+        },
+        {
+            "Lname": "学生活动中心",
+            "LID": 47,
+            "x": 116.3639394,
+            "y": 39.96975098
+        },
+        {
+            "Lname": "漫咖啡",
+            "LID": 48,
+            "x": 116.3641415,
+            "y": 39.96946413
         },
         {
             "Lname": "报刊亭",
@@ -468,22 +718,10 @@
             "y": 39.96868307
         },
         {
-            "Lname": "楼上楼",
-            "LID": 55,
-            "x": 116.3656237,
-            "y": 39.96894573
-        },
-        {
-            "Lname": "西土城28号楼",
-            "LID": 59,
-            "x": 116.3666343,
-            "y": 39.96901485
-        },
-        {
-            "Lname": "保卫处",
-            "LID": 60,
-            "x": 116.3672317,
-            "y": 39.96895609
+            "Lname": "时光广场",
+            "LID": 50,
+            "x": 116.3639753,
+            "y": 39.96814046
         },
         {
             "Lname": "西土城图书馆",
@@ -498,10 +736,46 @@
             "y": 39.96875219
         },
         {
+            "Lname": "电信测试实验室",
+            "LID": 53,
+            "x": 116.3655024,
+            "y": 39.96974061
+        },
+        {
+            "Lname": "学生餐厅",
+            "LID": 54,
+            "x": 116.3657001,
+            "y": 39.9691289
+        },
+        {
+            "Lname": "楼上楼",
+            "LID": 55,
+            "x": 116.3656237,
+            "y": 39.96894573
+        },
+        {
             "Lname": "西土城篮球场",
             "LID": 56,
             "x": 116.3655788,
             "y": 39.96848953
+        },
+        {
+            "Lname": "科研大楼",
+            "LID": 57,
+            "x": 116.3657495,
+            "y": 39.97011041
+        },
+        {
+            "Lname": "西土城28号楼",
+            "LID": 59,
+            "x": 116.3666343,
+            "y": 39.96901485
+        },
+        {
+            "Lname": "保卫处",
+            "LID": 60,
+            "x": 116.3672317,
+            "y": 39.96895609
         },
         {
             "Lname": "西土城29号楼",
@@ -510,118 +784,16 @@
             "y": 39.96866924
         },
         {
-            "Lname": "学生公寓13号楼",
-            "LID": 37,
-            "x": 116.3618598,
-            "y": 39.96833746
-        },
-        {
-            "Lname": "公寓2号楼",
-            "LID": 40,
-            "x": 116.3624437,
-            "y": 39.96818193
-        },
-        {
-            "Lname": "学苑餐厅",
-            "LID": 44,
-            "x": 116.3633151,
-            "y": 39.96817848
-        },
-        {
-            "Lname": "时光广场",
-            "LID": 50,
-            "x": 116.3639753,
-            "y": 39.96814046
-        },
-        {
-            "Lname": "西土城鸿通楼",
-            "LID": 111,
-            "x": 116.3619541,
-            "y": 39.96769808
-        },
-        {
-            "Lname": "西土城教4楼",
-            "LID": 113,
-            "x": 116.3629647,
-            "y": 39.96756675
-        },
-        {
-            "Lname": "后勤楼",
-            "LID": 116,
-            "x": 116.3641685,
-            "y": 39.96786397
-        },
-        {
-            "Lname": "体育馆",
-            "LID": 121,
-            "x": 116.3661402,
-            "y": 39.96779485
-        },
-        {
-            "Lname": "球类馆",
-            "LID": 123,
-            "x": 116.3664996,
-            "y": 39.96793309
-        },
-        {
-            "Lname": "西土城主楼",
-            "LID": 118,
-            "x": 116.3649949,
-            "y": 39.96711745
-        },
-        {
-            "Lname": "西土城科学会堂",
-            "LID": 119,
-            "x": 116.3656552,
-            "y": 39.96704833
-        },
-        {
-            "Lname": "西土城体育部",
-            "LID": 122,
-            "x": 116.3662031,
-            "y": 39.9667269
-        },
-        {
-            "Lname": "西土城田径场",
-            "LID": 124,
-            "x": 116.3667601,
-            "y": 39.96639511
-        },
-        {
-            "Lname": "西土城教3楼",
-            "LID": 114,
-            "x": 116.3629827,
-            "y": 39.96617737
-        },
-        {
-            "Lname": "西土城教2楼",
-            "LID": 117,
-            "x": 116.3646221,
-            "y": 39.96629143
-        },
-        {
-            "Lname": "通信网络研究所",
-            "LID": 120,
-            "x": 116.3655833,
-            "y": 39.96614281
-        },
-        {
-            "Lname": "西土城校医院",
-            "LID": 115,
-            "x": 116.3636519,
-            "y": 39.96566931
-        },
-        {
-            "Lname": "西门",
-            "LID": 112,
-            "x": 116.3619182,
-            "y": 39.96679948
-        },
-        {
             "Lname": "东门",
             "LID": 62,
             "x": 116.3674607,
             "y": 39.96823032
+        },
+        {
+            "Lname": "西土城家属区",
+            "LID": 63,
+            "x": 116.3674652,
+            "y": 39.97029357
         },
         {
             "Lname": "西土城途经点64",
@@ -646,6 +818,12 @@
             "LID": 67,
             "x": 116.3620315,
             "y": 39.96881258
+        },
+        {
+            "Lname": "星光老年之家",
+            "LID": 68,
+            "x": 116.3664861,
+            "y": 39.96936045
         },
         {
             "Lname": "西土城途经点68",
@@ -906,6 +1084,90 @@
             "y": 39.96886788
         },
         {
+            "Lname": "西土城鸿通楼",
+            "LID": 111,
+            "x": 116.3619541,
+            "y": 39.96769808
+        },
+        {
+            "Lname": "西门",
+            "LID": 112,
+            "x": 116.3619182,
+            "y": 39.96679948
+        },
+        {
+            "Lname": "西土城教4楼",
+            "LID": 113,
+            "x": 116.3629647,
+            "y": 39.96756675
+        },
+        {
+            "Lname": "西土城教3楼",
+            "LID": 114,
+            "x": 116.3629827,
+            "y": 39.96617737
+        },
+        {
+            "Lname": "西土城校医院",
+            "LID": 115,
+            "x": 116.3636519,
+            "y": 39.96566931
+        },
+        {
+            "Lname": "后勤楼",
+            "LID": 116,
+            "x": 116.3641685,
+            "y": 39.96786397
+        },
+        {
+            "Lname": "西土城教2楼",
+            "LID": 117,
+            "x": 116.3646221,
+            "y": 39.96629143
+        },
+        {
+            "Lname": "西土城主楼",
+            "LID": 118,
+            "x": 116.3649949,
+            "y": 39.96711745
+        },
+        {
+            "Lname": "西土城科学会堂",
+            "LID": 119,
+            "x": 116.3656552,
+            "y": 39.96704833
+        },
+        {
+            "Lname": "通信网络研究所",
+            "LID": 120,
+            "x": 116.3655833,
+            "y": 39.96614281
+        },
+        {
+            "Lname": "体育馆",
+            "LID": 121,
+            "x": 116.3661402,
+            "y": 39.96779485
+        },
+        {
+            "Lname": "西土城体育部",
+            "LID": 122,
+            "x": 116.3662031,
+            "y": 39.9667269
+        },
+        {
+            "Lname": "球类馆",
+            "LID": 123,
+            "x": 116.3664996,
+            "y": 39.96793309
+        },
+        {
+            "Lname": "西土城田径场",
+            "LID": 124,
+            "x": 116.3667601,
+            "y": 39.96639511
+        },
+        {
             "Lname": "西土城途经点125",
             "LID": 125,
             "x": 116.3620674,
@@ -1110,8 +1372,8 @@
             "y": 39.96732992
         },
         {
-            "Lname": "西土城途经点1001",
-            "LID": 1001,
+            "Lname": "西土城途经点139",
+            "LID": 139,
             "x": 116.3632666,
             "y": 39.96910693
         }
@@ -1744,14 +2006,14 @@
         {
             "RID": 29,
             "FromL": 75,
-            "ToL": 1001,
+            "ToL": 139,
             "IsBycle": true,
             "Crowd": 0.2,
             "Length": 300
         },
         {
             "RID": 30,
-            "FromL": 1001,
+            "FromL": 139,
             "ToL": 83,
             "IsBycle": true,
             "Crowd": 0.2,
@@ -2847,11 +3109,799 @@
         },
         {
             "RID": 1003,
-            "FromL": 1001,
+            "FromL": 139,
             "ToL": 43,
             "IsBycle": true,
             "Crowd": 0.2,
             "Length": 300
+        }
+    ],
+    "ActivityType": [
+        {
+            "Type": "个人活动",
+            "Content":["自习","锻炼","外出","游戏","其他"]
+        },
+        {
+            "Type": "集体活动",
+            "Content":["班会","小组作业","创新创业","聚餐","其他"]
+        }
+    ],
+    "Activity": [
+        {
+            "Week": 5,
+            "Hour": 9,
+            "Minute": 0,
+            "District": "沙河校区",
+            "Spot": "沙河操场",
+            "Classroom": "操场",
+            "Activity": "晨跑",
+            "ActivityType": "个人活动",
+            "ActivityContent": "锻炼"
+        },
+        {
+            "Week": 5,
+            "Hour": 10,
+            "Minute": 0,
+            "District": "西土城校区",
+            "Spot": "学生活动中心",
+            "Classroom": "",
+            "Activity": "社团活动筹办",
+            "ActivityType": "集体活动",
+            "ActivityContent": "其他"
+        },
+        {
+            "Week": 5,
+            "Hour": 11,
+            "Minute": 0,
+            "District": "沙河校区",
+            "Spot": "沙河学生食堂",
+            "Classroom": "",
+            "Activity": "食堂志愿者测温",
+            "ActivityType": "集体活动",
+            "ActivityContent": "其他"
+        },
+        {
+            "Week": 5,
+            "Hour": 13,
+            "Minute": 0,
+            "District": "沙河校区",
+            "Spot": "沙河图书馆",
+            "Classroom": "第一层",
+            "Activity": "北邮先进人物展览会",
+            "ActivityType": "集体活动",
+            "ActivityContent": "创新创业"
+        },
+        {
+            "Week": 5,
+            "Hour": 14,
+            "Minute": 0,
+            "District": "西土城校区",
+            "Spot": "漫咖啡",
+            "Classroom": "",
+            "Activity": "下午茶",
+            "ActivityType": "个人活动",
+            "ActivityContent": "外出"
+        },
+        {
+            "Week": 5,
+            "Hour": 15,
+            "Minute": 0,
+            "District": "沙河校区",
+            "Spot": "沙河操场",
+            "Classroom": "操场",
+            "Activity": "足球赛",
+            "ActivityType": "集体活动",
+            "ActivityContent": "小组作业"
+        },
+        {
+            "Week": 5,
+            "Hour": 16,
+            "Minute": 0,
+            "District": "西土城校区",
+            "Spot": "星光老年之家",
+            "Classroom": "",
+            "Activity": "探访老人",
+            "ActivityType": "集体活动",
+            "ActivityContent": "小组作业"
+        },
+        {
+            "Week": 5,
+            "Hour": 18,
+            "Minute": 0,
+            "District": "沙河校区",
+            "Spot": "沙河教师食堂",
+            "Classroom": "",
+            "Activity": "同学聚餐",
+            "ActivityType": "集体活动",
+            "ActivityContent": "聚餐"
+        },
+        {
+            "Week": 5,
+            "Hour": 19,
+            "Minute": 0,
+            "District": "西土城校区",
+            "Spot": "报刊亭",
+            "Classroom": "",
+            "Activity": "饭后报",
+            "ActivityType": "个人活动",
+            "ActivityContent": "其他"
+        },
+        {
+            "Week": 5,
+            "Hour": 20,
+            "Minute": 0,
+            "District": "西土城校区",
+            "Spot": "保卫处",
+            "Classroom": "",
+            "Activity": "和保安过两招",
+            "ActivityType": "个人活动",
+            "ActivityContent": "锻炼"
+        },
+        {
+            "Week": 6,
+            "Hour": 9,
+            "Minute": 0,
+            "District": "沙河校区",
+            "Spot": "沙河操场",
+            "Classroom": "操场",
+            "Activity": "晨跑",
+            "ActivityType": "个人活动",
+            "ActivityContent": "锻炼"
+        },
+        {
+            "Week": 6,
+            "Hour": 10,
+            "Minute": 0,
+            "District": "沙河校区",
+            "Spot": "沙河大门",
+            "Classroom": "",
+            "Activity": "聚众看风景",
+            "ActivityType": "个人活动",
+            "ActivityContent": "外出"
+        },
+        {
+            "Week": 6,
+            "Hour": 11,
+            "Minute": 0,
+            "District": "西土城校区",
+            "Spot": "通信网络研究所",
+            "Classroom": "",
+            "Activity": "研究通信网络",
+            "ActivityType": "集体活动",
+            "ActivityContent": "创新创业"
+        },
+        {
+            "Week": 6,
+            "Hour": 13,
+            "Minute": 0,
+            "District": "沙河校区",
+            "Spot": "沙河宿舍S1",
+            "Classroom": "",
+            "Activity": "聚众打牌",
+            "ActivityType": "集体活动",
+            "ActivityContent": "其他"
+        },
+        {
+            "Week": 6,
+            "Hour": 14,
+            "Minute": 0,
+            "District": "西土城校区",
+            "Spot": "西土城篮球场",
+            "Classroom": "",
+            "Activity": "打篮球",
+            "ActivityType": "集体活动",
+            "ActivityContent": "其他"
+        },
+        {
+            "Week": 6,
+            "Hour": 15,
+            "Minute": 0,
+            "District": "西土城校区",
+            "Spot": "西土城快递站",
+            "Classroom": "",
+            "Activity": "偷一手快递",
+            "ActivityType": "个人活动",
+            "ActivityContent": "游戏"
+        },
+        {
+            "Week": 6,
+            "Hour": 16,
+            "Minute": 0,
+            "District": "沙河校区",
+            "Spot": "沙河综合教学楼",
+            "Classroom": "",
+            "Activity": "创新创业讲座",
+            "ActivityType": "集体活动",
+            "ActivityContent": "创新创业"
+        },
+        {
+            "Week": 6,
+            "Hour": 18,
+            "Minute": 0,
+            "District": "西土城校区",
+            "Spot": "留学生公寓",
+            "Classroom": "",
+            "Activity": "乞讨",
+            "ActivityType": "个人活动",
+            "ActivityContent": "其他"
+        },
+        {
+            "Week": 6,
+            "Hour": 19,
+            "Minute": 0,
+            "District": "沙河校区",
+            "Spot": "沙河邮局",
+            "Classroom": "",
+            "Activity": "寄件送彩票刮刮乐",
+            "ActivityType": "个人活动",
+            "ActivityContent": "游戏"
+        },
+        {
+            "Week": 6,
+            "Hour": 20,
+            "Minute": 0,
+            "District": "沙河校区",
+            "Spot": "沙河学生食堂",
+            "Classroom": "",
+            "Activity": "社团聚餐",
+            "ActivityType": "集体活动",
+            "ActivityContent": "聚餐"
+        }
+
+    ],
+    "BusSchedule": [
+        {"StartHour": 9, "StartMinute": 50, "Duration": 60},
+        {"StartHour": 11, "StartMinute": 40, "Duration": 70},
+        {"StartHour": 13, "StartMinute": 0, "Duration": 60},
+        {"StartHour": 15, "StartMinute": 45, "Duration": 65},
+        {"StartHour": 17, "StartMinute": 10, "Duration": 80},
+        {"StartHour": 18, "StartMinute": 25, "Duration": 65}
+    ],
+    "District": [
+        {
+            "name": "沙河校区",
+            "spot": [
+                {
+                    "id": 1,
+                    "name": "沙河大门",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.29036,
+                    "y": 40.163069
+                },
+                {
+                    "id": 3,
+                    "name": "沙河操场",
+                    "classroom": [
+                        "操场"
+                    ],
+                    "x": 116.292354,
+                    "y": 40.16481
+                },
+                {
+                    "id": 5,
+                    "name": "沙河宿舍E",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.293746,
+                    "y": 40.165509
+                },
+                {
+                    "id": 6,
+                    "name": "沙河宿舍S1",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.29416,
+                    "y": 40.164568
+                },
+                {
+                    "id": 13,
+                    "name": "沙河宿舍S6",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.296271,
+                    "y": 40.162077
+                },
+                {
+                    "id": 15,
+                    "name": "沙河教师食堂",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.295422,
+                    "y": 40.165506
+                },
+                {
+                    "id": 16,
+                    "name": "沙河学生食堂",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.295606,
+                    "y": 40.16494
+                },
+                {
+                    "id": 18,
+                    "name": "沙河宿舍S2",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.295822,
+                    "y": 40.164169
+                },
+                {
+                    "id": 19,
+                    "name": "沙河宿舍S3",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.296064,
+                    "y": 40.163569
+                },
+                {
+                    "id": 20,
+                    "name": "沙河宿舍S4",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.296266,
+                    "y": 40.163117
+                },
+                {
+                    "id": 21,
+                    "name": "沙河宿舍S5",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.296441,
+                    "y": 40.162725
+                },
+                {
+                    "id": 23,
+                    "name": "沙河邮局",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.296572,
+                    "y": 40.164768
+                },
+                {
+                    "id": 25,
+                    "name": "沙河图书馆",
+                    "classroom": [
+                        "第一层",
+                        "第二层",
+                        "第三层",
+                        "第四层",
+                        "第五层"
+                    ],
+                    "x": 116.297362,
+                    "y": 40.165802
+                },
+                {
+                    "id": 27,
+                    "name": "沙河综合教学楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.29782,
+                    "y": 40.164654
+                },
+                {
+                    "id": 32,
+                    "name": "沙河教学楼S1",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.299671,
+                    "y": 40.164999
+                },
+                {
+                    "id": 33,
+                    "name": "沙河教学楼S2",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.300452,
+                    "y": 40.163945
+                }
+            ]
+        },
+        {
+            "name": "西土城校区",
+            "spot": [
+                {
+                    "id": 45,
+                    "name": "西土城快递站",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36377769473135,
+                    "y": 39.97068755381433
+                },
+                {
+                    "id": 35,
+                    "name": "北邮科技大厦",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36179693108186,
+                    "y": 39.97045254787759
+                },
+                {
+                    "id": 63,
+                    "name": "西土城家属区",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36746523884982,
+                    "y": 39.97029357281153
+                },
+                {
+                    "id": 41,
+                    "name": "公寓10号楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36323421989782,
+                    "y": 39.97011386141851
+                },
+                {
+                    "id": 46,
+                    "name": "经管楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.3640247287466,
+                    "y": 39.97031430871085
+                },
+                {
+                    "id": 57,
+                    "name": "科研大楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36574947532576,
+                    "y": 39.970110405425515
+                },
+                {
+                    "id": 38,
+                    "name": "留学生公寓",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36242574493883,
+                    "y": 39.96964730077116
+                },
+                {
+                    "id": 42,
+                    "name": "食尚餐厅",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36319379614987,
+                    "y": 39.96967149288363
+                },
+                {
+                    "id": 47,
+                    "name": "学生活动中心",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36393938972314,
+                    "y": 39.96975098119241
+                },
+                {
+                    "id": 53,
+                    "name": "电信测试实验室",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36550244131051,
+                    "y": 39.96974061315741
+                },
+                {
+                    "id": 48,
+                    "name": "漫咖啡",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.3641415084629,
+                    "y": 39.96946413163956
+                },
+                {
+                    "id": 68,
+                    "name": "星光老年之家",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36648608584393,
+                    "y": 39.969360450779725
+                },
+                {
+                    "id": 39,
+                    "name": "公寓5号楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36243472799393,
+                    "y": 39.969135808373025
+                },
+                {
+                    "id": 43,
+                    "name": "公寓8号楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36325218600801,
+                    "y": 39.969280962013194
+                },
+                {
+                    "id": 46,
+                    "name": "公寓13号楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36189574468794,
+                    "y": 39.96886623650271
+                },
+                {
+                    "id": 54,
+                    "name": "学生餐厅",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.3657000685227,
+                    "y": 39.96912889628717
+                },
+                {
+                    "id": 49,
+                    "name": "报刊亭",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.3636474404324,
+                    "y": 39.96868306526147
+                },
+                {
+                    "id": 55,
+                    "name": "楼上楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36562371255435,
+                    "y": 39.96894572575536
+                },
+                {
+                    "id": 59,
+                    "name": "西土城28号楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36663430625308,
+                    "y": 39.96901484676888
+                },
+                {
+                    "id": 60,
+                    "name": "保卫处",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36723167941722,
+                    "y": 39.968956093911885
+                },
+                {
+                    "id": 51,
+                    "name": "西土城图书馆",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36439303400569,
+                    "y": 39.96853791034157
+                },
+                {
+                    "id": 52,
+                    "name": "西土城档案馆",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36499939022492,
+                    "y": 39.9687521865427
+                },
+                {
+                    "id": 56,
+                    "name": "西土城篮球场",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36557879727886,
+                    "y": 39.96848952529922
+                },
+                {
+                    "id": 61,
+                    "name": "西土城29号楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36721820483457,
+                    "y": 39.96866924099677
+                },
+                {
+                    "id": 37,
+                    "name": "学生公寓13号楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36185981246754,
+                    "y": 39.968337457798555
+                },
+                {
+                    "id": 40,
+                    "name": "公寓2号楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36244371104904,
+                    "y": 39.96818193386564
+                },
+                {
+                    "id": 44,
+                    "name": "学苑餐厅",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36331506739371,
+                    "y": 39.96817847777418
+                },
+                {
+                    "id": 50,
+                    "name": "时光广场",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36397532194354,
+                    "y": 39.968140460756615
+                },
+                {
+                    "id": 111,
+                    "name": "西土城鸿通楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.3619541345461,
+                    "y": 39.96769807934905
+                },
+                {
+                    "id": 113,
+                    "name": "西土城教4楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36296472824482,
+                    "y": 39.9675667468132
+                },
+                {
+                    "id": 116,
+                    "name": "后勤楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.3641684576282,
+                    "y": 39.96786397271505
+                },
+                {
+                    "id": 121,
+                    "name": "体育馆",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.3661402382226,
+                    "y": 39.967794850528534
+                },
+                {
+                    "id": 123,
+                    "name": "球类馆",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36649956042659,
+                    "y": 39.96793309483111
+                },
+                {
+                    "id": 118,
+                    "name": "西土城主楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36499489869738,
+                    "y": 39.967117449372466
+                },
+                {
+                    "id": 119,
+                    "name": "西土城科学会堂",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.3656551532472,
+                    "y": 39.96704832642509
+                },
+                {
+                    "id": 122,
+                    "name": "西土城体育部",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36620311960829,
+                    "y": 39.96672690379437
+                },
+                {
+                    "id": 124,
+                    "name": "西土城田径场",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36676006902448,
+                    "y": 39.96639511109388
+                },
+                {
+                    "id": 114,
+                    "name": "西土城教3楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36298269435503,
+                    "y": 39.96617737125208
+                },
+                {
+                    "id": 117,
+                    "name": "西土城教2楼",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36462210191073,
+                    "y": 39.96629142554212
+                },
+                {
+                    "id": 120,
+                    "name": "通信网络研究所",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.3655832888064,
+                    "y": 39.966142809308145
+                },
+                {
+                    "id": 115,
+                    "name": "西土城校医院",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36365193195995,
+                    "y": 39.96566930890273
+                },
+                {
+                    "id": 112,
+                    "name": "西门",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.3619182023257,
+                    "y": 39.96679948323122
+                },
+                {
+                    "id": 62,
+                    "name": "东门",
+                    "classroom": [
+                        ""
+                    ],
+                    "x": 116.36746074732226,
+                    "y": 39.96823031912743
+                }
+            ]
         }
     ]
 }

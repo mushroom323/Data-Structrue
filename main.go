@@ -13,16 +13,17 @@ var nowTime = Time{
 	Year:   2021,
 	Month:  0,
 	Day:    3,
-	Week:   0,
+	Week:   5,
 	Hour:   0,
 	Minute: 0,
 }
 var location []Location
 var roadlist []Road
 var clockList ClockList
-var coordiList [2]Coordinate
+var coordiList []Coordinate
 var activityList ActivityList
-var activityType ActivityType
+var activityType []ActivityType_atom
+var busSchedule []BusSchedule_atom
 var controller = Controller{
 	IsAdmin:     false,
 	IsPausing:   true,
@@ -34,6 +35,7 @@ func main() {
 	Log("正在初始化")
 	LoadConfig()
 	Log("初始化完成")
+	CreateGraph()
 
 	wg.Add(1)
 	go StartServer()

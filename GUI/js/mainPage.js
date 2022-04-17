@@ -1,5 +1,6 @@
 var time = null;
-var timer = null;
+var timerBtn = null;   //计时器按钮
+
 
 var minute;
 var hour;
@@ -11,6 +12,23 @@ var dayOfWeek;
 var multi_speed;
 var isPausing;
 var isAdmin;    //当前账户是否是管理员
+
+
+var stopNav = null;     //监听导航是否结束
+var busStart = null;   //监听公交车是否到达
+var navBtn = null;  //导航按钮
+var isWatingBus = false;
+var isNavigating = false;
+var navStarted = false;
+var crowdConsidered = false;
+var navMinute = 0;
+var trackAni;
+var bmap;
+var marker = [];
+var busTime = [];         //保存公交发车时间
+
+var busStationID_ShaHe;
+var busStationID_XiTuCheng;
 
 const week = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
 const MinutesPerHour = 60
@@ -28,57 +46,13 @@ var activity = [];  //按照时间顺序保存当前所有待完成活动的数�
 var curriculumInfo = null;   //保存所有课程的信息
 var curriculumSchedul = null;//保存课程表信息
 var schedulTimeSlot = null;  //保存课程表中每节课的时间段
+var activityType = null;     //保存活动类型及其内容
 
+var route = [];         //保存导航的途径路线坐标
 
-var district = [
-    {
-        Name: "沙河校区",
-        Spot: [
-            {
-                Name: "教学楼",
-                Classroom: ["N111","N222","N333"]
-            },
-            {
-                Name: "操场",
-                Classroom: ["操场"]
-            },
-            {
-                Name: "办公楼",
-                Classroom: ["S111","S222","S333"]
-            }
-        ]
-    },
-      
-    {
-        Name: "西土城校区",
-        Spot: [
-            {
-                Name: "实验楼",
-                Classroom: ["A111","A222","A333"]
-            },
-            {
-                Name: "创业楼",
-                Classroom: ["B111","B222","B333"]
-            },
-            {
-                Name: "活动楼",
-                Classroom: ["C111","C222","C333"]
-            }
-        ]
-    }
-]
+var todayClass = [];    //按照时间顺序保存今日课程的数组
 
-var activityType = [
-    {
-        Type: "个人活动",
-        Content:["自习","锻炼","外出","游戏","其他"]
-    },
-    {
-        Type: "集体活动",
-        Content:["班会","小组作业","创新创业","聚餐","其他"]
-    }
-]
-// $.getJSON('/api/getActivityType', function(data){activityType = data;})
+var district = [];      //保存所有需要在地图上标志出来的标志建筑物/地点
 
 
 
@@ -91,6 +65,26 @@ $(document).ready(function(){
     $.getJSON('/api/getCurriculums', function(data){curriculumInfo = data;})
     $.getJSON('/api/getSchedule', function(data){curriculumSchedul = data;})
     $.getJSON('/api/getScheduleTimeSlot', function(data){schedulTimeSlot = data;})
+    $.getJSON('/api/getActivityType', function(data){activityType = data;})
+    $.getJSON('/api/getBusTime', function(data){busTime = data;})
+    $.getJSON('/api/getCoordinate', function(data){
+        district = data;
+        //设置两个校区公交站的ID
+        $.each(district, function(index_1, thisDistrict){
+            if(thisDistrict.Name == '沙河校区')
+                $.each(thisDistrict.Spot, function(index_2, value){
+                    if(value.Name == '沙河大门')
+                        busStationID_ShaHe = value.ID;
+                    return;
+                })
+            if(thisDistrict.Name == '西土城校区')
+                $.each(thisDistrict.Spot, function(index_2, value){
+                    if(value.Name == '东门')
+                        busStationID_XiTuCheng = value.ID;
+                    return;
+                })
+        })
+    })
     
     $.getJSON('/api/getClocks', function(data){
         if(data){
@@ -138,18 +132,37 @@ $(document).ready(function(){
     $.ajaxSettings.async = true;
     //-----------读取后端保存的信息--------------
 
-    //计时器，实现时间暂停与继续的功能
-    timer = $('#timer').on('click', function(){
-
+    
+    //计时器按钮，实现时间暂停与继续的功能
+    timerBtn = $('#timer').on('click', function(){
         //当时间停止时按下按钮
         if(isPausing == true){
             isPausing = false;
             startTimer();
+            if(isNavigating == true){
+                continueNavigation();
+            }
         }
         //当时间流动时按下按钮
-        else if(isPausing == false){
+        else{
             isPausing = true;
             pauseTimer();   //暂停计时器
+            if(isNavigating == true)
+                pauseNavigation();
+        }
+    })
+
+    //导航按钮，按下按钮开始导航，导航进行中按下按钮取消导航
+    navBtn = $('#startNavigationBtn').on('click', function(){
+        if(isNavigating == true){
+            stopNavigation();
+            cancelNavigation();
+            clearInterval(stopNav);
+            clearInterval(busStart);
+            $('#startNavigation #navTip').css('opacity','0')
+        }
+        else{
+            navigation();
         }
     })
 
@@ -174,9 +187,444 @@ initPage = function(){
     fillCurriculumSelect();
     fillDestClassTimeSelect();
     fillDistrict();
+    initMap();
     //触发所有选择地点下拉框的onchange事件，该事件将三个地点全部加载好
     $('.district').trigger('onchange');
     $('.activityType').trigger('onchange');
+
+    
+}
+
+//点击沙河校区按钮，地图锁定沙河校区
+locateShaHe = function(){
+    console.log(toTimeString(hour,minute)+' 切换到沙河校区');
+    bmap.centerAndZoom(new BMapGL.Point(116.29597, 40.16355), 17);
+}
+
+//点击西土城校区按钮，地图锁定西土城校区
+locateXiTuCheng = function(){
+    console.log(toTimeString(hour,minute)+' 切换到西土城校区');
+    bmap.centerAndZoom(new BMapGL.Point(116.36443, 39.96725), 18);
+}
+
+//导航的准备，即给后端传递起点和终点，接收后端反馈的路线，开始导航
+navigation = function(){
+    var currentDistrictName = $('#currentLocate .district').val();
+    var currentSpotName = $('#currentLocate .spot').val();
+    var currentDistrict, currentSpot;
+
+    //找到当前地点的ID
+    $.each(district, function(index, value){
+        if(value.Name == currentDistrictName){
+            currentDistrict = value;
+            return;
+        }
+    })
+    $.each(currentDistrict.Spot, function(index, value){
+        if(value.Name == currentSpotName){
+            currentSpot = value;
+            return;
+        }
+    })
+    var currentID = currentSpot.ID;
+
+    var destMethod = $('#destLocate input:radio[name="dest-method"]:checked').val();
+
+    var destClassName = $('#destLocate .curriculumSelect').val();
+    var destTimeOrder = $('#destLocate .destClassTimeSelect').val();
+    var destDistrictName = $('#destLocate .district').val();
+    var destSpotName = $('#destLocate .spot').val();
+
+    var destDistrict, destSpot;
+
+    var destClass = null;   //目标的一节课
+
+    //若三选一选择了目标课程
+    if(destMethod == 'curriculum'){
+        //选择时间最近的，也就是靠近todayClass数组首部且今天还没上的一节课
+        for(var i = 0; i < todayClass.length; i++){
+            if(destClassName == todayClass[i].Name && 
+                (60*hour + minute) < 
+                    (60*schedulTimeSlot[todayClass[i].Order].EndHour + schedulTimeSlot[todayClass[i].Order].EndMinute)){
+                destClass = todayClass[i];
+                break;
+            }
+        }
+        if(destClass == null){
+            $('#startNavigation #navTip').html('<span style="color: red; font-weight: bold;">今天没有该课程！</span>');
+            $('#startNavigation #navTip').css('opacity','1')
+            return;
+        }
+        destDistrictName = destClass.District;
+        destSpotName = destClass.Spot;
+    }//若三选一选择了目标时间
+    else if(destMethod == 'time'){
+        //选择能与目标时间对应上的，且今天还没上的一节课
+        $.each(todayClass, function(index, value){
+            if(destTimeOrder == value.Order && 
+                (60*hour + minute) < 
+                    (60*schedulTimeSlot[value.Order].EndHour + schedulTimeSlot[value.Order].EndMinute)){
+                destClass = value;
+                return;
+            }
+        })
+        if(destClass == null){
+            $('#startNavigation #navTip').html('<span style="color: red; font-weight: bold;">该时间段没有课程！</span>');
+            $('#startNavigation #navTip').css('opacity','1')
+            return;
+        }
+        destDistrictName = destClass.District;
+        destSpotName = destClass.Spot;
+    }
+
+    //若起始地点与目的地点相同
+    // console.log(destDistrictName , currentDistrictName , destSpotName , currentSpotName)
+    if(destDistrictName == currentDistrictName && destSpotName == currentSpotName){
+        $('#startNavigation div span').html('您已在目的地点，无需导航！');
+        $('#startNavigation div span').css('opacity','1')
+        return;
+    }
+
+    //若三选一选择了目标地点
+
+    $('#startNavigation #navTip').css('opacity','0')
+
+    //找到目的地点的ID
+    $.each(district, function(index, value){
+        if(value.Name == destDistrictName){
+            destDistrict = value;
+            return;
+        }
+    })
+    $.each(destDistrict.Spot, function(index, value){
+        if(value.Name == destSpotName){
+            destSpot = value;
+            return;
+        }
+    })
+    var destID = destSpot.ID;
+
+    var bikeOrWalk = $('#bikeOrWalk input:radio[name="vehicle"]:checked').val();
+    
+    //根据选择的出行方式设置是否考虑拥挤度
+    if(bikeOrWalk == 'walk_crowd'){
+        bikeOrWalk = 'walk';
+        crowdConsidered = true;
+    }
+    else if(bikeOrWalk == 'walk_noncrowd'){
+        bikeOrWalk = 'walk';
+        crowdConsidered = false;
+    }
+    else if(bikeOrWalk == 'bike')
+        crowdConsidered = false;
+
+    var millisecondsPerMinute = originMillisecondsPerHour / MinutesPerHour / multi_speed;
+
+    console.log(toTimeString(hour,minute)+' '+'当前地点：'+currentDistrictName+'-'+currentSpotName+'；目标地点：'+destDistrictName+'-'+destSpotName)
+
+    if(currentDistrict == destDistrict){    //若起点和终点是同一个校区
+
+        $.ajaxSettings.async = false;
+        $.get('/api/getRoute', {CurrentID:JSON.stringify(currentID), DestID:JSON.stringify(destID),
+                                 BikeOrWalk:bikeOrWalk, CrowdConsidered:JSON.stringify(crowdConsidered)}, function(data){setRoute(data.Path);});
+        $.ajaxSettings.async = true;
+
+        startNavigation();$('#startNavigation #navTip').html('<span style="color: dodgerblue; font-weight: bold;">开始导航，预计抵达终点时间：'
+            + toTimeString((hour + parseInt((minute+navMinute)/60))%24, (minute + navMinute)%60) + '</span>');
+        $('#startNavigation #navTip').css('opacity','1')
+        
+        //监听导航时间，当导航时间为 0 时停止导航
+        stopNav = setInterval(function(){
+            if(isNavigating == true){
+                if(navMinute <= 0){
+                    //停止监听
+                    stopNavigation();
+                    clearInterval(stopNav);
+                    $('#startNavigation #navTip').html('<span style="color: green; font-weight: bold;">抵达终点！</span>');
+                    $('#startNavigation #navTip').css('opacity','1')
+                }
+            }
+        }, millisecondsPerMinute);
+    }
+    else{           //若起点和终点在不同校区
+
+        var curBusStationID,destBusStationID;
+        if(currentDistrictName == '沙河校区'){
+            curBusStationID = busStationID_ShaHe;
+            destBusStationID = busStationID_XiTuCheng;
+        }
+        else{
+            curBusStationID = busStationID_XiTuCheng;
+            destBusStationID = busStationID_ShaHe;
+        }
+
+        //若当前位置不在车站，则开始到车站的导航
+        if(curBusStationID != busStationID_ShaHe && curBusStationID != busStationID_XiTuCheng){
+//--------------------------------------------------------------------
+            //设置route为当前校区的途径点
+            $.ajaxSettings.async = false;
+            $.get('/api/getRoute', {CurrentID:JSON.stringify(currentID), DestID:JSON.stringify(curBusStationID), 
+                                    BikeOrWalk:bikeOrWalk, CrowdConsidered:JSON.stringify(crowdConsidered)}, function(data){setRoute(data.Path);});
+            $.ajaxSettings.async = true;
+//--------------------------------------------------------------------
+            startNavigation();
+
+            $('#startNavigation #navTip').html('<span style="color: dodgerblue; font-weight: bold;">开始导航，预计抵达站点时间：'
+                + toTimeString((hour + parseInt((minute+navMinute)/60))%24, (minute + navMinute)%60) + '</span>');
+            $('#startNavigation #navTip').css('opacity','1')
+        }
+        else{
+            isNavigating = true;
+            navMinute = 0;
+            $('#startNavigationBtn').attr('disabled', 'disabled');
+            $('#switchTimeRatioBtn').attr('disabled', 'disabled');
+            $('#startNavigationBtn').addClass('btn-danger');
+            $('#startNavigationBtn').removeClass('btn-primary');
+            $('#startNavigationBtn').html(' 取消导航');
+        }
+        
+        //1.监听导航时间，当导航时间为 0 时停止第一段导航
+        stopNav = setInterval(function(){
+            if(isNavigating == true){
+                if(navMinute <= 0){
+                    //停止监听第一次导航
+                    console.log(toTimeString(hour,minute)+' '+' 开始等车！')
+                    clearInterval(stopNav);
+
+                    //下一班车
+                    var latestBus = null;
+                    //计算出下一班车是哪班，存在latestBus中
+                    for(var i = 0; i < busTime.length; i++){
+                        if( i+1 != busTime.length
+                            &&(busTime[i].StartHour*60 + busTime[i].StartMinute) <= (hour*60 + minute)
+                            && (busTime[i+1].StartHour*60 + busTime[i+1].StartMinute) > (hour*60 + minute))
+                            latestBus = busTime[i+1];
+                        else if(i == 0 && (busTime[i].StartHour*60 + busTime[i].StartMinute) > (hour*60 + minute))
+                            latestBus = busTime[i];
+                    }
+
+                    //若当前时间大于最后一班车的时间，则停止监听巴士是否发车，导航到此结束
+                    if(latestBus == null){
+                        console.log(toTimeString(hour,minute)+' '+"已经等不到车了")
+                        stopNavigation();
+                        $('#startNavigation #navTip').html('<span style="color: red; font-weight: bold;">今天已经没有巴士了</span>');
+                        $('#startNavigation #navTip').css('opacity','1')
+                        isWatingBus = false;
+                        return;
+                    }
+
+                    $('#startNavigation #navTip').html('<span style="color: dodgerblue; font-weight: bold;">开始等待下一班巴士，'
+                        + '时间：' + toTimeString(latestBus.StartHour,latestBus.StartMinute) + '</span>');
+                    $('#startNavigation #navTip').css('opacity','1')
+                    navStarted = false;
+                    isWatingBus = true;
+
+
+                    //2.监听巴士是否发车，当巴士发车时开始倒计时啥时候到目的地
+                    busStart = setInterval(function(){
+
+                        if((latestBus.StartHour*60 + latestBus.StartMinute) > (hour*60 + minute))
+                            return;
+
+                        console.log(toTimeString(hour,minute)+' '+'等到车了，现在就等到站了');
+                        clearInterval(busStart);
+                        
+                        $('#startNavigation #navTip').html('<span style="color: dodgerblue; font-weight: bold;">巴士已抵达，预计到站时间：'
+                            + toTimeString((latestBus.StartHour + parseInt(latestBus.Duration/60)), (latestBus.StartMinute + latestBus.Duration%60))+'</span>');
+                        $('#startNavigation #navTip').css('opacity','1')
+
+                        //设置一下校区定位按钮的按下状态
+                        if(currentDistrictName == '沙河校区')
+                            $('#XiTuChengLocateBtn').trigger('click');
+                        else
+                            $('#ShaHeLocateBtn').trigger('click');
+            
+                        navMinute = latestBus.Duration;
+
+                        //3.开始监听巴士啥时候到站
+                        stopNav = setInterval(function(){
+                            if(isNavigating == true){
+                                if(navMinute <= 0){
+                                    //到达另一个校区，停止监听巴士是否到站
+                                    console.log(toTimeString(hour,minute)+' '+'巴士到站啦，开始目标校区的寻址')
+                                    clearInterval(stopNav);
+                                    isWatingBus = false;
+//--------------------------------------------------------------------                                            
+                                    //设置route为目标校区的途径点
+                                    $.ajaxSettings.async = false;
+                                    $.get('/api/getRoute', {CurrentID:JSON.stringify(destBusStationID), DestID:JSON.stringify(destID),
+                                                              BikeOrWalk:bikeOrWalk, CrowdConsidered:JSON.stringify(crowdConsidered)}, function(data){setRoute(data.Path);});
+                                    $.ajaxSettings.async = true;
+//--------------------------------------------------------------------
+                                    $('#startNavigation #navTip').html('<span style="color: dodgerblue; font-weight: bold;">巴士到站，继续导航，预计抵达终点时间：'
+                                        + toTimeString((hour + parseInt((minute+navMinute)/60))%24, (minute + navMinute)%60) +'</span>');
+                                    $('#startNavigation #navTip').css('opacity','1')
+
+                                    startNavigation();
+                                    
+                                    //4.监听导航时间，当导航时间为 0 时停止第二段导航
+                                    stopNav = setInterval(function(){
+                                        if(isNavigating == true){
+                                            if(navMinute <= 0){
+                                                //停止监听
+                                                clearInterval(stopNav);
+                                                $('#startNavigation #navTip').html('<span style="color: green; font-weight: bold;">抵达终点！</span>');
+                                                $('#startNavigation #navTip').css('opacity','1')
+                                                stopNavigation();
+                                            }
+                                        }
+                                    }, millisecondsPerMinute);
+                                }
+                            }
+                        }, millisecondsPerMinute)
+                    }, millisecondsPerMinute)
+                }
+            }
+        }, millisecondsPerMinute);
+    }
+}
+
+//从后端获取到路径信息后，设置route数组与navMinute
+setRoute = function(path){
+    route = [];
+    navMinute = 0;
+    for(var i = 0; i < path.length; i++){
+        if(i == 0){
+            route.push({
+                x: path[i].FromX,
+                y: path[i].FromY
+            })
+        }
+        route.push({
+            x: path[i].ToX,
+            y: path[i].ToY
+        })
+
+        if(path[i].IsBycle)
+            navMinute += path[i].BycleDuration;
+        else
+            navMinute += path[i].FootDuration;
+    }
+}
+
+startNavigation = function(){
+    console.log(toTimeString(hour,minute)+' '+'开始移动');
+    //清除地图上所有覆盖物
+    bmap.clearOverlays();
+    //test
+    navMinute = 20
+    //地图上途径路线的点集
+    var point = [];
+    //将route中的坐标添加入点集
+    $.each(route, function(index, value){
+        point.push(new BMapGL.Point(value.x, value.y));
+    })
+    //线集
+    var pl = new BMapGL.Polyline(point);
+    //加载导航动画
+    trackAni = new BMapGLLib.TrackAnimation(bmap, pl, {
+        overallView: true,
+        tilt: 30,
+        duration: navMinute*originMillisecondsPerHour/MinutesPerHour/multi_speed,
+        delay: 300,
+    });
+    //当前正在导航
+    isNavigating = true;
+    //加载导航动画时会清除地图上所有覆盖物，所以此处重新添加地图上的标志地点的标记覆盖物
+    addMarkers();
+    //若当前不是暂停状态，则开始导航动画
+    if(isPausing == false){
+        trackAni.start();
+        //导航已开始
+        navStarted = true;
+    }
+
+    if(navStarted == false){
+        //若导航未开始，则不可点击取消导航按钮
+        $('#startNavigationBtn').attr('disabled', 'disabled');
+    }
+    $('#switchTimeRatioBtn').attr('disabled', 'disabled');
+    $('#startNavigationBtn').addClass('btn-danger');
+    $('#startNavigationBtn').removeClass('btn-primary');
+    $('#startNavigationBtn').html(' 取消导航');
+}
+
+//继续导航
+continueNavigation = function(){
+    if(trackAni == null)
+        return;
+
+    if(navStarted == true || isWatingBus == true){
+        //若导航已开始，则继续导航
+        console.log(toTimeString(hour,minute)+' '+'继续移动');
+        trackAni.continue();
+    }
+    else{
+        //若导航未开始，则开始导航，并设置导航已开始，设置取消导航按钮为可点击状态
+        trackAni.start();
+        navStarted = true;
+        $('#startNavigationBtn').removeAttr('disabled');
+    }
+}
+
+//暂停导航
+pauseNavigation = function(){
+    if(trackAni == null)
+        return;
+
+    if(navStarted == true){
+        console.log(toTimeString(hour,minute)+' '+'暂停导航');
+        //若导航已开始，则暂停导航
+        trackAni.pause();
+    }
+}
+
+//停止导航
+stopNavigation = function(){
+    
+    $('#switchTimeRatioBtn').removeAttr('disabled');
+    $('#startNavigationBtn').addClass('btn-primary');
+    $('#startNavigationBtn').removeClass('btn-danger');
+    $('#startNavigationBtn').html(' 开始导航');
+
+    console.log(toTimeString(hour,minute)+' '+'停止移动')
+    navStarted = false;
+    isNavigating = false;
+
+    // addMarkers();
+}
+
+//取消导航（只有在主动取消时被调用）
+cancelNavigation = function(){
+    trackAni.cancel();
+}
+
+//添加标志建筑物标志
+addMarkers = function(){
+    $.each(district, function(index_1, thisDistrict){
+        $.each(thisDistrict.Spot, function(index_2, value){
+            var newPoint = new BMapGL.Point(value.X, value.Y);
+            var newMarker = new BMapGL.Marker(newPoint);
+            marker.push(newMarker);
+            bmap.addOverlay(newMarker);
+            newMarker.addEventListener('click', function () {
+                bmap.openInfoWindow(new BMapGL.InfoWindow(value.Name), newPoint); // 开启信息窗口
+            });
+        })
+    })
+}
+
+//初始化地图（初始化界面）
+initMap = function(){
+
+	// GL版命名空间为BMapGL
+	// 按住鼠标右键，修改倾斜角和角度
+	bmap = new BMapGL.Map("allmap");    // 创建Map实例
+	bmap.centerAndZoom(new BMapGL.Point(116.29597, 40.16355), 17);  // 初始化地图,设置中心点坐标和地图级别
+	bmap.enableScrollWheelZoom(true);     // 开启鼠标滚轮缩放
+
+
+    addMarkers();
 }
 
 //设置倍速开关的HTML（初始化界面）
@@ -224,21 +672,14 @@ setTimeHTML = function(){
 
 //填满目标时间下拉框（初始化界面）
 fillDestClassTimeSelect = function(){
-    var str1 = '';
-    var str2 = '';
-    var sel1 = $('#destClassWeekSelect');
-    var sel2 = $('#destClassTimeSelect');
-
-    $.each(week, function(index, value){
-        str1 += '<option value=' + index + '>' + value + '</option>';
-    })
+    var str = '';
+    var sel = $('#destLocate .destClassTimeSelect');
 
     $.each(schedulTimeSlot, function(index, value){
-        str2 += '<option value=' + index + '>' + toTimeString(value.StartHour, value.StartMinute) + '</option>';
+        str += '<option value=' + index + '>' + toTimeString(value.StartHour, value.StartMinute) + '</option>';
     })
 
-    sel1.html(str1)
-    sel2.html(str2);
+    sel.html(str)
 }
 
 //把所有包含所有课程的下拉框填满（初始化界面）
@@ -292,7 +733,7 @@ switchAdmin = function(){
 switchTimeRatio = function(){
     var switcher = $('#switchTimeRatioBtn');
     
-    if(timer.hasClass('btn-success')){
+    if(timerBtn.hasClass('btn-success')){
         isPausing = true;
     }
 
@@ -325,9 +766,9 @@ startTimer = function(){
     var millisecondsPerMinute = originMillisecondsPerHour / MinutesPerHour / multi_speed;
     
     //切换按钮样式
-    timer.removeClass('btn-success');
-    timer.addClass('btn-danger');
-    timer.html('暂停计时');
+    timerBtn.removeClass('btn-success');
+    timerBtn.addClass('btn-danger');
+    timerBtn.html('暂停计时');
     
     //以下是每十秒所要更新的全部数据
     time = setInterval(function(){
@@ -341,7 +782,13 @@ startTimer = function(){
         refreshTodayActivities();
         //删除已过期的考试
         deleteExam();
-        
+
+        //当正在导航时，每次调用该setInterval（过了一分钟）则让导航的剩余时间navMinute减一
+        if(isNavigating == true){
+            if(navMinute > 0){
+                --navMinute;
+            }
+        }
     }, millisecondsPerMinute);
 
     $.get("/api/setController", {controllerStr: JSON.stringify({IsAdmin:isAdmin, IsPausing:isPausing, Multi_speed:multi_speed})})
@@ -349,9 +796,9 @@ startTimer = function(){
 //暂停计时器
 pauseTimer = function(){
     //切换按钮样式
-    timer.removeClass('btn-danger');
-    timer.addClass('btn-success');
-    timer.html('开始计时');
+    timerBtn.removeClass('btn-danger');
+    timerBtn.addClass('btn-success');
+    timerBtn.html('开始计时');
 
     clearInterval(time);
     $.get("/api/setController", {controllerStr: JSON.stringify({IsAdmin:isAdmin, IsPausing:isPausing, Multi_speed:multi_speed})})
@@ -417,7 +864,8 @@ setClock = function(){
 //刷新 今日课程
 refreshTodayClass = function(){
     var str = '';
-    var todayClass = [];    //按照时间顺序保存今日课程的数组
+
+    todayClass = [];
 
     //遍历课程表的每一种课
     $.each(curriculumSchedul, function(index_1, curriculumInSchedul){
@@ -623,13 +1071,6 @@ showSpecificCurriculum = function(name){
 refreshSpecClassAndExam = function(){
     var classStr = '';
     var examStr = '';
-    
-    // if(isAdmin == true){
-    //     $('#assignExamBtn').css('display', 'block');
-    // }
-    // else{
-    //     $('#assignExamBtn').css('display', 'none');
-    // }
 
     //提取该特定科目的共有信息
     var specificCurriculum = curriculumInfo.find(function(value){
@@ -672,13 +1113,6 @@ refreshSpecClassAndExam = function(){
 //刷新该科目的已布置作业
 refreshSpecHomework = function(){
     var homeworkStr = '';
-
-    // if(isAdmin == true){
-    //     $('#assignHomeworkBtn').css('display', 'block');
-    // }
-    // else{
-    //     $('#assignHomeworkBtn').css('display', 'none');
-    // }
     
     //提取该特定科目的共有信息
     var specificCurriculum = curriculumInfo.find(function(value){
@@ -1555,6 +1989,8 @@ uploadHomework = function(){ //在这里进行ajax 文件上传 作业的信息
     // formData.append('CurriculumName',currentPageCurriculumName);
     // formData.append('Title',homeworkSelected);
     formData.append('upfile',$("#uploadHomeworkFile")[0].files[0]);
+    formData.append('curriculumName', currentPageCurriculumName);
+    formData.append('homeworkName', homeworkSelected);
     // formData.append('HomeworkName',$file1.substring($file1.lastIndexOf("\\") + 1).toLowerCase());
     // formData.append('Remark',uploadHomeworkRemark);
     // formData.append('Year',year);
@@ -1577,7 +2013,7 @@ uploadHomework = function(){ //在这里进行ajax 文件上传 作业的信息
 
     $.ajax({
         type : "post",
-        url : "/api/upLoad",
+        url : "/api/upLoadHomework",
         data : formData,
         processData : false,
         contentType : false
@@ -1610,7 +2046,7 @@ uploadHomework = function(){ //在这里进行ajax 文件上传 作业的信息
     $.get('/api/uploadHomeworkFile', {TitleStr:homeworkSelected, CurriculumNameStr:currentPageCurriculumName, UpFileStr:JSON.stringify(newUpload)});////
 }
 
-uploadResource = function(){ //在这里进行ajax 文件上传 作业的信息
+uploadResource = function(){ //在这里进行ajax 文件上传 资料的信息
 
     // var homeworkSelected = $('#uploadHomeworkModal .homeworkSelect').val()
     var uploadResourceRemark = $('#uploadResourceModal .uploadResourceRemark').val();
@@ -1637,8 +2073,8 @@ uploadResource = function(){ //在这里进行ajax 文件上传 作业的信息
         return false;
     }
     //判断文件类型,我这里根据业务需求判断的是word/bmp文件
-    else if(fileName1 != "doc" && fileName1 !="docx" && fileName1 != "bmp"){
-        errorWarning.html('请选择word或bmp文件!');			
+    else if(fileName1 != "doc" && fileName1 !="docx" && fileName1 != "bmp" && fileName1 != "txt"){
+        errorWarning.html('请选择word或bmp/txt文件!');			
         return false;
     }
     else if(exist == true){
@@ -1652,6 +2088,7 @@ uploadResource = function(){ //在这里进行ajax 文件上传 作业的信息
     var formData = new FormData();//这里需要实例化一个FormData来进行文件上传
     // formData.append('CurriculumName',currentPageCurriculumName);
     formData.append('upfile',$("#uploadResourceFile")[0].files[0]);
+    formData.append('curriculumName', currentPageCurriculumName);
     // formData.append('ResourceName',$file1.substring($file1.lastIndexOf("\\") + 1).toLowerCase());
     // formData.append('Remark',uploadResourceRemark);
     // formData.append('Year',year);
@@ -1673,7 +2110,7 @@ uploadResource = function(){ //在这里进行ajax 文件上传 作业的信息
 
     $.ajax({
         type : "post",
-        url : "/api/upLoad",
+        url : "/api/upLoadResource",
         data : formData,
         processData : false,
         contentType : false
@@ -1698,6 +2135,7 @@ uploadResource = function(){ //在这里进行ajax 文件上传 作业的信息
 
     $.get('/api/uploadResourceFile', {CurriculumNameStr:currentPageCurriculumName, ResourceStr:JSON.stringify(newUpload)});////
 }
+
 
 
 

@@ -113,12 +113,11 @@ type Coordinate struct {
 	Spot []struct {
 		Name      string
 		Classroom []string
-		x         float64
-		y         float64
+		X         float64
+		Y         float64
+		ID        int
 	}
 }
-
-type ActivityType []ActivityType_atom
 
 type ActivityType_atom struct {
 	Type    string
@@ -127,11 +126,16 @@ type ActivityType_atom struct {
 
 /*路径阶段信息*/
 type Section struct {
-	FromID          int
-	ToID            int
-	IsBycle         bool
-	SectionDuration float32 //用时
-	SectionLength   int     //总长度
+	FromID        int
+	ToID          int
+	FromX         float64
+	FromY         float64
+	ToX           float64
+	ToY           float64
+	IsBycle       bool
+	FootDuration  float32 //用时
+	BycleDuration float32
+	SectionLength int //总长度
 }
 
 /* 旅程信息 */
@@ -143,16 +147,27 @@ type Travel struct {
 }
 
 type Location struct {
-	LName string
+	Lname string
 	LID   int
-	x     float64
-	y     float64
+	X     float64
+	Y     float64
 }
 
 type Road struct {
+	RID     int
 	FromL   int
 	ToL     int
 	IsBycle bool
 	Crowd   float32
 	Length  int
+}
+
+type BusSchedule_atom struct {
+	StartHour   int
+	StartMinute int
+	Duration    int
+}
+
+type FileError struct {
+	IsDuplicated bool
 }

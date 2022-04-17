@@ -44,14 +44,19 @@ func APIHandler(w http.ResponseWriter, req *http.Request) {
 	case "/api/getActivityType": //获取活动种类
 		data, _ := json.Marshal(activityType)
 		w.Write(data)
+	case "/api/getBusTime": //获取巴士发车时间
+		data, _ := json.Marshal(busSchedule)
+		w.Write(data)
 	case "/api/upLoadHomework": //上传作业文件
 		file, header, _ := req.FormFile("upfile")
 		b, _ := ioutil.ReadAll(file)
-		uploadHomework(b, header.Filename)
+		data, _ := json.Marshal(uploadHomework(b, header.Filename))
+		w.Write(data)
 	case "/api/upLoadResource": //上传资料文件
 		file, header, _ := req.FormFile("upfile")
 		b, _ := ioutil.ReadAll(file)
-		uploadResource(b, header.Filename)
+		data, _ := json.Marshal(uploadResource(b, header.Filename))
+		w.Write(data)
 	case "/api/downLoad": //下载文件api
 		fn := req.FormValue("filename")
 		header := w.Header()
@@ -166,6 +171,19 @@ func APIHandler(w http.ResponseWriter, req *http.Request) {
 		result := searchActivity(Text, typeName, Content)
 		data, _ := json.Marshal(result)
 		w.Write(data)
+	case "/api/getRoute": //导航
+		originStr := query.Get("CurrentID")
+		destinationStr := query.Get("DestID")
+		pattern := query.Get("BikeOrWalk")
+		isCrowdStr := query.Get("CrowdConsidered")
+		origin, _ := strconv.Atoi(originStr)
+		destination, _ := strconv.Atoi(destinationStr)
+		isCrowd, _ := strconv.ParseBool(isCrowdStr)
+		if pattern == "walk" {
+			w.Write(AddTravel(origin, destination, false, isCrowd))
+		} else {
+			w.Write(AddTravel(origin, destination, true, isCrowd))
+		}
 	case "/api/getTransInfo":
 		//TODO 获取路径信息
 		// data, _ := json.Marshal(transportList)
