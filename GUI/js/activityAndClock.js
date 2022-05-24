@@ -97,16 +97,10 @@ addClock = function(){
 
     refreshClocks();
 
-    $.ajaxSettings.async = false;
-    $.get("/api/setTime", {TimeStr:JSON.stringify({
-        Year: year,
-        Month: month,
-        Day: day,
-        Week: dayOfWeek,
-        Hour: hour,
-        Minute: minute
-    })})////
-    $.ajaxSettings.async = true;
+    $('#addBellModal').modal('hide');
+    $('#bellModal').css({'overflow-y':'scroll'});
+
+    sendTimeInfo();
     $.get("/api/addClock", {ClockStr:JSON.stringify(newClock)});////
 }
 
@@ -136,17 +130,9 @@ addActivity = function(){
         $('#addActivityModal .modal-footer span strong').html('');
         
         $('#addActivityModal').modal('hide');
+        $('#activityModal').css({'overflow-y':'scroll'});
 
-        $.ajaxSettings.async = false;
-        $.get("/api/setTime", {TimeStr:JSON.stringify({
-            Year: year,
-            Month: month,
-            Day: day,
-            Week: dayOfWeek,
-            Hour: hour,
-            Minute: minute
-        })})////
-        $.ajaxSettings.async = true;
+        sendTimeInfo();
         $.get("/api/addActivity", {ActivityStr:JSON.stringify(newActivity)});////
     }
     else{
@@ -253,16 +239,7 @@ refreshSearchedActivities = function(){
 
 //删除该闹钟
 deleteClock = function(obj){
-    $.ajaxSettings.async = false;
-    $.get("/api/setTime", {Time:JSON.stringify({
-        Year: year,
-        Month: month,
-        Day: day,
-        Week: dayOfWeek,
-        Hour: hour,
-        Minute: minute
-    })})////
-    $.ajaxSettings.async = true;
+    sendTimeInfo();
     $.get("/api/deleteClock", {ClockStr:JSON.stringify(obj)});
 
     clock.splice($.inArray(obj, clock), 1);
@@ -271,16 +248,7 @@ deleteClock = function(obj){
 
 //删除该活动
 deleteActivity = function(obj){
-    $.ajaxSettings.async = false;
-    $.get("/api/setTime", {Time:JSON.stringify({
-        Year: year,
-        Month: month,
-        Day: day,
-        Week: dayOfWeek,
-        Hour: hour,
-        Minute: minute
-    })})////
-    $.ajaxSettings.async = true;
+    sendTimeInfo();
     $.get("/api/deleteActivity", {ActivityStr:JSON.stringify(obj)});
 
     activity.splice($.inArray(obj, activity), 1);
@@ -293,7 +261,8 @@ clockTimeUp = function(obj){
     var str = '';
 
     str += '<h4><strong>';
-    str += week[obj.Week] + '&nbsp;&nbsp;';
+    if(obj.ClockCycle != '每天一次')
+        str += week[obj.Week] + '&nbsp;&nbsp;';
     str += toTimeString(obj.Hour, obj.Minute);
     str += '</strong></h4>';
     str += '<p>' + obj.Remark + '<p>';

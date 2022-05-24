@@ -116,22 +116,24 @@ $(document).ready(function(){
 
     
     $(window).bind('beforeunload',function(){
-        // $.ajaxSettings.async = false;
-        $.get("/api/setTime", {TimeStr:JSON.stringify({
-            Year: year,
-            Month: month,
-            Day: day,
-            Week: dayOfWeek,
-            Hour: hour,
-            Minute: minute
-        })})////
-        // $.ajaxSettings.async = true;
-        // $.get("/api/setController", {controllerStr: JSON.stringify({IsAdmin:isAdmin, IsPausing:isPausing, Multi_speed:multi_speed})})
+        
+        sendTimeInfo();
+
+        if(isNavigating == true){
+            $.get('/api/travelInfo', {TravelInfo:JSON.stringify({TravelContent:"cancel"})});
+        }
     })
     
     $.ajaxSettings.async = true;
     //-----------读取后端保存的信息--------------
+    
+    //保存按钮，实现存档
+    $('#saveBtn').on('click', function(){
+        
+        sendTimeInfo();
 
+        $.get('/api/save');
+    }) 
     
     //计时器按钮，实现时间暂停与继续的功能
     timerBtn = $('#timer').on('click', function(){

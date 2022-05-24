@@ -171,3 +171,17 @@ type BusSchedule_atom struct {
 type FileError struct {
 	IsDuplicated bool
 }
+
+type TravelInfo struct {
+	TravelContent string
+}
+
+//压缩的哈夫曼树
+type TreeNode struct {
+	Val   int
+	Times int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
+type treeHeap []*TreeNode

@@ -42,6 +42,7 @@
 							<button type="button" class="btn btn-primary" id="assignExamBtn" data-toggle="modal" data-target="#assignExamModal" disabled>发布考试</button>
 							<button type="button" class="btn btn-primary" id="changeClassTimeBtn" data-toggle="modal" data-target="#changeClassInfoModal" disabled>修改课程时间</button>
 							<button type="button" class="btn btn-primary" id="assignHomeworkBtn" data-toggle="modal" data-target="#assignHomeworkModal" disabled>布置作业</button>
+							<button type="button" class="btn btn-primary" id="saveBtn">保存</button>
 							<button type="button" class="btn btn-primary" id="switchTimeRatioBtn" onclick="switchTimeRatio()">一倍速</button>
 						</div>
 					</div>
@@ -196,7 +197,7 @@
 
 										<!--开始导航按钮-->
 										<div class="form-group" id="startNavigation">
-											<div id="navTip"><span style="color: red; font-weight: bold; opacity: 0;">134</span></div>
+											<div id="navTip" style="opacity: 0;"><span style="color: red; font-weight: bold;">134</span></div>
 											<button type="button" class="btn btn-primary glyphicon glyphicon-send" id="startNavigationBtn"> 开始导航</button>
 										</div>
 									</form>
@@ -1361,7 +1362,7 @@
 					</div>
 
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addClock()">确认</button>
+						<button type="button" class="btn btn-primary" onclick="addClock()">确认</button>
 					</div>
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal -->

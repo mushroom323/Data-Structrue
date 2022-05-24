@@ -177,20 +177,20 @@ refreshSearchedSubjects = function(){
 
 }
 
-//在所有课程窗口中，按下特定科目，弹出其对应特定作业窗口
+//在所有课程窗口中，按下特定科目，弹出其对应特定课程信息窗口
 showSpecificCurriculum = function(name){
 
     //将弹窗标题设置为该科目名称
     $('#specificCurriculum .modal-title').html(name);
 
-    currentPageCurriculumName = name;
+    currentPageCurriculumName = name;   //当前科目名称
 
-    refreshSpecClassAndExam(name);
-    refreshSpecHomework(name);
-    refreshSpecUploadHomework(name);
-    refreshSpecUploadResource(name);
+    refreshSpecClassAndExam(name);      //刷新该科目的课程和考试信息
+    refreshSpecHomework(name);          //刷新该科目的已布置作业
+    refreshSpecUploadHomework(name);    //刷新该科目的已上传作业
+    refreshSpecUploadResource(name);    //刷新该科目的已上传资料
 
-    $('#specificCurriculum').modal('show');
+    $('#specificCurriculum').modal('show'); //弹出课程信息窗口
 }
 
 //刷新该科目的课程和考试信息
@@ -543,17 +543,8 @@ assignExam = function(){
     }
     else{
         errorWarning.html('');
-
-        $.ajaxSettings.async = false;
-        $.get("/api/setTime", {TimeStr:JSON.stringify({
-            Year: year,
-            Month: month,
-            Day: day,
-            Week: dayOfWeek,
-            Hour: hour,
-            Minute: minute
-        })})////
-        $.ajaxSettings.async = true;
+        
+        sendTimeInfo();
         
         for(var i = examStartOrder; i <= examEndOrder; i++){
             var newExam = {};
@@ -592,16 +583,7 @@ deleteExam = function(){
                 curriculumInSchedul.Info.splice(i, 1);
                 refreshSchedul();
 
-                $.ajaxSettings.async = false;
-                $.get("/api/setTime", {TimeStr:JSON.stringify({
-                    Year: year,
-                    Month: month,
-                    Day: day,
-                    Week: dayOfWeek,
-                    Hour: hour,
-                    Minute: minute
-                })})////
-                $.ajaxSettings.async = true;
+                sendTimeInfo();
                 $.get("/api/deleteExam", {NameStr: curriculumInSchedul.Name, ExamStr: JSON.stringify(obj)});////
             }
         }
@@ -668,16 +650,7 @@ changeClassInfo = function(){
         refreshSchedul();
         $('#changeClassInfoModal').modal('hide');
 
-        $.ajaxSettings.async = false;
-        $.get("/api/setTime", {TimeStr:JSON.stringify({
-            Year: year,
-            Month: month,
-            Day: day,
-            Week: dayOfWeek,
-            Hour: hour,
-            Minute: minute
-        })})////
-        $.ajaxSettings.async = true;
+        sendTimeInfo();
         $.get("/api/changeClassInfo", {NameStr: curriculumName, 
                                         NewClassStr: JSON.stringify(newClass), OldClassStr: JSON.stringify(oldClass)});
     }
@@ -713,21 +686,10 @@ assignHomework = function(){
         };
 
         specCurriculumHomework.push(newHomework);
-
-        fillHomeworkSelect(curriculumName);
         
         $('#assignHomeworkModal').modal('hide');
 
-        $.ajaxSettings.async = false;
-        $.get("/api/setTime", {TimeStr:JSON.stringify({
-            Year: year,
-            Month: month,
-            Day: day,
-            Week: dayOfWeek,
-            Hour: hour,
-            Minute: minute
-        })})////
-        $.ajaxSettings.async = true;
+        sendTimeInfo();
 
         $.get("/api/assignHomework", {NameStr: curriculumName, HomeworkStr: JSON.stringify(newHomework)});
     }
@@ -806,17 +768,10 @@ uploadHomework = function(){ //在这里进行ajax 文件上传 作业的信息
     formData.append('upfile',$("#uploadHomeworkFile")[0].files[0]);
     formData.append('curriculumName', currentPageCurriculumName);
     formData.append('homeworkName', homeworkSelected);
-    
-    $.ajaxSettings.async = false;
-    $.get("/api/setTime", {TimeStr:JSON.stringify({
-        Year: year,
-        Month: month,
-        Day: day,
-        Week: dayOfWeek,
-        Hour: hour,
-        Minute: minute
-    })})////
+    formData.append('version', JSON.stringify(specHomework.Uploaded.length + 1));
 
+    sendTimeInfo();
+    $.ajaxSettings.async = false;
     $.ajax({
         type : "post",
         url : "/api/upLoadHomework",
@@ -890,7 +845,7 @@ uploadResource = function(){ //在这里进行ajax 文件上传 资料的信息
     }
     //判断文件类型,我这里根据业务需求判断的是word/bmp文件
     else if(fileName1 != "doc" && fileName1 !="docx" && fileName1 != "bmp"){
-        errorWarning.html('请选择word或bmp/txt文件!');			
+        errorWarning.html('请选择word或bmp文件!');			
         return false;
     }
     else if(exist == true){
@@ -906,16 +861,8 @@ uploadResource = function(){ //在这里进行ajax 文件上传 资料的信息
     formData.append('upfile',$("#uploadResourceFile")[0].files[0]);
     formData.append('curriculumName', currentPageCurriculumName);
     
+    sendTimeInfo();
     $.ajaxSettings.async = false;
-    $.get("/api/setTime", {TimeStr:JSON.stringify({
-        Year: year,
-        Month: month,
-        Day: day,
-        Week: dayOfWeek,
-        Hour: hour,
-        Minute: minute
-    })})////
-
     $.ajax({
         type : "post",
         url : "/api/upLoadResource",

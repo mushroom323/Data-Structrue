@@ -10,8 +10,8 @@ const INT_MAX int = int(^uint(0) >> 1)
 
 var vertexIndex map[int]int
 
-const IFpeed int = 3  //步行理想速度定义为3m/s
-const IBpeed int = 10 //自行车理想速度定义为10m/s
+const IFpeed float32 = 1 //步行理想速度定义为1m/s
+const IBpeed float32 = 5 //自行车理想速度定义为5m/s
 var graph []Vertex
 
 type Vertex struct {
@@ -49,7 +49,7 @@ func AddTravel(origin int, desination int, IsBycle bool, IsTime bool) []byte {
 			fmt.Printf("收到规划请求：%d -> %d，最短里程，步行\n", origin, desination)
 			/*离开的点在邻接链表里的序号，长度，原生路径*/
 			exitIndex, length, rawPath = NoCrowdFoot(startIndex, desination)
-			duration = float32(length) / float32(IFpeed)
+			duration = float32(length) / float32(IFpeed*60.0)
 		} else {
 			fmt.Printf("收到规划请求：%d -> %d，最短时间，步行\n", origin, desination)
 			exitIndex, length, duration, rawPath = CrowdFoot(startIndex, desination)
@@ -78,7 +78,7 @@ func AddTravel(origin int, desination int, IsBycle bool, IsTime bool) []byte {
 				graph[fromID].Y,
 				graph[exitIndex].X,
 				graph[exitIndex].Y,
-				graph[fromID].ArcList[arcIndex].IsBycle,
+				IsBycle,
 				graph[fromID].ArcList[arcIndex].FootDuration, //路径用时
 				graph[fromID].ArcList[arcIndex].BycleDuration,
 				graph[fromID].ArcList[arcIndex].Length})
@@ -89,7 +89,7 @@ func AddTravel(origin int, desination int, IsBycle bool, IsTime bool) []byte {
 		ans := Travel{"旅客", length, duration, path}
 		returnStr, _ = json.Marshal(ans)
 		pathStr, _ := json.Marshal(path)
-		fmt.Printf("%s规划成功，总距离：%d,总时间：%v秒，路线:%s", ans.ID, ans.TotalLength, duration, string(pathStr))
+		fmt.Printf("%s规划成功，总距离：%d,总时间：%v秒，路线:%s\n", ans.ID, ans.TotalLength, duration, string(pathStr))
 	}
 	return returnStr
 
@@ -124,15 +124,15 @@ func CreateGraph() {
 		}
 		graph[leftIndex].ArcList = append(graph[leftIndex].ArcList, Arc{
 			rightIndex,
-			float32(road.Length) / (road.Crowd * float32(IFpeed)), //步行经过这条边需要的时间
-			float32(road.Length) / (road.Crowd * float32(IBpeed)),
+			float32(road.Length) / (road.Crowd * float32(IFpeed) * 60.0), //步行经过这条边需要的时间
+			float32(road.Length) / (road.Crowd * float32(IBpeed) * 60.0),
 			road.Length,
 			road.IsBycle,
 		})
 		graph[rightIndex].ArcList = append(graph[rightIndex].ArcList, Arc{
 			leftIndex,
-			float32(road.Length) / (road.Crowd * float32(IFpeed)), //步行经过这条边需要的时间
-			float32(road.Length) / (road.Crowd * float32(IBpeed)),
+			float32(road.Length) / (road.Crowd * float32(IFpeed) * 60), //步行经过这条边需要的时间
+			float32(road.Length) / (road.Crowd * float32(IBpeed) * 60),
 			road.Length,
 			road.IsBycle,
 		})
@@ -277,6 +277,31 @@ func CrowdBycle(startIndex int, destination int) (int, int, float32, [][2]int) {
 		}
 	}
 	return exitIndex, totalLength, totalDuration, path
+}
+
+func printTravelInfo(travelInfo TravelInfo) {
+	switch travelInfo.TravelContent {
+	case "start":
+		Log(fmt.Sprintf("%s  开始导航\n", timeString(nowTime)))
+	case "stop":
+		Log(fmt.Sprintf("%s  停止导航\n", timeString(nowTime)))
+	case "cancel":
+		Log(fmt.Sprintf("%s  取消导航\n", timeString(nowTime)))
+	case "pause":
+		Log(fmt.Sprintf("%s  暂停导航\n", timeString(nowTime)))
+	case "continue":
+		Log(fmt.Sprintf("%s  继续导航\n", timeString(nowTime)))
+	case "waitBus":
+		Log(fmt.Sprintf("%s  开始等待巴士\n", timeString(nowTime)))
+	case "noBus":
+		Log(fmt.Sprintf("%s  已无巴士，取消导航\n", timeString(nowTime)))
+	case "busArrive":
+		Log(fmt.Sprintf("%s  巴士到达当前站点\n", timeString(nowTime)))
+	case "busReachDest":
+		Log(fmt.Sprintf("%s  巴士抵达目的站点\n", timeString(nowTime)))
+	default:
+		Log(fmt.Sprintf("%s  TravelContent有误！\n", timeString(nowTime)))
+	}
 }
 
 /* 绑定 MinHeap 的方法 */

@@ -49,13 +49,17 @@ func APIHandler(w http.ResponseWriter, req *http.Request) {
 		w.Write(data)
 	case "/api/upLoadHomework": //上传作业文件
 		file, header, _ := req.FormFile("upfile")
+		curriName := req.FormValue("curriculumName")
+		homeworkName := req.FormValue("homeworkName")
+		version := req.FormValue("version")
 		b, _ := ioutil.ReadAll(file)
-		data, _ := json.Marshal(uploadHomework(b, header.Filename))
+		data, _ := json.Marshal(uploadHomework(b, header.Filename, curriName, homeworkName,version))
 		w.Write(data)
 	case "/api/upLoadResource": //上传资料文件
 		file, header, _ := req.FormFile("upfile")
+		curriName := req.FormValue("curriculumName")
 		b, _ := ioutil.ReadAll(file)
-		data, _ := json.Marshal(uploadResource(b, header.Filename))
+		data, _ := json.Marshal(uploadResource(b, header.Filename, curriName))
 		w.Write(data)
 	case "/api/downLoad": //下载文件api
 		fn := req.FormValue("filename")
@@ -82,7 +86,7 @@ func APIHandler(w http.ResponseWriter, req *http.Request) {
 	case "/api/setController": //设置校区信息
 		controllerStr := query.Get("controllerStr")
 		err = json.Unmarshal([]byte(controllerStr), &controller)
-		Log(fmt.Sprintln("接收控制信息：是否为管理员：", controller.IsAdmin, "，是否暂停时间：", controller.IsPausing, ",时间倍速：", controller.Multi_speed))
+		Log(fmt.Sprintf("%s  控制信息：[是否为管理员: %t, 是否暂停时间: %t, 时间倍速: %d]\n", timeString(nowTime), controller.IsAdmin, controller.IsPausing, controller.Multi_speed))
 	case "/api/setTime": //设置系统时间信息
 		TimeStr := query.Get("TimeStr")
 		err = json.Unmarshal([]byte(TimeStr), &nowTime)
@@ -96,7 +100,7 @@ func APIHandler(w http.ResponseWriter, req *http.Request) {
 		var newActivity Activity
 		err = json.Unmarshal([]byte(ActivityStr), &newActivity)
 		activityList = addActivity(newActivity, activityList)
-		Log(fmt.Sprintln("新增活动，时间: 星期", (newActivity.Week + 1), "-", newActivity.Hour, "时 -", newActivity.Minute, "分，校区：", newActivity.District, "，地点：", newActivity.Spot, ",教室号:", newActivity.Classroom, ",备注:", newActivity.Activity, ",活动类型:", newActivity.ActivityType, ",活动内容:", newActivity.ActivityContent))
+		Log(fmt.Sprintf("%s  增加活动: [星期%d %02d:%02d, 地点: %s-%s-%s, 活动: %s, 活动类型: %s-%s]\n", timeString(nowTime), (newActivity.Week + 1), newActivity.Hour, newActivity.Minute, newActivity.District, newActivity.Spot, newActivity.Classroom, newActivity.Activity, newActivity.ActivityType, newActivity.ActivityContent))
 	case "/api/deleteClock": //删除闹钟
 		ClockStr := query.Get("ClockStr")
 		var deClock Clock
@@ -134,14 +138,14 @@ func APIHandler(w http.ResponseWriter, req *http.Request) {
 		var NewHomework Homework
 		err = json.Unmarshal([]byte(HomeworkStr), &NewHomework)
 		assignHomework(NameStr, NewHomework)
-	case "/api/uploadHomeworkFile": //删除考试
+	case "/api/uploadHomeworkFile": //上传作业文件
 		TitleStr := query.Get("TitleStr")
 		curriName := query.Get("CurriculumNameStr")
 		upFileStr := query.Get("UpFileStr")
 		var upFile Uploaded
 		err = json.Unmarshal([]byte(upFileStr), &upFile)
 		uploadHomeworkFile(upFile, curriName, TitleStr)
-	case "/api/uploadResourceFile": //删除考试
+	case "/api/uploadResourceFile": //上传资料文件
 		curriName := query.Get("CurriculumNameStr")
 		newResourceStr := query.Get("ResourceStr")
 		var newResource Resource
@@ -184,6 +188,11 @@ func APIHandler(w http.ResponseWriter, req *http.Request) {
 		} else {
 			w.Write(AddTravel(origin, destination, true, isCrowd))
 		}
+	case "/api/travelInfo": //导航Log输出
+		travelInfoStr := query.Get("TravelInfo")
+		var travelInfo TravelInfo
+		err = json.Unmarshal([]byte(travelInfoStr), &travelInfo)
+		printTravelInfo(travelInfo)
 	case "/api/getTransInfo":
 		//TODO 获取路径信息
 		// data, _ := json.Marshal(transportList)
@@ -203,10 +212,14 @@ func APIHandler(w http.ResponseWriter, req *http.Request) {
 		// if status.IsRunning {
 		// 	PauseTimer()
 		// }
-	case "/api/exit": //退出后端服务器api
-		Log("系统已退出，您可以到log目录中查看日志")
+	// case "/api/exit": //退出后端服务器api
+	// 	Log("系统已退出，您可以到log目录中查看日志")
+	// 	WriteConfig()
+	// 	os.Exit(1)
+	case "/api/save":
+		Log("数据保存成功！")
+		Zip("./file", "./file.zip")
 		WriteConfig()
-		os.Exit(1)
 	}
 
 }

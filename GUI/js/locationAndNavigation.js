@@ -131,8 +131,8 @@ navigation = function(){
     //若起始地点与目的地点相同
     // console.log(destDistrictName , currentDistrictName , destSpotName , currentSpotName)
     if(destDistrictName == currentDistrictName && destSpotName == currentSpotName){
-        $('#startNavigation div span').html('您已在目的地点，无需导航！');
-        $('#startNavigation div span').css('opacity','1')
+        $('#startNavigation #navTip').html('<span style="color: red; font-weight: bold;">您已在目的地点，无需导航！</span>');
+        $('#startNavigation #navTip').css('opacity','1')
         return;
     }
 
@@ -177,8 +177,11 @@ navigation = function(){
 
         $.ajaxSettings.async = false;
         $.get('/api/getRoute', {CurrentID:JSON.stringify(currentID), DestID:JSON.stringify(destID),
-                                 BikeOrWalk:bikeOrWalk, CrowdConsidered:JSON.stringify(crowdConsidered)}, function(data){setRoute(data.Path);});
+                                BikeOrWalk:bikeOrWalk, CrowdConsidered:JSON.stringify(crowdConsidered)}, function(data){setRoute(data.Path);});
         $.ajaxSettings.async = true;
+
+        sendTimeInfo();
+        $.get('/api/travelInfo', {TravelInfo:JSON.stringify({TravelContent:"start"})});
 
         startNavigation();$('#startNavigation #navTip').html('<span style="color: dodgerblue; font-weight: bold;">开始导航，预计抵达终点时间：'
             + toTimeString((hour + parseInt((minute+navMinute)/60))%24, (minute + navMinute)%60) + '</span>');
@@ -193,6 +196,10 @@ navigation = function(){
                     clearInterval(stopNav);
                     $('#startNavigation #navTip').html('<span style="color: green; font-weight: bold;">抵达终点！</span>');
                     $('#startNavigation #navTip').css('opacity','1')
+
+                    
+                    sendTimeInfo();
+                    $.get('/api/travelInfo', {TravelInfo:JSON.stringify({TravelContent:"stop"})});
                 }
             }
         }, millisecondsPerMinute);
@@ -210,7 +217,7 @@ navigation = function(){
         }
 
         //若当前位置不在车站，则开始到车站的导航
-        if(curBusStationID != busStationID_ShaHe && curBusStationID != busStationID_XiTuCheng){
+        if(currentID != busStationID_ShaHe && currentID != busStationID_XiTuCheng){
 //--------------------------------------------------------------------
             //设置route为当前校区的途径点
             $.ajaxSettings.async = false;
@@ -233,6 +240,9 @@ navigation = function(){
             $('#startNavigationBtn').removeClass('btn-primary');
             $('#startNavigationBtn').html(' 取消导航');
         }
+        
+        sendTimeInfo();
+        $.get('/api/travelInfo', {TravelInfo:JSON.stringify({TravelContent:"start"})});
         
         //1.监听导航时间，当导航时间为 0 时停止第一段导航
         stopNav = setInterval(function(){
@@ -257,12 +267,16 @@ navigation = function(){
                     //若当前时间大于最后一班车的时间，则停止监听巴士是否发车，导航到此结束
                     if(latestBus == null){
                         console.log(toTimeString(hour,minute)+' '+"已经等不到车了")
+                        $.get('/api/travelInfo', {TravelInfo:JSON.stringify({TravelContent:"noBus"})});
                         stopNavigation();
                         $('#startNavigation #navTip').html('<span style="color: red; font-weight: bold;">今天已经没有巴士了</span>');
                         $('#startNavigation #navTip').css('opacity','1')
                         isWatingBus = false;
                         return;
                     }
+
+                    sendTimeInfo();
+                    $.get('/api/travelInfo', {TravelInfo:JSON.stringify({TravelContent:"waitBus"})});
 
                     $('#startNavigation #navTip').html('<span style="color: dodgerblue; font-weight: bold;">开始等待下一班巴士，'
                         + '时间：' + toTimeString(latestBus.StartHour,latestBus.StartMinute) + '</span>');
@@ -279,6 +293,9 @@ navigation = function(){
 
                         console.log(toTimeString(hour,minute)+' '+'等到车了，现在就等到站了');
                         clearInterval(busStart);
+                        
+                        sendTimeInfo();
+                        $.get('/api/travelInfo', {TravelInfo:JSON.stringify({TravelContent:"busArrive"})});
                         
                         $('#startNavigation #navTip').html('<span style="color: dodgerblue; font-weight: bold;">巴士已抵达，预计到站时间：'
                             + toTimeString((latestBus.StartHour + parseInt(latestBus.Duration/60)), (latestBus.StartMinute + latestBus.Duration%60))+'</span>');
@@ -300,6 +317,15 @@ navigation = function(){
                                     console.log(toTimeString(hour,minute)+' '+'巴士到站啦，开始目标校区的寻址')
                                     clearInterval(stopNav);
                                     isWatingBus = false;
+
+                                    
+                                    $.ajaxSettings.async = false;
+                                    $.get('/api/getRoute', {CurrentID:JSON.stringify(destBusStationID), DestID:JSON.stringify(destID),
+                                                            BikeOrWalk:bikeOrWalk, CrowdConsidered:JSON.stringify(crowdConsidered)}, function(data){setRoute(data.Path);});
+                                    $.ajaxSettings.async = true;
+
+                                    sendTimeInfo();
+                                    $.get('/api/travelInfo', {TravelInfo:JSON.stringify({TravelContent:"busReachDest"})});
 //--------------------------------------------------------------------                                            
                                     //设置route为目标校区的途径点
                                     $.ajaxSettings.async = false;
@@ -322,6 +348,9 @@ navigation = function(){
                                                 $('#startNavigation #navTip').html('<span style="color: green; font-weight: bold;">抵达终点！</span>');
                                                 $('#startNavigation #navTip').css('opacity','1')
                                                 stopNavigation();
+
+                                                sendTimeInfo();
+                                                $.get('/api/travelInfo', {TravelInfo:JSON.stringify({TravelContent:"stop"})});
                                             }
                                         }
                                     }, millisecondsPerMinute);
@@ -362,9 +391,8 @@ startNavigation = function(){
     console.log(toTimeString(hour,minute)+' '+'开始移动');
     //清除地图上所有覆盖物
     bmap.clearOverlays();
-    //test
-    navMinute = 20
     //地图上途径路线的点集
+    navMinute = parseInt(navMinute) + 1;
     var point = [];
     //将route中的坐标添加入点集
     $.each(route, function(index, value){
@@ -402,8 +430,11 @@ startNavigation = function(){
 
 //继续导航
 continueNavigation = function(){
+    $('#startNavigationBtn').removeAttr('disabled');
+    console.log(1)
     if(trackAni == null)
         return;
+        console.log(2)
 
     if(navStarted == true || isWatingBus == true){
         //若导航已开始，则继续导航
@@ -414,8 +445,10 @@ continueNavigation = function(){
         //若导航未开始，则开始导航，并设置导航已开始，设置取消导航按钮为可点击状态
         trackAni.start();
         navStarted = true;
-        $('#startNavigationBtn').removeAttr('disabled');
     }
+
+    sendTimeInfo();
+    $.get('/api/travelInfo', {TravelInfo:JSON.stringify({TravelContent:"continue"})});
 }
 
 //暂停导航
@@ -428,12 +461,16 @@ pauseNavigation = function(){
         //若导航已开始，则暂停导航
         trackAni.pause();
     }
+
+    sendTimeInfo();
+    $.get('/api/travelInfo', {TravelInfo:JSON.stringify({TravelContent:"pause"})});
 }
 
 //停止导航
 stopNavigation = function(){
     
     $('#switchTimeRatioBtn').removeAttr('disabled');
+    $('#startNavigationBtn').removeAttr('disabled');
     $('#startNavigationBtn').addClass('btn-primary');
     $('#startNavigationBtn').removeClass('btn-danger');
     $('#startNavigationBtn').html(' 开始导航');
@@ -447,7 +484,11 @@ stopNavigation = function(){
 
 //取消导航（只有在主动取消时被调用）
 cancelNavigation = function(){
-    trackAni.cancel();
+    sendTimeInfo();
+    $.get('/api/travelInfo', {TravelInfo:JSON.stringify({TravelContent:"cancel"})});
+
+    if(trackAni != null)
+        trackAni.cancel();
 }
 
 //添加标志建筑物标志

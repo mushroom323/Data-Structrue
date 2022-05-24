@@ -70,16 +70,7 @@ switchAdmin = function(){
         $("#assignHomeworkBtn").removeAttr('disabled');
         $("#assignExamBtn").removeAttr('disabled');
     }
-    $.ajaxSettings.async = false;
-    $.get("/api/setTime", {TimeStr:JSON.stringify({
-        Year: year,
-        Month: month,
-        Day: day,
-        Week: dayOfWeek,
-        Hour: hour,
-        Minute: minute
-    })})////
-    $.ajaxSettings.async = true;
+    sendTimeInfo();
     $.get('/api/setController', {controllerStr: JSON.stringify({IsAdmin:isAdmin, IsPausing:isPausing, Multi_speed:multi_speed})})
 }
 
@@ -110,21 +101,23 @@ switchTimeRatio = function(){
 
     pauseTimer();
     //若按下切换倍速按钮时，时间处于流动状态，则打开计时器
-    if(isPausing == false){
-        startTimer();
-    }
+    // if(isPausing == false){
+    //     startTimer();
+    // }
 }
 
 //开始计时器
 startTimer = function(){
     var millisecondsPerMinute = originMillisecondsPerHour / MinutesPerHour / multi_speed;
+
+    isPausing = false;
     
     //切换按钮样式
     timerBtn.removeClass('btn-success');
     timerBtn.addClass('btn-danger');
     timerBtn.html('暂停计时');
     
-    //以下是每十秒所要更新的全部数据
+    //以下是所要更新的全部数据
     time = setInterval(function(){
         //设置右下角的时间
         setTime();
@@ -145,16 +138,7 @@ startTimer = function(){
         }
     }, millisecondsPerMinute);
 
-    $.ajaxSettings.async = false;
-    $.get("/api/setTime", {TimeStr:JSON.stringify({
-        Year: year,
-        Month: month,
-        Day: day,
-        Week: dayOfWeek,
-        Hour: hour,
-        Minute: minute
-    })})////
-    $.ajaxSettings.async = true;
+    sendTimeInfo();
     $.get("/api/setController", {controllerStr: JSON.stringify({IsAdmin:isAdmin, IsPausing:isPausing, Multi_speed:multi_speed})})
 }
 
@@ -165,18 +149,11 @@ pauseTimer = function(){
     timerBtn.addClass('btn-success');
     timerBtn.html('开始计时');
 
+    isPausing = true;
+
     clearInterval(time);
     
-    $.ajaxSettings.async = false;
-    $.get("/api/setTime", {TimeStr:JSON.stringify({
-        Year: year,
-        Month: month,
-        Day: day,
-        Week: dayOfWeek,
-        Hour: hour,
-        Minute: minute
-    })})////
-    $.ajaxSettings.async = true;
+    sendTimeInfo();
     $.get("/api/setController", {controllerStr: JSON.stringify({IsAdmin:isAdmin, IsPausing:isPausing, Multi_speed:multi_speed})})
 }
 
@@ -232,4 +209,17 @@ toTimeString = function(h,m){
         ret += m;
     }
     return ret;
+}
+
+sendTimeInfo = function(){
+    $.ajaxSettings.async = false;
+    $.get("/api/setTime", {TimeStr:JSON.stringify({
+        Year: year,
+        Month: month,
+        Day: day,
+        Week: dayOfWeek,
+        Hour: hour,
+        Minute: minute
+    })})////
+    $.ajaxSettings.async = true;
 }
