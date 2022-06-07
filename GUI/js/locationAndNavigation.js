@@ -40,10 +40,12 @@ fillClassroomSelect = function(districtSel, spotSel, classroomSel){
         return value.Name == spotSel.val();
     })
 
-    $.each(thisSpot.Classroom, function(index, value){
-        str += '<option value="' + value + '">' + value + '</option>'
-    })
-    classroomSel.html(str);
+    if(classroomSel != null){
+        $.each(thisSpot.Classroom, function(index, value){
+            str += '<option value="' + value + '">' + value + '</option>'
+        })
+        classroomSel.html(str);
+    }
 }
 
 //点击沙河校区按钮，地图锁定沙河校区
@@ -64,26 +66,70 @@ navigation = function(){
     var currentSpotName = $('#currentLocate .spot').val();
     var currentDistrict, currentSpot;
     
-    var passbyDistrictName = $('#passbyLocate .district').val();
-    var passbySpotName = $('#passbyLocate .spot').val();
-    var passbyChecked = $('#passby').prop("checked");
-    var passbyDistrict, passbySpot;
-    var passbyID;
+    var passby1DistrictName = $('#passby1-place-1 .district').val();
+    var passby1SpotName = $('#passby1-place-2 .spot').val();
+    var passby1Checked = $('#passby1').prop("checked");
+    var passby1District, passby1Spot;
+    var passby1ID;    
 
-    if(passbyChecked){
+    var passby2DistrictName = $('#passby2-place-1 .district').val();
+    var passby2SpotName = $('#passby2-place-2 .spot').val();
+    var passby2Checked = $('#passby2').prop("checked");
+    var passby2District, passby2Spot;
+    var passby2ID;    
+
+    var passby3DistrictName = $('#passby3-place-1 .district').val();
+    var passby3SpotName = $('#passby3-place-2 .spot').val();
+    var passby3Checked = $('#passby3').prop("checked");
+    var passby3District, passby3Spot;
+    var passby3ID;
+
+    if(passby1Checked){
         $.each(district, function(index, value){
-            if(value.Name == passbyDistrictName){
-                passbyDistrict = value;
+            if(value.Name == passby1DistrictName){
+                passby1District = value;
                 return;
             }
         })
-        $.each(passbyDistrict.Spot, function(index, value){
-            if(value.Name == passbySpotName){
-                passbySpot = value;
+        $.each(passby1District.Spot, function(index, value){
+            if(value.Name == passby1SpotName){
+                passby1Spot = value;
                 return;
             }
         })
-        passbyID = passbySpot.ID;
+        passby1ID = passby1Spot.ID;
+    }
+
+    if(passby2Checked){
+        $.each(district, function(index, value){
+            if(value.Name == passby2DistrictName){
+                passby2District = value;
+                return;
+            }
+        })
+        $.each(passby2District.Spot, function(index, value){
+            if(value.Name == passby2SpotName){
+                passby2Spot = value;
+                return;
+            }
+        })
+        passby2ID = passby2Spot.ID;
+    }
+
+    if(passby3Checked){
+        $.each(district, function(index, value){
+            if(value.Name == passby3DistrictName){
+                passby3District = value;
+                return;
+            }
+        })
+        $.each(passby3District.Spot, function(index, value){
+            if(value.Name == passby3SpotName){
+                passby3Spot = value;
+                return;
+            }
+        })
+        passby3ID = passby3Spot.ID;
     }
 
     //找到当前地点的ID
@@ -196,16 +242,29 @@ navigation = function(){
     console.log(toTimeString(hour,minute)+' '+'当前地点：'+currentDistrictName+'-'+currentSpotName+'；目标地点：'+destDistrictName+'-'+destSpotName)
 
     if(currentDistrict == destDistrict){    //若起点和终点是同一个校区
-        if(passbyDistrictName != currentDistrictName){
+        if( (passby1Checked && passby1DistrictName != currentDistrictName) ||
+            (passby2Checked && passby2DistrictName != currentDistrictName) ||
+            (passby3Checked && passby3DistrictName != currentDistrictName) ){
             $('#startNavigation #navTip').html('<span style="color: red; font-weight: bold;">途径点不在同一校区！</span>');
             $('#startNavigation #navTip').css('opacity','1')
             return;
         }
 
         $.ajaxSettings.async = false;
-        if(passbyChecked)
+        if(passby1Checked || passby2Checked || passby3Checked){
+            var pathWay = '';
+            if(passby1Checked)
+                pathWay += JSON.stringify(passby1ID)+",";
+            if(passby2Checked)
+                pathWay += JSON.stringify(passby2ID)+",";
+            if(passby3Checked)
+                pathWay += JSON.stringify(passby3ID)+",";
+            pathWay = pathWay.substring(0, pathWay.length-1);
+
+            console.log(pathWay)
             $.get('/api/getMultiRoute', {CurrentID:JSON.stringify(currentID), DestID:JSON.stringify(destID),
-                PathWay:JSON.stringify(passbyID)}, function(data){setRoute(data.Path);});
+                PathWay:pathWay}, function(data){setRoute(data.Path);});
+        }
         else
             $.get('/api/getRoute', {CurrentID:JSON.stringify(currentID), DestID:JSON.stringify(destID),
                                     BikeOrWalk:bikeOrWalk, CrowdConsidered:JSON.stringify(crowdConsidered)}, function(data){setRoute(data.Path);});
@@ -236,7 +295,7 @@ navigation = function(){
         }, millisecondsPerMinute);
     }
     else{           //若起点和终点在不同校区
-        if(passbyChecked){
+        if(passby1Checked || passby2Checked || passby3Checked){
             $('#startNavigation #navTip').html('<span style="color: red; font-weight: bold;">起点、终点不在同一校区！</span>');
             $('#startNavigation #navTip').css('opacity','1')
             return;
@@ -466,10 +525,8 @@ startNavigation = function(){
 //继续导航
 continueNavigation = function(){
     $('#startNavigationBtn').removeAttr('disabled');
-    console.log(1)
     if(trackAni == null)
         return;
-        console.log(2)
 
     if(navStarted == true || isWatingBus == true){
         //若导航已开始，则继续导航

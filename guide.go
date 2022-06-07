@@ -362,16 +362,20 @@ func CrowdBycle(startIndex int, destination int) (int, int, float32, [][2]int) {
 }
 
 /*多点导航, 全排列递归，用来计算最短途径历程*/
-func MultiGuide(startIndex int, destination int, pathway []int, k int, totalLength int, m int) ([]int, int) {
+/*其中k是递归层次，m是递归树的总层次*/
+func MultiGuide(startIndex int, destination int, rawpathway []int, k int, totalLength int, m int) ([]int, int) {
+	
 	var length int
-	var newPathWay []int
-	var tempPath []int
+	pathway := make([]int,m)
+	copy(pathway,rawpathway)
+	tempPath := make([]int,m)
+	newPathWay := make([]int,m)
 	var allLength int = INT_MAX
 	var tempLength int
 	var start int
 	var temp int
 	var exit int
-	if k == m {
+	if k == (m-1) {  //如果此时递归的层次为递归总层次，则返回路径长度和对应顺序
 		start = startIndex
 		allLength = 0
 		for _, des := range pathway {
@@ -380,7 +384,7 @@ func MultiGuide(startIndex int, destination int, pathway []int, k int, totalLeng
 				return pathway, -1
 			}
 			allLength += length
-			start = exit
+			start = vertexIndex[des]
 		}
 		exit, length, _ = NoCrowdFoot(start, destination)
 		if exit == -1 {
@@ -389,19 +393,23 @@ func MultiGuide(startIndex int, destination int, pathway []int, k int, totalLeng
 		allLength += length
 		return pathway, allLength
 	} else {
+		allLength = INT_MAX
 		for i := k; i < m; i++ {
 			temp = pathway[i]
 			pathway[i] = pathway[k]
 			pathway[k] = temp
-			tempPath, tempLength = MultiGuide(startIndex, destination, pathway, k+1, totalLength, m)
+			tempPath, tempLength = MultiGuide(startIndex, destination, pathway, k+1, allLength, m)
+			
 			if tempLength < allLength {
 				allLength = tempLength
-				newPathWay = tempPath
+				copy(newPathWay,tempPath)
+				
 			}
 			temp = pathway[i]
 			pathway[i] = pathway[k]
 			pathway[k] = temp
 		}
+		
 		return newPathWay, allLength
 	}
 }

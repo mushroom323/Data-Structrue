@@ -196,14 +196,10 @@ func APIHandler(w http.ResponseWriter, req *http.Request) {
 		st := ","
 		pathwayStr := query.Get("PathWay")
 		pathwaySlice := strings.Split(pathwayStr, st)
-		/*fmt.Println("是否有途径点：")
-		fmt.Println(len(pathwaySlice))*/
 		var pathway []int
 		for _, v := range pathwaySlice {
 			vv, _ := strconv.Atoi(v)
-			//fmt.Println(vv)
 			pathway = append(pathway, vv)
-			//fmt.Println(pathway[0])
 		}
 		origin, _ := strconv.Atoi(originStr)
 		destination, _ := strconv.Atoi(destinationStr)
