@@ -20,11 +20,11 @@ import (
 
 const contentBuffer = 5000000
 
-func uploadHomework(filedata []byte, filename string, curriName string, homeworkName string) FileError {
+func uploadHomework(filedata []byte, filename string, curriName string, homeworkName string, version string) FileError {
+	homeworkName = homeworkName + "-" + version + "-"
+	filename = homeworkName + filename
 	var fileError FileError
 	fileError.IsDuplicated = false
-	homeworkName = homeworkName + "-"
-	filename = homeworkName + filename
 	//定义一个查重信号
 	flag := false
 	//定义文件存储文件夹，并判断是否存在，如果不存在，则创建
@@ -34,19 +34,19 @@ func uploadHomework(filedata []byte, filename string, curriName string, homework
 		os.Mkdir(filedir, 0777)
 	}
 	//定义作业文件夹，并判断是否存在,若不存在则创建
-	hwdir := "./file/Homework/" + curriName + "/" //+ homeworkName + "/"
+	hwdir := "./file/Homework/" + curriName + "/"
 	_, err = os.Stat(hwdir)
 	if err != nil {
 		os.Mkdir(hwdir, 0777)
 	}
 	//创建压缩文件夹，并判断是否存在，若不存在则创建
-	compressdir := "./file/Compress/" + curriName + "/" //+ homeworkName + "/"
+	compressdir := "./file/Compress/" + curriName + "/"
 	_, err = os.Stat(compressdir)
 	if err != nil {
 		os.Mkdir(compressdir, 0777)
 	}
 	//创建解压文件夹，并判断是否存在，若不存在则创建
-	decompressdir := "./file/Decompress/" + curriName + "/" //+ homeworkName + "/"
+	decompressdir := "./file/Decompress/" + curriName + "/"
 	_, err = os.Stat(decompressdir)
 	if err != nil {
 		os.Mkdir(decompressdir, 0777)

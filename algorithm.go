@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	//"strings"
+	// "unicode/utf8"
 )
 
 /*
@@ -187,7 +188,7 @@ func uploadHomeworkFile(upFile Uploaded, curriName string, homeworkName string) 
 					curriList[index_1].Homework[index].HasFinished = true
 					curriList[index_1].Homework[index].Uploaded = append(curriList[index_1].Homework[index].Uploaded, upFile)
 					Log(fmt.Sprintf("%s  上传作业: [%d/%d/%d %02d:%02d, 课程名: %s, 作业标题: %s, 作业名: %s, 作业备注: %s]\n", timeString(nowTime), upFile.Year, (upFile.Month + 1), (upFile.Day + 1), upFile.Hour, upFile.Minute, curriName, homeworkName, upFile.HomeworkName, upFile.Remark))
-					return 
+					return
 				}
 			}
 		}
@@ -215,7 +216,7 @@ func uploadResourceFile(upFile Resource, curriName string) {
 func searchCurriculum(text string) []string {
 	var result []string
 	for _, curri := range curriList {
-		if strings.Contains(curri.Name, text) {
+		if Rabin_Karp_Hash(curri.Name, text) {
 			result = append(result, curri.Name)
 		}
 	}
@@ -233,7 +234,7 @@ func searchHomework(text string, curriName string) []Homework {
 		}
 	}
 	for _, homework := range curriList[i].Homework {
-		if strings.Contains(homework.Title, text) {
+		if Rabin_Karp_Hash(homework.Title, text) {
 			result = insertHomework(homework, result)
 		}
 	}
@@ -308,7 +309,7 @@ func searchResource(text string, curriName string) []Resource {
 		}
 	}
 	for _, resource := range curriList[i].Resource {
-		if strings.Contains(resource.ResourceName, text) {
+		if Rabin_Karp_Hash(resource.ResourceName, text) {
 			result = insertResource(resource, result)
 		}
 	}
@@ -388,7 +389,7 @@ func searchActivity(text string, typeName string, content string) ActivityList {
 			if flag {
 				result = addActivity(activity, result)
 			} else {
-				if strings.Contains(activity.Activity, text) {
+				if Rabin_Karp_Hash(activity.Activity, text) {
 					result = addActivity(activity, result)
 				}
 			}
@@ -430,4 +431,73 @@ func (p *treeHeap) Pop() interface{} {
 	t := (*p)[n-1]
 	*p = (*p)[:n-1]
 	return t
+}
+
+// Calculate a string's hash function
+func Hash(str string, m []int) int {
+	if len(str) == 0 {
+		return 0
+	}
+
+	var (
+		t   int
+		res int = 0
+	)
+
+	for i := 0; i < len(str); i++ {
+		t = m[i] * int(str[i]-'a')
+		res = res + t
+	}
+	return res
+}
+
+// match the substring with hash function
+// we can calculate the string's hash value with below formula
+//
+// 's' is source string, m is the length of the substring
+// h(i-1) = 26^0 * (s[i-1] - 'a') +
+// 			26^1 * (s[i] - 'a') + ... +
+// 			26^(m-1) * (s[i+m-2] -'a')
+//
+// h(i) = 26^0 * (s[i] - 'a') + ... +
+// 		  26^(m-2) * (s[i + m - 2] - 'a') +
+// 		  26^(m-1) * (s[i+m-2] -'a')
+//
+// so
+// h(i) = (h(i-1) - s[i-1] -'a' ) / 26 + 26^(m-1) * (s[i+m-2] -'a')
+// we can use the formula to reduce the cpu's calculation
+
+func Rabin_Karp_Hash(str1 string, str2 string) bool {
+	if len(str1) < len(str2) {
+		return false
+	}
+
+	var m []int
+	var t int = 1
+	m = append(m, 1)
+
+	for i := 1; i < len(str2)+1; i++ {
+		t = t * 26
+		m = append(m, t) // m store with 26^0, 26^1, 26^2 ... 26^(len(str2))
+	}
+
+	str2_hash := Hash(str2, m)
+	//fmt.Println(str2_hash)
+	str1_hash := Hash(string([]byte(str1)[:len(str2)]), m)
+
+	if str2_hash == str1_hash {
+		return true
+	}
+
+	for i := 1; i < len(str1)-len(str2)+1; i++ {
+		new_hash := (str1_hash-int(str1[i-1]-'a'))/26 +
+			m[len(str2)-1]*int(str1[i+len(str2)-1]-'a')
+
+		if new_hash == str2_hash {
+			return true
+		} else {
+			str1_hash = new_hash
+		}
+	}
+	return false
 }

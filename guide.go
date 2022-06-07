@@ -35,7 +35,7 @@ type HeapNode struct {
 	Duration float32
 }
 
-func AddTravel(origin int, desination int, IsBycle bool, IsTime bool) []byte {
+func AddTravel(origin int, desination int, IsBycle bool, IsTime bool, pathway []int) []byte {
 	startIndex, _ := vertexIndex[origin]
 	//暂时不考虑让用户随意标起点，因此不建立临时结点
 	var exitIndex int
@@ -43,28 +43,39 @@ func AddTravel(origin int, desination int, IsBycle bool, IsTime bool) []byte {
 	var duration float32
 	var path []Section
 	var rawPath interface{}
-
-	if IsBycle == false {
-		if IsTime == false {
-			fmt.Printf("收到规划请求：%d -> %d，最短里程，步行\n", origin, desination)
-			/*离开的点在邻接链表里的序号，长度，原生路径*/
-			exitIndex, length, rawPath = NoCrowdFoot(startIndex, desination)
-			duration = float32(length) / float32(IFpeed*60.0)
+	var newPathWay []int //多点途径的最短路径历程
+	var allLength int = 0
+	if len(pathway) == 0 {
+		if IsBycle == false {
+			if IsTime == false {
+				fmt.Printf("收到规划请求：%d -> %d，最短里程，步行\n", origin, desination)
+				/*离开的点在邻接链表里的序号，长度，原生路径*/
+				exitIndex, length, rawPath = NoCrowdFoot(startIndex, desination)
+				duration = float32(length) / float32(IFpeed*60.0)
+			} else {
+				fmt.Printf("收到规划请求：%d -> %d，最短时间，步行\n", origin, desination)
+				exitIndex, length, duration, rawPath = CrowdFoot(startIndex, desination)
+			}
 		} else {
-			fmt.Printf("收到规划请求：%d -> %d，最短时间，步行\n", origin, desination)
-			exitIndex, length, duration, rawPath = CrowdFoot(startIndex, desination)
+			/*考虑所有交通工具的最短时间*/
+			fmt.Printf("收到规划请求：%d -> %d，最短时间，自行车\n", origin, desination)
+			exitIndex, length, duration, rawPath = CrowdBycle(startIndex, desination)
 		}
 	} else {
-		/*考虑所有交通工具的最短时间*/
-		fmt.Printf("收到规划请求：%d -> %d，最短时间，自行车\n", origin, desination)
-		exitIndex, length, duration, rawPath = CrowdBycle(startIndex, desination)
+		fmt.Printf("收到规划请求：%d -> %d，最短里程，步行， 途径 %d\n", origin, desination,pathway[0])
+		newPathWay, allLength = MultiGuide(startIndex, desination, pathway, 0, INT_MAX, len(pathway))
+		fmt.Printf("途径点顺序如下:")
+		for _,index := range newPathWay{
+			fmt.Printf("%d ",index)
+		}
+		fmt.Printf("\n")
 	}
 
 	var returnStr []byte
-	if exitIndex == -1 {
+	if exitIndex == -1 || allLength == -1 {
 		fmt.Println("规划失败")
 		returnStr = []byte("{\"fail\":true}")
-	} else {
+	} else if len(pathway) == 0 {
 		var fromID, arcIndex int
 		var remain int = length
 		/*从终点回溯到起点，依次把路径存入path*/
@@ -90,9 +101,77 @@ func AddTravel(origin int, desination int, IsBycle bool, IsTime bool) []byte {
 		returnStr, _ = json.Marshal(ans)
 		pathStr, _ := json.Marshal(path)
 		fmt.Printf("%s规划成功，总距离：%d,总时间：%v秒，路线:%s\n", ans.ID, ans.TotalLength, duration, string(pathStr))
+	} else {
+		var pathTemp []Section  /// 用来存储上一轮获得的路径
+		var totalLength int = 0
+		var totalDuration float32 = 0
+		var start int = startIndex
+		for _, des := range newPathWay {
+			pathTemp = []Section{}
+			fmt.Printf("des:%d \n",des)
+			exitIndex, length, rawPath = NoCrowdFoot(start, des)
+			fmt.Println(start)
+			duration = float32(length) / float32(IFpeed*60.0)
+			totalLength += length
+			totalDuration += duration
+			var fromID, arcIndex int
+			var remain int = length
+			/*从终点回溯到起点，依次把路径存入path*/
+			for exitIndex != start {
+				/*提取出前一节点和对应的的弧序号*/
+				fromID, arcIndex = rawPath.([][2]int)[exitIndex][0], rawPath.([][2]int)[exitIndex][1]
+				pathTemp = append(pathTemp, Section{
+					graph[fromID].VID,
+					graph[exitIndex].VID,
+					graph[fromID].X,
+					graph[fromID].Y,
+					graph[exitIndex].X,
+					graph[exitIndex].Y,
+					IsBycle,
+					graph[fromID].ArcList[arcIndex].FootDuration, //路径用时
+					graph[fromID].ArcList[arcIndex].BycleDuration,
+					graph[fromID].ArcList[arcIndex].Length})
+				exitIndex = fromID
+				remain -= graph[fromID].ArcList[arcIndex].Length
+			}
+			pathTemp = reversePath(pathTemp) 
+			fmt.Println("第一次途径点",len(pathTemp)) 
+			path = append(path,pathTemp...)
+			start = vertexIndex[des] 
+		}
+		exitIndex, length, rawPath = NoCrowdFoot(start, desination)
+		duration = float32(length) / float32(IFpeed*60.0)
+		totalLength += length
+		totalDuration += duration
+		var fromID, arcIndex int
+		var remain int = length
+		pathTemp = []Section{}
+		/*从终点回溯到起点，依次把路径存入path*/
+		for exitIndex != start {
+			/*提取出前一节点和对应的的弧序号*/
+			fromID, arcIndex = rawPath.([][2]int)[exitIndex][0], rawPath.([][2]int)[exitIndex][1]
+			pathTemp = append(pathTemp, Section{
+				graph[fromID].VID,
+				graph[exitIndex].VID,
+				graph[fromID].X,
+				graph[fromID].Y,
+				graph[exitIndex].X,
+				graph[exitIndex].Y,
+				IsBycle,
+				graph[fromID].ArcList[arcIndex].FootDuration, //路径用时
+				graph[fromID].ArcList[arcIndex].BycleDuration,
+				graph[fromID].ArcList[arcIndex].Length})
+			exitIndex = fromID
+			remain -= graph[fromID].ArcList[arcIndex].Length
+		}
+		pathTemp = reversePath(pathTemp)
+		path = append(path, pathTemp...)
+		ans := Travel{"旅客", length, duration, path}
+		returnStr, _ = json.Marshal(ans)
+		pathStr, _ := json.Marshal(path)
+		fmt.Printf("%s规划成功，总距离：%d,总时间：%v秒，路线:%s\n", ans.ID, ans.TotalLength, duration, string(pathStr))
 	}
 	return returnStr
-
 }
 
 /*逆转从原生路径里提取的第一手路径，得到正确顺序的路径，方便输出*/
@@ -150,6 +229,9 @@ func NoCrowdFoot(startIndex int, destination int) (int, int, [][2]int) {
 	for i := 0; i < graphlen; i++ {
 		visited[i] = false
 		length[i] = INT_MAX
+	}
+	for i := 0; i < graphlen; i++ { //初始化path，方便MultiGuide操作
+		path[i] = [2]int{-1, -1}
 	}
 	length[startIndex] = 0
 
@@ -277,6 +359,51 @@ func CrowdBycle(startIndex int, destination int) (int, int, float32, [][2]int) {
 		}
 	}
 	return exitIndex, totalLength, totalDuration, path
+}
+
+/*多点导航, 全排列递归，用来计算最短途径历程*/
+func MultiGuide(startIndex int, destination int, pathway []int, k int, totalLength int, m int) ([]int, int) {
+	var length int
+	var newPathWay []int
+	var tempPath []int
+	var allLength int = INT_MAX
+	var tempLength int
+	var start int
+	var temp int
+	var exit int
+	if k == m {
+		start = startIndex
+		allLength = 0
+		for _, des := range pathway {
+			exit, length, _ = NoCrowdFoot(start, des)
+			if exit == -1 {
+				return pathway, -1
+			}
+			allLength += length
+			start = exit
+		}
+		exit, length, _ = NoCrowdFoot(start, destination)
+		if exit == -1 {
+			return pathway, -1
+		}
+		allLength += length
+		return pathway, allLength
+	} else {
+		for i := k; i < m; i++ {
+			temp = pathway[i]
+			pathway[i] = pathway[k]
+			pathway[k] = temp
+			tempPath, tempLength = MultiGuide(startIndex, destination, pathway, k+1, totalLength, m)
+			if tempLength < allLength {
+				allLength = tempLength
+				newPathWay = tempPath
+			}
+			temp = pathway[i]
+			pathway[i] = pathway[k]
+			pathway[k] = temp
+		}
+		return newPathWay, allLength
+	}
 }
 
 func printTravelInfo(travelInfo TravelInfo) {

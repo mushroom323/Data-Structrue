@@ -178,9 +178,35 @@
 													</div>
 												</label>
 											</div>
+											
 										</div>
 										<hr>
-
+										
+										
+										<div class="form-group" id="passbyLocate">
+											<div style="text-align: left; padding-left: 10px;">
+												<label style="width: 100%;">
+													<input class="col-sm-1" type="checkbox" name="passby" id="passby" value="passby">
+													<strong class="col-sm-3">途径地点</strong>
+													<div class="col-sm-4 nav-select" id="passby-place-1">
+														<select class="form-control nav-font district" onchange="fillSpotSelect($(this), $('#passbyLocate .spot'), $('#passbyLocate .classroom'))">
+															<!-- <option value="沙河校区">沙河校区</option>
+															<option value="西土城校区">西土城校区</option> -->
+														</select>
+													</div>
+													<div class="col-sm-4 nav-select" id="passby-place-2">
+														<select class="form-control nav-font spot" onchange="fillClassroomSelect($('#passbyLocate .district'), $(this), $('#passbyLocate .classroom'))">
+															<!-- <option>1</option>
+															<option>2</option>
+															<option>3</option>
+															<option>4</option>
+															<option>5</option> -->
+														</select>
+													</div>
+												</label>
+											</div>
+										</div>
+										<hr>
 										<!--出行方法-->
 										<div class="form-group" id="bikeOrWalk">
 											<label class="radio-inline">

@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func ServerTest() {
@@ -51,8 +52,9 @@ func APIHandler(w http.ResponseWriter, req *http.Request) {
 		file, header, _ := req.FormFile("upfile")
 		curriName := req.FormValue("curriculumName")
 		homeworkName := req.FormValue("homeworkName")
+		version := req.FormValue("version")
 		b, _ := ioutil.ReadAll(file)
-		data, _ := json.Marshal(uploadHomework(b, header.Filename, curriName, homeworkName))
+		data, _ := json.Marshal(uploadHomework(b, header.Filename, curriName, homeworkName, version))
 		w.Write(data)
 	case "/api/upLoadResource": //上传资料文件
 		file, header, _ := req.FormFile("upfile")
@@ -182,11 +184,31 @@ func APIHandler(w http.ResponseWriter, req *http.Request) {
 		origin, _ := strconv.Atoi(originStr)
 		destination, _ := strconv.Atoi(destinationStr)
 		isCrowd, _ := strconv.ParseBool(isCrowdStr)
+		var pathway []int
 		if pattern == "walk" {
-			w.Write(AddTravel(origin, destination, false, isCrowd))
+			w.Write(AddTravel(origin, destination, false, isCrowd, pathway))
 		} else {
-			w.Write(AddTravel(origin, destination, true, isCrowd))
+			w.Write(AddTravel(origin, destination, true, isCrowd, pathway))
 		}
+	case "/api/getMultiRoute": //途径多个地点的最短路径策略
+		originStr := query.Get("CurrentID")
+		destinationStr := query.Get("DestID")
+		st := ","
+		pathwayStr := query.Get("PathWay")
+		pathwaySlice := strings.Split(pathwayStr, st)
+		/*fmt.Println("是否有途径点：")
+		fmt.Println(len(pathwaySlice))*/
+		var pathway []int
+		for _, v := range pathwaySlice {
+			vv, _ := strconv.Atoi(v)
+			//fmt.Println(vv)
+			pathway = append(pathway, vv)
+			//fmt.Println(pathway[0])
+		}
+		origin, _ := strconv.Atoi(originStr)
+		destination, _ := strconv.Atoi(destinationStr)
+		isCrowd := false
+		w.Write(AddTravel(origin, destination, false, isCrowd, pathway))
 	case "/api/travelInfo": //导航Log输出
 		travelInfoStr := query.Get("TravelInfo")
 		var travelInfo TravelInfo

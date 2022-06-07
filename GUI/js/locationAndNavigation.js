@@ -63,6 +63,28 @@ navigation = function(){
     var currentDistrictName = $('#currentLocate .district').val();
     var currentSpotName = $('#currentLocate .spot').val();
     var currentDistrict, currentSpot;
+    
+    var passbyDistrictName = $('#passbyLocate .district').val();
+    var passbySpotName = $('#passbyLocate .spot').val();
+    var passbyChecked = $('#passby').prop("checked");
+    var passbyDistrict, passbySpot;
+    var passbyID;
+
+    if(passbyChecked){
+        $.each(district, function(index, value){
+            if(value.Name == passbyDistrictName){
+                passbyDistrict = value;
+                return;
+            }
+        })
+        $.each(passbyDistrict.Spot, function(index, value){
+            if(value.Name == passbySpotName){
+                passbySpot = value;
+                return;
+            }
+        })
+        passbyID = passbySpot.ID;
+    }
 
     //找到当前地点的ID
     $.each(district, function(index, value){
@@ -174,10 +196,19 @@ navigation = function(){
     console.log(toTimeString(hour,minute)+' '+'当前地点：'+currentDistrictName+'-'+currentSpotName+'；目标地点：'+destDistrictName+'-'+destSpotName)
 
     if(currentDistrict == destDistrict){    //若起点和终点是同一个校区
+        if(passbyDistrictName != currentDistrictName){
+            $('#startNavigation #navTip').html('<span style="color: red; font-weight: bold;">途径点不在同一校区！</span>');
+            $('#startNavigation #navTip').css('opacity','1')
+            return;
+        }
 
         $.ajaxSettings.async = false;
-        $.get('/api/getRoute', {CurrentID:JSON.stringify(currentID), DestID:JSON.stringify(destID),
-                                BikeOrWalk:bikeOrWalk, CrowdConsidered:JSON.stringify(crowdConsidered)}, function(data){setRoute(data.Path);});
+        if(passbyChecked)
+            $.get('/api/getMultiRoute', {CurrentID:JSON.stringify(currentID), DestID:JSON.stringify(destID),
+                PathWay:JSON.stringify(passbyID)}, function(data){setRoute(data.Path);});
+        else
+            $.get('/api/getRoute', {CurrentID:JSON.stringify(currentID), DestID:JSON.stringify(destID),
+                                    BikeOrWalk:bikeOrWalk, CrowdConsidered:JSON.stringify(crowdConsidered)}, function(data){setRoute(data.Path);});
         $.ajaxSettings.async = true;
 
         sendTimeInfo();
@@ -205,7 +236,11 @@ navigation = function(){
         }, millisecondsPerMinute);
     }
     else{           //若起点和终点在不同校区
-
+        if(passbyChecked){
+            $('#startNavigation #navTip').html('<span style="color: red; font-weight: bold;">起点、终点不在同一校区！</span>');
+            $('#startNavigation #navTip').css('opacity','1')
+            return;
+        }
         var curBusStationID,destBusStationID;
         if(currentDistrictName == '沙河校区'){
             curBusStationID = busStationID_ShaHe;

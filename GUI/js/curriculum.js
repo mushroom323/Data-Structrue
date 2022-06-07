@@ -768,6 +768,7 @@ uploadHomework = function(){ //在这里进行ajax 文件上传 作业的信息
     formData.append('upfile',$("#uploadHomeworkFile")[0].files[0]);
     formData.append('curriculumName', currentPageCurriculumName);
     formData.append('homeworkName', homeworkSelected);
+    formData.append('version', JSON.stringify(specHomework.Uploaded.length + 1));
 
     sendTimeInfo();
     $.ajaxSettings.async = false;
