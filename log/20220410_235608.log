@@ -1,8 +1,0 @@
-[2022-04-10 23:56:08] 正在初始化
-[2022-04-10 23:56:08] 成功加载 9 门课程
-[2022-04-10 23:56:08] 初始化完成
-[2022-04-10 23:56:08] Web 服务启动成功，请访问 http://localhost:9090 进入系统
-[2022-04-10 23:56:57] {"Week":6,"Order":0,"IsExam":true,"District":"沙河校区","Spot":"教学楼","Classroom":"N111"}
-[2022-04-11 00:02:18] {"Week":5,"Order":0,"IsExam":true,"District":"沙河校区","Spot":"教学楼","Classroom":"N111"}
-[2022-04-11 00:03:44] {"Week":6,"Order":0,"IsExam":true,"District":"沙河校区","Spot":"教学楼","Classroom":"N111"}
-[2022-04-11 00:03:52] {"Week":6,"Order":0,"IsExam":true,"District":"沙河校区","Spot":"教学楼","Classroom":"N111"}
